@@ -83,7 +83,7 @@ function login(ev) {
     .dispatch('login', user)
     .then(() => {
       router.push({
-        name: 'Dashboard',
+        name: 'Home',
       });
     })
     .catch(err => {

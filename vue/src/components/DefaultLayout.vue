@@ -13,11 +13,12 @@
         <div class="flex h-16 items-center justify-between">
           <div class="flex items-center">
             <div class="flex-shrink-0">
-              <img
+              <h1 class="text-white font-bold text-2xl text-teal-500 underline decoration-2">MathTrainer</h1>
+              <!--<img
                 class="h-8 w-8"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                 alt="Your Company"
-              />
+              />-->
             </div>
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
@@ -32,7 +33,6 @@
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'px-3 py-2 rounded-md text-sm font-medium',
                   ]"
-                  
                   >{{ item.name }}</router-link
                 >
               </div>
@@ -40,18 +40,24 @@
           </div>
           <div class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
-              
-
               <!-- Profile dropdown -->
               <Menu as="div" class="relative ml-3">
-                <div>
+                <div class="flex text-end">
+                  <div class="ml-3 py-4 px-2">
+                    <div class="text-base font-medium leading-none text-white">
+                      {{ user.name }}
+                    </div>
+                    <div class="text-sm font-medium leading-none text-gray-400">
+                      {{ user.email }}
+                    </div>
+                  </div>
                   <MenuButton
                     class="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                   >
                     <span class="sr-only">Open user menu</span>
                     <img
-                      class="h-8 w-8 rounded-full"
-                      src="../img/logo1.png"
+                      class="h-10 w-10 rounded-full"
+                      src="../img/profile-photo.jpg"
                       alt=""
                     />
                   </MenuButton>
@@ -71,7 +77,6 @@
                       <a
                         @click="logout"
                         :class="[
-                          
                           'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
                         ]"
                         >Sing out</a
@@ -112,14 +117,14 @@
                 : 'text-gray-300 hover:bg-gray-700 hover:text-white',
               'block px-3 py-2 rounded-md text-base font-medium',
             ]"
-            
             >{{ item.name }}</router-link
           >
         </div>
         <div class="border-t border-gray-700 pt-4 pb-3">
           <div class="flex items-center px-5">
             <div class="flex-shrink-0">
-              <img class="h-10 w-10 rounded-full" :src="user.imageUrl" alt="" />
+              <img class="h-8 w-8 rounded-full" src="../img/profile-photo.jpg" alt="" />
+              <!--<img class="h-10 w-10 rounded-full" :src="user.imageUrl" alt="" />-->
             </div>
             <div class="ml-3">
               <div class="text-base font-medium leading-none text-white">
@@ -129,12 +134,11 @@
                 {{ user.email }}
               </div>
             </div>
-            
           </div>
           <div class="mt-3 space-y-1 px-2">
             <DisclosureButton
               as="a"
-              @click="logout" 
+              @click="logout"
               class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer"
               >Sing out</DisclosureButton
             >
@@ -157,15 +161,15 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/vue";
+import PageComponent from "../components/PageComponent.vue";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { useStore } from "vuex";
 import { computed } from "vue";
-import {useRouter} from "vue-router";
+import { useRouter } from "vue-router";
 
 const navigation = [
   { name: "Intuitive Mats", to: { name: "DefaultLayout" } },
   { name: "Dashboard", to: { name: "Dashboard" } },
-
 ];
 export default {
   components: {
@@ -184,21 +188,30 @@ export default {
     const store = useStore();
     const router = useRouter();
 
-    function logout(){
-      store.dispatch('logout')
-      .then(() => {
+    function logout() {
+      store.dispatch("logout").then(() => {
         router.push({
-          name: 'Login'
+          name: "Login",
         });
       });
-      
     }
 
     return {
       user: computed(() => store.state.user.data),
       navigation,
-      logout
+      logout,
     };
   },
 };
 </script>
+
+
+<style>
+  :root{
+    --primary-color: #0d9488;
+  }
+
+  .primary-bg{
+    background-color: var(--primary-color);
+  }
+</style>

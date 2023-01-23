@@ -1,28 +1,67 @@
 <template>
   <div>
-        <div class="w-full flex h-96 bg-sky-200 ">
-            <div class="w-full text-center h-content mx-8 my-8 bg-sky-400">
-                <h1 class="text-4xl my-4 text-white"> Trainer of Intuitive Math </h1>
-                <p class="text-xl pt-5 text-white"> Practice your ability to intuitively solve math problems with cognitive games. Improve yourself and beat your friends. </p>
-                <button class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold my-12 py-2 px-4 rounded-full">
-                    Get Started
-                </button>
-            </div>
-            <div class="w-full h-content justify-center mx-8 my-8 bg-sky-400">
-                <img class="h-full mx-auto" src="../img/Math-Brain-Booster-Logo.jpg" alt="img1"> 
-            </div>
+        <div class="w-full h-96 primary-bg ">
+            <div class="w-4/5 flex mx-auto">    
+                <div class="w-full text-center h-content mx-8 my-16 primary-bg">
+                    <div class="max-w-sm mx-auto">
+                        <h1 class="text-4xl my-4 text-white"> Trainer of Intuitive Math </h1>
+                        <p class="text-xl pt-5 text-white"> Practice your ability to intuitively solve math problems with cognitive games. Improve yourself and beat your friends. </p>
+                        
+                        <router-link :to="'/training/reactiontime'" tag="button" class="inline-block bg-slate-200 hover:text-amber-600 text-gray-600 myButtonShadow font-bold my-12 py-3 px-4 rounded-full" >
+                            Get Started
+                        </router-link>
+                    </div>
+                </div>
+                <div class="w-full h-content justify-center mx-8 my-2 primary-bg ">
+                    <img class="h-96 w-96s mx-auto" src="../img/homepage-logo5.png" alt="img1"> 
+                </div>
+            </div>    
+        </div>
+        <div class="w-full flex h-32 primary-bg absolute myzindex">
             
         </div>
-        <div class="h-full mx-auto bg-sky-300 text-center py-10"> 
-            <div class="grid grid-cols-3 gap-4 w-3/4 mx-auto">
-                <div class="bg-gradient-to-r from-green-400 to-blue-500 hover:bg-slate-300 text-black py-14 px-6 mx-2 my-2 rounded-lg">01</div>
-                <div class="bg-gradient-to-r from-green-400 to-blue-500 text-black py-14 px-6 mx-2 my-2 rounded-lg">01</div>
-                <div class="bg-gradient-to-r from-green-400 to-blue-500 text-black py-14 px-6 mx-2 my-2 rounded-lg">01</div>
-                <div class="bg-gradient-to-r from-green-400 to-blue-500 text-black py-14 px-6 mx-2 my-2 rounded-lg">01</div>
-                <div class="bg-gradient-to-r from-green-400 to-blue-500 text-black py-14 px-6 mx-2 my-2 rounded-lg">01</div>
-                <div class="bg-gradient-to-r from-green-400 to-blue-500 text-black py-14 px-6 mx-2 my-2 rounded-lg">01</div>
+
+        <div class="h-full mx-auto text-center py-10 "> 
+            <div class="grid grid-cols-3 gap-4 w-3/4 max-w-5xl mx-auto ">
+                <router-link :to="'/training/reactiontime'" tag="div" class="bg-slate-100 myBoxShadow w-60 h-48 text-black py-6 px-6 mx-2 my-2 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="text-gray-600 w-24 h-24 mx-auto ">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                    </svg>
+                    <h1 class="text-lg text-sky-800 font-medium">Reaction Time</h1>
+                </router-link>
+                <router-link :to="'/dashboard'" tag="div" class="bg-slate-100 myBoxShadow w-60 h-48 text-black py-6 px-6 mx-2 my-2 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="text-gray-600 w-24 h-24 mx-auto ">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                    <h1 class="text-lg text-sky-800 font-medium">Number Memory</h1>
+                </router-link>
+                <router-link :to="'/dashboard'" tag="div" class="bg-slate-100 myBoxShadow w-60 h-48 text-black py-6 px-6 mx-2 my-2 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="text-gray-600 w-24 h-24 mx-auto ">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
+                    </svg>
+                    <h1 class="text-lg text-sky-800 font-medium">Solve something</h1>
+                </router-link>
+                <router-link :to="'/dashboard'" tag="div" class="bg-slate-100 myBoxShadow w-60 h-48 text-black py-6 px-6 mx-2 my-2 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="text-gray-600 w-24 h-24 mx-auto ">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    <h1 class="text-lg text-sky-800 font-medium">Reaction Time</h1>
+                </router-link>
+                <router-link :to="'/dashboard'" tag="div" class="bg-slate-100 myBoxShadow w-60 h-48 text-black py-6 px-6 mx-2 my-2 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="text-gray-600 w-24 h-24 mx-auto ">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    <h1 class="text-lg text-sky-800 font-medium">Reaction Time</h1>
+                </router-link>
+                <router-link :to="'/dashboard'" tag="div" class="bg-slate-100 myBoxShadow w-60 h-48 text-black py-6 px-6 mx-2 my-2 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="text-gray-600 w-24 h-24 mx-auto ">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    <h1 class="text-lg text-sky-800 font-medium">Reaction Time</h1>
+                </router-link>
             </div>
         </div>
+
 
 
     </div>
@@ -37,5 +76,30 @@ const props = defineProps({
 </script>
 
 <style>
+.myzindex{
+    z-index: -1;
+}
+.myzindex2{
+    z-index: -2;
+}
 
+.myBoxShadow{
+    box-shadow: 3px -1px 20px rgba(0, 0, 0, 0.4);
+    transition: all 0.5s
+}
+
+.myBoxShadow:hover{
+    box-shadow: 5px 5px 20px rgba(59, 59, 59, 0.6);
+    transform: translate3d(0px,-5px,0px);
+}
+
+.myButtonShadow{
+    box-shadow: 2px -1px 10px rgba(0, 0, 0, 0.4);
+    transition: all 0.5s
+}
+
+.myButtonShadow:hover{
+    box-shadow: 3px 3px 15px rgba(59, 59, 59, 0.6);
+    transform: translate3d(0px,-5px,0px);
+}
 </style>

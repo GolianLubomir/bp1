@@ -5,9 +5,9 @@ const store = createStore({
     state: {
         user: {
             data:{
-                //name: 'Test',
-                //email: 'test@example.com',
-                //imageUrl:
+                name: 'Ľubomír Golian',
+                email: 'lubogolian@example.com',
+                //imageUrl: ,
                 //  ' ',
               },
             token: sessionStorage.getItem("TOKEN"),
