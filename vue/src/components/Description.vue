@@ -1,11 +1,25 @@
 <template>
     <div>
         <p class="text-lg text-center py-2">Description</p>
-        <p class="px-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere cum ratione reiciendis blanditiis velit assumenda, illo cupiditate excepturi aliquam quos corrupti deserunt voluptatem rem consequatur suscipit nemo tempore tenetur soluta?</p>
+        <p class="px-6"> {{description}} </p>
     </div>
 </template>
 
-<script setup>
+<script >
+import { useStore } from "vuex";
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+export default {
+    setup(){
+        const store = useStore();
+
+
+        return {
+            description: computed(() => store.state.game.data.description.mathReactions) 
+        }
+    }
+}
+
 
 </script>
 

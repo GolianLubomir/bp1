@@ -36,12 +36,16 @@ const routes = [
                 default: ReactionTime,
                 stats: StatsChart,
                 description: Description,
-            }
+            } 
           },
           {
-            path: "/numbermemory",
+            path: "/training/numbermemory",
             name: "NumberMemory",
-            component: NumberMemory,
+            components: { 
+              default: NumberMemory,
+              stats: StatsChart,
+              description: Description,
+            } 
           },
         ],
       },

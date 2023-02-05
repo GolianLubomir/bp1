@@ -1,3 +1,5 @@
+
+
 <template>
   <!--
     This example requires updating your template:
@@ -48,7 +50,7 @@
                       {{ user.name }}
                     </div>
                     <div class="text-sm font-medium leading-none text-gray-400">
-                      {{ user.email }}
+                      <!--{{ user.email }}-->
                     </div>
                   </div>
                   <MenuButton
@@ -196,6 +198,7 @@ export default {
       });
     }
 
+
     return {
       user: computed(() => store.state.user.data),
       navigation,
@@ -209,9 +212,14 @@ export default {
 <style>
   :root{
     --primary-color: #0d9488;
+    --primary-color-hover: #0b8177;
   }
 
   .primary-bg{
     background-color: var(--primary-color);
   }
+
+  
+
+  
 </style>

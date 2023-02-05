@@ -7,7 +7,7 @@
         <p class="mt-2 text-center text-sm text-gray-600">
           Or
           {{ ' ' }}
-          <router-link :to="{name: 'Login'}" class="font-medium text-sky-600 hover:text-sky-500">Login to your account</router-link>
+          <router-link :to="{name: 'Login'}" class="font-medium text-teal-700 hover:text-teal-500">Login to your account</router-link>
         </p>
       </div>
       <form class="mt-8 space-y-6" @submit="register" >
@@ -38,9 +38,9 @@
 
 
         <div>
-          <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent bg-sky-500 py-2 px-4 text-sm font-medium text-white hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
+          <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent bg-teal-600 py-2 px-4 text-sm font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
             <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-              <LockClosedIcon class="h-5 w-5 text-sky-800 group-hover:text-sky-400" aria-hidden="true" />
+              <LockClosedIcon class="h-5 w-5 text-teal-800 group-hover:text-teal-500" aria-hidden="true" />
             </span>
             Sign up
           </button>

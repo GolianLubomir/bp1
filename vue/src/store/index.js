@@ -11,7 +11,16 @@ const store = createStore({
                 //  ' ',
               },
             token: sessionStorage.getItem("TOKEN"),
+        },
+        game: {
+            data: {
+                description: {
+                    mathReactions: "V hre trenujeme reakcie na matematicke výrazy. Tvojou úlohou je čo najrýchlejšie vyhodnotiť výraz a zvoliť true alebo false. Budeme merať tvoj priemerný reakčný čas pri vyhodnocovaní 5-tich roznych výrazov.",
+                    numberMemory: "Tvojou úlohou bude zapamätať si sekvenciu čísel a následne ju zapísať do poľa na obrazovke. Testujeme a trenujeme tvoju pamäť, ktorá je dôležitá pri intuitívnom riešení matematických úloh."
+                }
+            }
         }
+
     },
     getters: {},
     actions: {
