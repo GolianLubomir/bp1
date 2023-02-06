@@ -106,6 +106,7 @@ export default {
   },
 
   setup() {
+    let timeoutID
     const state = reactive({
       trainingEnded: false,
       trainRunning: false,
@@ -128,20 +129,24 @@ export default {
       state.trainRunning = true;
       state.intro = false;
       state.trainingEnded = false;
-      state.numbersSequence = 1;
+      state.sequenceLength = 1;
+      
       training();
     };
 
     const leaveTrain = () => {
       state.trainRunning = false;
       state.intro = true;
+      state.inputText = "";
+      state.trainingEnded = false;
+      clearTimeout(timeoutID)
     };
 
     const training = () => {
       state.numbersSequence = genNumberSequence(state.sequenceLength);
       state.repeat = false;
       state.remember = true;
-      setTimeout(() => {
+      timeoutID = setTimeout(() => {
         state.remember = false;
         state.repeat = true;
       }, 3000);

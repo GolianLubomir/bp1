@@ -143,6 +143,7 @@ export default{
         const endTime = ref(0);
         const running = ref(false);
         const trainingEnded = ref(false);
+        const penalties = ref(0);
         let intervalId = null;
         let exampleNum = 1;
         let times = [];
@@ -212,10 +213,13 @@ export default{
                 stopStopwatch()
                 times.push((endTime.value - startTime.value) / 1000)
                 console.log(times)
+                exampleNum++
                 training()
             }else{
                 stopStopwatch()
+                penalties.value += 2 
                 console.log(times)
+                training()
             }
             
         }
@@ -232,10 +236,11 @@ export default{
                 data.result = arr[2]
                 data.expectedAnswer = arr[4]
                 startStopwatch()
-                exampleNum++
+                
 
             }else{
                 averageOfTimes.value = getAverage(times)
+                averageOfTimes.value += penalties.value
                 trainingEnded.value = true;
             }
             

@@ -3,8 +3,10 @@ import Home from "../views/Home.vue";
 import Dashboard from "../views/Dashboard.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
-import ReactionTime from "../views/ReactionTime.vue";
+import MathReactions from "../views/MathReactions.vue";
 import NumberMemory from "../views/NumberMemory.vue";
+import MathMemory from "../views/MathMemory.vue";
+import FindTheSame from "../views/FindTheSame.vue";
 import Surveys from "../views/Surveys.vue";
 import DefaultLayout from "../components/DefaultLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
@@ -25,15 +27,15 @@ const routes = [
       { path: "/dashboard", name: "Dashboard", component: Dashboard },
       {
         path: "/training",
-        redirect: "/training/reactiontime",
+        redirect: "/training/mathreactions",
         name: "Training",
         component: Training,
         children: [
           {
-            path: "/training/reactiontime",
-            name: "ReactionTime",
+            path: "/training/mathreactions",
+            name: "MathReactions",
             components: { 
-                default: ReactionTime,
+                default: MathReactions,
                 stats: StatsChart,
                 description: Description,
             } 
@@ -43,6 +45,24 @@ const routes = [
             name: "NumberMemory",
             components: { 
               default: NumberMemory,
+              stats: StatsChart,
+              description: Description,
+            } 
+          },
+          {
+            path: "/training/mathmemory",
+            name: "MathMemory",
+            components: { 
+              default: MathMemory,
+              stats: StatsChart,
+              description: Description,
+            } 
+          },
+          {
+            path: "/training/findthesame",
+            name: "FindTheSame",
+            components: { 
+              default: FindTheSame,
               stats: StatsChart,
               description: Description,
             } 
