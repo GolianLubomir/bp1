@@ -60,6 +60,7 @@
               >
                 <input
                   type="text"
+                  
                   v-model="item.input"
                   @keyup.enter="submit"
                   class="bg-teal-500 default-none border-2 text-5xl text-white h-14 w-40 pb-3 focus:border-slate-600 focus:ring-slate-600"
@@ -106,7 +107,7 @@
 <script>
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
-import { ref, computed, watch, onMounted } from "vue";
+import { ref, computed, watch, onMounted, inject } from "vue";
 //import MathJax from 'mathjax'
 
 function genNumberSequence(size) {
@@ -199,6 +200,8 @@ export default {
         {id:3, exp: {num1: "4", num2: "3", res: "1", sign: "-"}},*/
       ],
     });
+
+    
 
     const data = reactive({
       num1: 0,
@@ -305,9 +308,21 @@ export default {
       }
     };
 
-    /*watch(() => state.inputText, (newValue) => {
-            state.message = `Your input: ${newValue}`;
-         });*/
+
+    /*const input = ref(null)
+
+    watch(
+      () => state.repeat,
+      (newValue) => {
+        if (newValue) {
+          setTimeout(() => {
+            input.value.focus()
+          }, 0)
+        }
+      }
+    )*/
+
+  
 
     return {
       ...toRefs(state),
@@ -315,6 +330,8 @@ export default {
       startTrain,
       leaveTrain,
       submit,
+      
+      
     };
   },
 };

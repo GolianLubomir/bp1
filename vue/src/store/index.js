@@ -5,8 +5,8 @@ const store = createStore({
     state: {
         user: {
             data:{
-                name: 'Ľubomír Golian',
-                email: 'lubogolian@example.com',
+                name: '',
+                email: '',
                 //imageUrl: ,
                 //  ' ',
               },
@@ -47,17 +47,32 @@ const store = createStore({
                 commit('logout')
                 return response;
             })
+        },
+        silentAuth({ commit }) {
+            const token = sessionStorage.getItem('TOKEN');
+            if (token) {
+              axiosClient.post('/login')
+                .then(({ data }) => {
+                  commit('setUser', data.user);
+                })
+                .catch(error => {
+                  console.error('Silent auth error:', error);
+                });
+            }
         }
     },
     mutations: {
         logout: (state) => {
             state.user.token = null;
             state.user.data = {};
-            
+            sessionStorage.clear();
         },
         setUser: (state, userData) => {
+            console.log('setting user', userData.name)
             state.user.token = userData.token;
-            state.user.data = userData.user;
+            state.user.data = userData;
+            //state.user.data.email = userData.email;
+
             sessionStorage.setItem('TOKEN', userData.token);
         },
         setToken: (state, token) => {

@@ -26,7 +26,7 @@
         </div>-->
 
         <div class="h-full mx-auto text-center py-10 "> 
-            <div class="grid grid-cols-3 gap-4 w-3/4 max-w-5xl my-7 mx-auto ">
+            <div class="grid grid-cols-3 gap-4 w-3/4 max-w-4xl my-7 mx-auto ">
                 <router-link :to="'/training/mathreactions'" tag="div" class="bg-white myBoxShadow w-60 h-48 text-black py-6 px-6 mx-auto my-2 rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="text-gray-600 w-24 h-24 mx-auto ">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
@@ -51,13 +51,13 @@
                     </svg>
                     <h1 class="text-lg text-sky-800 font-medium">Find the Same</h1>
                 </router-link>
-                <router-link :to="'/dashboard'" tag="div" class="bg-white myBoxShadow w-60 h-48 text-black py-6 px-6 mx-auto my-2 rounded-lg">
+                <router-link :to="'/training/graphs'" tag="div" class="bg-white myBoxShadow w-60 h-48 text-black py-6 px-6 mx-auto my-2 rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="text-gray-600 w-24 h-24 mx-auto ">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
                     </svg>
                     <h1 class="text-lg text-sky-800 font-medium">Game 5</h1>
                 </router-link>
-                <router-link :to="'/dashboard'" tag="div" class="bg-white myBoxShadow w-60 h-48 text-black py-6 px-6 mx-auto my-2 rounded-lg">
+                <router-link :to="'/training/graphs'" tag="div" class="bg-white myBoxShadow w-60 h-48 text-black py-6 px-6 mx-auto my-2 rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="text-gray-600 w-24 h-24 mx-auto ">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25" />
                     </svg>

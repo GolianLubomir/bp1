@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span v-if="trainRunning" @click="leaveTrain" class="absolute right-5">
+    <span v-if="trainRunning || trainingEnded" @click="leaveTrain" class="absolute right-5">
       <XMarkIcon
         class="block h-8 w-8 border border-gray-600 rounded-full p-1 text-gray-600 transition duration-300 ease-in-out hover:rounded-lg cursor-pointer"
       />
@@ -28,25 +28,35 @@
       </div>
 
       <div v-if="trainRunning" class="flex items-center justify-center">
-        <div class="grid grid-cols-4 gap-0">
-          
-        <div
+        <div class="grid grid-cols-4 gap-1">
+          <div
             v-for="expression in expressions"
             :key="expression.id"
             @click="fnc(expression.id, expression.expId)"
-            :class="{ 'grid-item-selected': selected.includes(expression.id), 'grid-item-found': found.includes(expression.expId)}"
-            
-            class=" h-24 p-3 flex items-center justify-center border"
-        >
-            <h1 v-if="expression.exp.num1" class="text-4xl whitespace-nowrap text-white px-1 py-2">
-            {{ expression.exp.num1 }}{{ expression.exp.sign
-            }}{{ expression.exp.num2 }}
+            :class="{
+              'grid-item-selected': selectedId.includes(expression.id),
+              'grid-item-found': foundExpId.includes(expression.expId),
+              'grid-item-none':
+                !selectedId.includes(expression.id) &&
+                !foundExpId.includes(expression.expId),
+            }"
+            class="h-24 p-3 flex items-center justify-center border cursor-pointer"
+          >
+            <h1
+              v-if="expression.exp.num1"
+              class="text-4xl whitespace-nowrap text-white px-1 py-2"
+            >
+              {{ expression.exp.num1 }}{{ expression.exp.sign
+              }}{{ expression.exp.num2 }}
             </h1>
-            <h1 v-if="!expression.exp.num1" class="text-4xl whitespace-nowrap text-white px-1 py-2">
-            {{ expression.exp }}
+            <h1
+              v-if="!expression.exp.num1"
+              class="text-4xl whitespace-nowrap text-white px-1 py-2"
+            >
+              {{ expression.exp }}
             </h1>
-        </div>
-        <!--<div
+          </div>
+          <!--<div
             v-for="expression in expressions"
             :key="expression.id"
             @click="fnc(expression.id)"
@@ -57,32 +67,31 @@
             {{ expression.exp.res }}
             </h1>
         </div>-->
-
-
+        </div>
+      </div>
+      <div>
+        <div v-if="trainingEnded" class="pt-10 w-96 mx-auto text-center">
+          <div class="text-2xl text-white text-center">
+            <p>Your solution time is</p>
+          </div>
         </div>
 
-        <div>
-          <div v-if="trainingEnded" class="pt-10 w-96 mx-auto text-center">
-            <div class="text-2xl text-white text-center">
-              <p>Your solution time is </p>
-            </div>
+        <div v-if="trainingEnded" class="w-full h-80">
+          <div class="text-4xl text-white text-center py-9">
+            <p>{{ stopwatch }}</p>
+            <p class="text-2xl pt-6">seconds.</p>
           </div>
-
-          <div v-if="trainingEnded" class="w-full h-80">
-            <div class="text-4xl text-white text-center py-9">
-              <p>{{ sequenceLength - 1 }} sekund</p>
-            </div>
-            <div class="text-lg text-white text-center py-6">
-              <button
-                @click="startTrain"
-                class="bg-white px-3 py-1 text-black rounded-full"
-              >
-                Try again!
-              </button>
-            </div>
+          <div class="text-lg text-white text-center py-6">
+            <button
+              @click="startTrain"
+              class="bg-white px-3 py-1 text-black rounded-full"
+            >
+              Try again!
+            </button>
           </div>
         </div>
       </div>
+      
     </div>
   </div>
 </template>
@@ -93,21 +102,21 @@ import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
 //import MathJax from 'mathjax'
 
-
 function genExspressionArray(size) {
   let arr;
   let arr2 = [];
   let difficulty;
+  let results = [];
 
   for (let i = 0; i < size; i++) {
-    if(i==0){
-        difficulty = 10
-    }else if(i==1 || i==2) {
-        difficulty = 20
-    }else if(i==3) {
-        difficulty = 30
-    }else{
-        difficulty = 50
+    if (i == 0) {
+      difficulty = 10;
+    } else if (i == 1 || i == 2) {
+      difficulty = 20;
+    } else if (i == 3) {
+      difficulty = 30;
+    } else {
+      difficulty = 50;
     }
     //difficulty = (i+1)*10 % 50
     let num1 = Math.floor(Math.random() * difficulty) + 1;
@@ -125,34 +134,40 @@ function genExspressionArray(size) {
       }
     }
 
-    arr2.push({
-      id: i + 1,
-      expId: (i + 1),
-      exp: {
-        num1: arr[0].toString(),
-        num2: arr[1].toString(),
-        res: arr[2].toString(),
-        sign: arr[3],
-      },
-    });
-    arr2.push({
+    if (results.includes(arr[2])) {
+      console.log(arr[2]);
+      console.log(results);
+      --i;
+    } else {
+      results.push(arr[2]);
+
+      arr2.push({
+        id: i + 1,
+        expId: i + 1,
+        exp: {
+          num1: arr[0].toString(),
+          num2: arr[1].toString(),
+          res: arr[2].toString(),
+          sign: arr[3],
+        },
+      });
+      arr2.push({
         id: i + 1 + size,
         expId: i + 1,
         exp: arr[2].toString(),
-    })
-
-    
+      });
+    }
   }
 
   console.log(arr2);
-  shuffle(arr2)
+  shuffle(arr2);
   console.log(arr2);
   return arr2;
 }
 
-function shuffle(array){
-    array.sort(() => Math.random() - 0.5);
-    return array.sort(() => Math.random() - 0.5);
+function shuffle(array) {
+  array.sort(() => Math.random() - 0.5);
+  return array.sort(() => Math.random() - 0.5);
 }
 
 export default {
@@ -161,16 +176,42 @@ export default {
   },
 
   setup() {
-    let timeoutID;
-    let timeout = 2000;
+    const startTime = ref(0);
+    const endTime = ref(0);
+    const running = ref(false);
+    let intervalId = null;
+    const time = ref(0);
+
+    const stopwatch = computed(() => {
+      if (running.value) {
+        return (Date.now() - startTime.value) / 1000;
+      } else {
+        return (endTime.value - startTime.value) / 1000;
+      }
+    });
+
+    const startStopwatch = () => {
+      running.value = true;
+      startTime.value = Date.now();
+      intervalId = setInterval(() => {
+        stopwatch.value;
+      }, 10);
+    };
+
+    const stopStopwatch = () => {
+      running.value = false;
+      endTime.value = Date.now();
+      clearInterval(intervalId);
+    };
+
     const state = reactive({
       trainingEnded: false,
       trainRunning: false,
       intro: true,
       sequenceLength: 1,
-      selected: [],
-      selected2: [],
-      found: [],
+      selectedId: [],
+      selectedExpId: [],
+      foundExpId: [],
       expressions: [
         /*{id:1, exp: {num1: "5", num2: "5", res: "10", sign: "+"}},
         {id:2, exp: {num1: "3", num2: "6", res: "9", sign: "+"}},
@@ -198,32 +239,45 @@ export default {
       state.trainRunning = false;
       state.intro = true;
       state.trainingEnded = false;
+      state.selectedId = [];
+      state.selectedExpId = [];
+      state.foundExpId = [];
     };
 
     const training = () => {
-        state.expressions = genExspressionArray(8)
+      state.expressions = genExspressionArray(8);
+      startStopwatch();
     };
 
     const fnc = (id, expId) => {
-        console.log(id, expId)
-        if(state.selected.length > 0) {
-            console.log("tusom")
-            if(state.selected2 == expId){
-                state.found.push(expId);
-                state.selected = []
-                state.selected2 = []
-            }else{
-                state.selected = []
-                state.selected2 = []
-                console.log("chyba")
-            } 
-        }else{
-            console.log("hier")
-            state.selected.push(id)
-            state.selected2.push(expId)
+      console.log(id, expId);
+      if (state.selectedId.length > 0) {
+        console.log("tusom");
+        if (state.selectedExpId == expId && state.selectedId != id) {
+          state.foundExpId.push(expId);
+          if (state.foundExpId.length == 8) {
+            stopStopwatch();
+            state.trainRunning = false;
+            state.trainingEnded = true;
+            state.selectedId = [];
+            state.selectedExpId = [];
+            state.foundExpId = [];
+            time.value = (endTime.value - startTime.value) / 1000;
+          }
+          state.selectedId = [];
+          state.selectedExpId = [];
+        } else {
+          state.selectedId = [];
+          state.selectedExpId = [];
+          console.log("chyba");
         }
-        console.log(state.selected)
-        console.log(state.found)
+      } else {
+        console.log("hier");
+        state.selectedId.push(id);
+        state.selectedExpId.push(expId);
+      }
+      console.log(state.selectedId);
+      console.log(state.foundExpId);
     };
 
     return {
@@ -232,6 +286,11 @@ export default {
       startTrain,
       leaveTrain,
       fnc,
+      stopwatch,
+      running,
+      startStopwatch,
+      stopStopwatch,
+      time,
     };
   },
 };
@@ -239,9 +298,13 @@ export default {
 
 <style>
 .grid-item-selected {
-  background-color: lightblue;
+  background-color: #053d39;
 }
 .grid-item-found {
-  background-color: rgb(154, 170, 175);
+  background-color: #0f766e;
+  opacity: 0.5;
+}
+.grid-item-none {
+  background-color: #0f766e;
 }
 </style>

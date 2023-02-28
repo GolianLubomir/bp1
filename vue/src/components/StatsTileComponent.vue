@@ -7,7 +7,7 @@
         </p>
     </div>
     <p  class="text-lg py-3"> Score: <span class="text-2xl">{{points}}</span>  points </p>
-    <router-link :to="{name: 'ReactionTime'}" tag="a" class="text-lg font-bold underline decoration-2 text-sky-500"> Play </router-link>
+    <router-link :to="{name: 'MathReactions'}" tag="a" class="text-lg font-bold underline decoration-2 text-sky-500"> Play </router-link>
   </div>
   
 </template>

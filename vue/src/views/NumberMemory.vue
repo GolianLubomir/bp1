@@ -42,10 +42,11 @@
 
           <div v-if="repeat" class="pb-10 w-min h-24 mx-auto">
             <input
+              ref="input"
               type="text"
               v-model="inputText"
               @keyup.enter="submit"
-              class="bg-teal-500 border-4 text-5xl text-white h-16 w-96 pb-3"
+              class="bg-teal-500 border-2 text-5xl text-white h-16 w-96 pb-3 focus:border-slate-600 focus:ring-slate-600"
             />
             <button
               @click="submit"
@@ -116,8 +117,9 @@ export default {
       intro: true,
       inputText: "",
       usersSeq: "",
-      sequenceLength: 1,
+      sequenceLength: 3,
       numbersSequence: "",
+      inputmy: null
     });
 
     const data = reactive({
@@ -130,7 +132,7 @@ export default {
       state.intro = false;
       state.trainingEnded = false;
       state.sequenceLength = 1;
-      
+      state.inputText = "";
       training();
     };
 
@@ -164,18 +166,31 @@ export default {
       }
     };
 
-    /*watch(() => state.inputText, (newValue) => {
-            state.message = `Your input: ${newValue}`;
-         });*/
+     const input = ref(null)
 
+    watch(
+      () => state.repeat,
+      (newValue) => {
+        if (newValue) {
+          setTimeout(() => {
+            input.value.focus()
+          }, 0)
+        }
+      }
+    )
+   
+   
     return {
       ...toRefs(state),
       ...toRefs(data),
       startTrain,
       leaveTrain,
       submit,
+      input
     };
   },
+
+  
 };
 </script>
 

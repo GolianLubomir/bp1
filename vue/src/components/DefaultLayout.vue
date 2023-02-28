@@ -193,7 +193,7 @@ export default {
     function logout() {
       store.dispatch("logout").then(() => {
         router.push({
-          name: "Login",
+          name: "Auth",
         });
       });
     }

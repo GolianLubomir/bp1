@@ -7,6 +7,8 @@ import MathReactions from "../views/MathReactions.vue";
 import NumberMemory from "../views/NumberMemory.vue";
 import MathMemory from "../views/MathMemory.vue";
 import FindTheSame from "../views/FindTheSame.vue";
+import Graphs from "../views/Graphs.vue";
+import Game from "../views/Game.vue";
 import Surveys from "../views/Surveys.vue";
 import DefaultLayout from "../components/DefaultLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
@@ -67,6 +69,16 @@ const routes = [
               description: Description,
             } 
           },
+          {
+            path: "/training/graphs",
+            name: "Graphs",
+            components: { 
+              default: Graphs,
+              stats: StatsChart,
+              description: Description,
+            } 
+          },
+          
         ],
       },
       /*{path: '/surveys', name: 'Surveys', component: Surveys}*/
