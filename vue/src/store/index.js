@@ -5,8 +5,8 @@ const store = createStore({
     state: {
         user: {
             data:{
-                name: '',
-                email: '',
+                name: 'asdf adfgrwg',
+                email: 'asrg@agasg.com',
                 //imageUrl: ,
                 //  ' ',
               },
@@ -65,7 +65,7 @@ const store = createStore({
         logout: (state) => {
             state.user.token = null;
             state.user.data = {};
-            sessionStorage.clear();
+            //sessionStorage.clear();
         },
         setUser: (state, userData) => {
             console.log('setting user', userData.name)

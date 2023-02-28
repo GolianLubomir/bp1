@@ -18,12 +18,12 @@
             </div>
             <div class="w-full ml-6 bg-slate-100 border-2 border-gray-200 flex rounded-lg">
                 <div class=" grid grid-cols-3 gap-0 w-9/10 mx-auto">
-                    <div class="mx-4 my-4 w-64 h-72 rounded-lg tile-shadow bg-white"> <StatsTileComponent title="Math Reactions" percent="88" points="12.3"> </StatsTileComponent>  </div>
-                    <div class="mx-4 my-4 w-64 h-72 rounded-lg tile-shadow bg-white"> <StatsTileComponent title="Number Memory" percent="75" points="7"> </StatsTileComponent> </div>
-                    <div class="mx-4 my-4 w-64 h-72 rounded-lg tile-shadow bg-white"> <StatsTileComponent title="Math Memory" percent="23" points="11"> </StatsTileComponent> </div>
-                    <div class="mx-4 my-4 w-64 h-72 rounded-lg tile-shadow bg-white"> <StatsTileComponent title="Find the Same" percent="45" points="14.5"> </StatsTileComponent> </div>
-                    <div class="mx-4 my-4 w-64 h-72 rounded-lg tile-shadow bg-white"> <StatsTileComponent title="Game 5" percent="13" points="35"> </StatsTileComponent> </div>
-                    <div class="mx-4 my-4 w-64 h-72 rounded-lg tile-shadow bg-white"> <StatsTileComponent title="Game 6" percent="93" points="4"> </StatsTileComponent> </div>
+                    <div class="mx-4 my-4 w-64 h-80 rounded-lg tile-shadow bg-white"> <StatsTileComponent title="Math Reactions" linkTo="MathReactions" percent="88" points="12.3" :seriesprops=[10]> </StatsTileComponent>  </div>
+                    <div class="mx-4 my-4 w-64 h-80 rounded-lg tile-shadow bg-white"> <StatsTileComponent title="Number Memory" linkTo="NumberMemory" percent="75" points="7" :seriesprops=[65]> </StatsTileComponent> </div>
+                    <div class="mx-4 my-4 w-64 h-80 rounded-lg tile-shadow bg-white"> <StatsTileComponent title="Math Memory" linkTo="MathMemory" percent="23" points="11" :seriesprops=[85]> </StatsTileComponent> </div>
+                    <div class="mx-4 my-4 w-64 h-80 rounded-lg tile-shadow bg-white"> <StatsTileComponent title="Find the Same" linkTo="FindTheSame" percent="45" points="14.5" :seriesprops=[22]> </StatsTileComponent> </div>
+                    <div class="mx-4 my-4 w-64 h-80 rounded-lg tile-shadow bg-white"> <StatsTileComponent title="Game 5" linkTo="Graphs" percent="13" points="35" :seriesprops=[15]> </StatsTileComponent> </div>
+                    <div class="mx-4 my-4 w-64 h-80 rounded-lg tile-shadow bg-white"> <StatsTileComponent title="Game 6" linkTo="Game" percent="93" points="4" :seriesprops=[20]> </StatsTileComponent> </div>
                 </div>
             </div>
         </div>

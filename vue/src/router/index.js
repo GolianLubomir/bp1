@@ -78,6 +78,15 @@ const routes = [
               description: Description,
             } 
           },
+          {
+            path: "/training/game",
+            name: "Game",
+            components: { 
+              default: Game,
+              stats: StatsChart,
+              description: Description,
+            } 
+          },
           
         ],
       },

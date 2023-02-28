@@ -46,7 +46,7 @@
               type="text"
               v-model="inputText"
               @keyup.enter="submit"
-              class="bg-teal-500 border-2 text-5xl text-white h-16 w-96 pb-3 focus:border-slate-600 focus:ring-slate-600"
+              class="bg-teal-500 border-2 text-center text-5xl text-white h-16 w-96 pb-3 focus:border-slate-600 focus:ring-slate-600"
             />
             <button
               @click="submit"
