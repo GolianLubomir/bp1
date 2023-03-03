@@ -166,7 +166,7 @@ import {
 import PageComponent from "../components/PageComponent.vue";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { useStore } from "vuex";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 const navigation = [
@@ -197,6 +197,11 @@ export default {
         });
       });
     }
+
+    onMounted(() => {
+      console.log("onMounted sagnasng")
+      //store.dispatch("silentAuth")
+    })
 
 
     return {

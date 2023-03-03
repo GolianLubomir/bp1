@@ -32,11 +32,13 @@
       </div>
 
       <div v-if="trainRunning" class="h-96 flex items-center justify-center">
-        <div>
+        <div v-if="remember || repeat" class="w-96">
+          <TimerBar :time="timeToRemember" :widthprops="'100%'"> </TimerBar>
           <div
             v-if="remember"
-            class="pb-10 w-min h-24 mx-auto flex items-center justify-center"
+            class="pb-10 w-full h-24 mx-auto flex items-center justify-center"
           >
+            
             <p class="text-white text-5xl">{{ numbersSequence }}</p>
           </div>
 
@@ -87,6 +89,7 @@
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
+import TimerBar from "../components/TimerBar.vue"
 //import MathJax from 'mathjax'
 
 function genNumberSequence(size) {
@@ -104,6 +107,7 @@ function genNumberSequence(size) {
 export default {
   components: {
     XMarkIcon,
+    TimerBar
   },
 
   setup() {
@@ -119,6 +123,7 @@ export default {
       usersSeq: "",
       sequenceLength: 3,
       numbersSequence: "",
+      timeToRemember: 3,
       inputmy: null
     });
 
@@ -151,7 +156,7 @@ export default {
       timeoutID = setTimeout(() => {
         state.remember = false;
         state.repeat = true;
-      }, 3000);
+      }, state.timeToRemember * 1000 + 200);
     };
 
     const submit = () => {

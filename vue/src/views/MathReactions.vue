@@ -193,6 +193,7 @@ export default{
             trainingEnded.value = false
             exampleNum = 1
             times = []
+            penalties.value = 0;
             state.intro = false
             training()
             setTimeout(() => {

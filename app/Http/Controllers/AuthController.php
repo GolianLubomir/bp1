@@ -80,4 +80,17 @@ class AuthController extends Controller
         ]);
     }
 
+    public function reload()
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        // Revoke the token that was used to authenticate the current request...
+        //$token = $user->currentAccessToken();
+        //$token = $user->createToken('main')->plainTextToken;
+        return response([
+            'user' => $user,
+            //'token' => $token
+        ]);
+    }
+
 }

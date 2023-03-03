@@ -1,5 +1,6 @@
 import {createStore} from "vuex";
 import axiosClient from "../axios";
+import createPersistedState from 'vuex-persistedstate'
 
 const store = createStore({
     state: {
@@ -9,7 +10,14 @@ const store = createStore({
                 email: 'asrg@agasg.com',
                 //imageUrl: ,
                 //  ' ',
-              },
+            },
+            score:{
+                mathRe: 0,
+                numberMe: 0,
+                mathMe: 0,
+                findSa: 0,
+            },
+
             token: sessionStorage.getItem("TOKEN"),
         },
         game: {
@@ -51,9 +59,10 @@ const store = createStore({
         silentAuth({ commit }) {
             const token = sessionStorage.getItem('TOKEN');
             if (token) {
-              axiosClient.post('/login')
+                console.log("token true")
+                return axiosClient.post('/reload')
                 .then(({ data }) => {
-                  commit('setUser', data.user);
+                  commit('setReloadUser', data.user);
                 })
                 .catch(error => {
                   console.error('Silent auth error:', error);
@@ -68,19 +77,31 @@ const store = createStore({
             //sessionStorage.clear();
         },
         setUser: (state, userData) => {
-            console.log('setting user', userData.name)
+            //console.log('setting user', userData.name)
+            
             state.user.token = userData.token;
             state.user.data = userData;
             //state.user.data.email = userData.email;
 
             sessionStorage.setItem('TOKEN', userData.token);
         },
+        setReloadUser: (state, userData) => {
+            //console.log('setting user', userData.name)
+            
+            
+            state.user.data = userData;
+            //state.user.data.email = userData.email;
+
+            
+        },
         setToken: (state, token) => {
             state.user.token = token;
             sessionStorage.setItem('TOKEN', token);
           },
     },
-    modules:{}
+    modules:{},
+    plugins: [createPersistedState()]
+
 })
 
 export default store;

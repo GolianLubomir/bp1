@@ -1,13 +1,15 @@
 <template>
   <div class="px-6 py-1 text-center">
-    <h1  class="text-2xl font-bold text-slate-600 mb-2 border-b-2"> {{title}} </h1>
+    <h1  class="text-2xl font-bold text-slate-600 mb-2 whitespace-nowrap  border-b-2"> {{title}} </h1>
     <!--<div class="py-6 mx-auto w-36 h-36 my-border border-green-500 rounded-full text-center">
         <p class="text-3xl text-slate-600 py-4">
            {{percent}}%
         </p>
     </div>-->
     <div id="chart">
-      <apexchart type="radialBar" height="220" :options="chartOptions" :series="seriesprops"></apexchart>
+      <apexchart type="radialBar" height="220" :options="chartOptions" :series="seriesprops">
+        
+      </apexchart>
     </div>
     <p  class="text-lg pb-1"> Score: <span class="text-2xl">{{points}}</span>  points </p>
     <router-link :to="{name: linkTo}" tag="a" class="text-lg font-bold underline decoration-2 text-sky-500"> Play </router-link>
@@ -123,17 +125,19 @@ export default {
               }
             },
             fill: {
-              type: 'gradient',
-              gradient: {
+              //type: 'gradient',
+              colors: ['#06d6a0'],
+              /*gradient: {
                 shade: 'dark',
                 type: 'horizontal',
-                shadeIntensity: 0.5,
-                gradientToColors: ['#ABE5A1'],
-                inverseColors: true,
+                shadeIntensity: 1,
+                gradientFromColors: ['#888888'],
+                gradientToColors: ['#64CF51'],
+                inverseColors: false,
                 opacityFrom: 1,
                 opacityTo: 1,
-                stops: [0, 100]
-              }
+                stops: [25, 50]
+              }*/
             },
             stroke: {
               lineCap: 'round'
