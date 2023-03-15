@@ -1,6 +1,6 @@
 <template>
     <div class="  py-6 px-6" >
-        <div class="h-56 w-full border-2 border-gray-200 bg-slate-100 rounded-lg px-3 py-3">
+        <div class="h-56 max-w-screen-xl mx-auto border-2 border-gray-200 bg-slate-100 rounded-lg px-3 py-3">
             <DashboardHeader> </DashboardHeader>
         </div>
         <div class="my-6 flex mx-auto max-w-screen-xl ">

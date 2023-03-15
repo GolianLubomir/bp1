@@ -10,9 +10,24 @@
         </div>
         <div class=" w-full h-full ml-6 border-l-2 hidden overflow-auto lg:block">
                 <div class="mx-6 my-3">
-                    <p class="my-2 text-green-600 font-semibold">1. Dgasfmawmr awrkg o noawnrg wan gonlwrg waonr nanwn onwr nrwa n awrn </p> 
-                    <p class="my-2 text-red-600 font-semibold">2. Fsfgms e g mwgr wrg ra rws </p> 
-                    <p class="my-2 text-orange-400 font-medium">3. Dgasfmawmr awrkg o noawnrg wan gonlwrg waonr nanwn onwr nrwa n awrn </p>
+                    <p class="my-2 text-green-600 font-semibold border-2 rounded-lg bg-slate-200 p-1 pr-6 relative">
+                        1. Dgasfmawmr awrkg o noawnrg wan gonlwrg waonr nanwn onwr nrwa n awrn 
+                        <span @click="deleteMessage" class="absolute right-1 top-1">
+                            <XMarkIcon  class=" block h-5 w-5 border border-gray-400 rounded-full p-1 text-gray-600 transition  duration-300 ease-in-out hover:rounded-lg cursor-pointer"  />
+                        </span>
+                    </p> 
+                    <p class="my-2 text-red-600 font-semibold border-2 rounded-lg bg-slate-200 p-1 pl-1 pr-6 relative">
+                        <span @click="deleteMessage" class="absolute right-1 top-1">
+                            <XMarkIcon  class=" block h-5 w-5 border border-gray-400 rounded-full p-1 text-gray-600 transition  duration-300 ease-in-out hover:rounded-lg cursor-pointer"  />
+                        </span>
+                        2. Fsfgms e g mwgr wrg ra rws sakfg  
+                    </p> 
+                    <p class="my-2 text-orange-400 font-medium border-2 rounded-lg bg-slate-200 p-1 pl-1 pr-6 relative">
+                        <span @click="deleteMessage" class="absolute right-1 top-1">
+                            <XMarkIcon  class=" block h-5 w-5 border border-gray-400 rounded-full p-1 text-gray-600 transition  duration-300 ease-in-out hover:rounded-lg cursor-pointer"  />
+                        </span>
+                        3. Dgasfmawmr awrkg o noawnrg wan gonlwrg waonr nanwn onwr nrwa n awrn 
+                    </p>
                 </div>
                 
             </div>
@@ -63,12 +78,15 @@
 <script>
 import { useStore } from "vuex";
 import { computed } from "vue";
-
+import { XMarkIcon } from "@heroicons/vue/24/outline"
 import { useRouter } from "vue-router";
 import TrainingTimeComponent from './TrainingTimeComponent.vue';
 
 export default {
-  components: { TrainingTimeComponent },
+  components: { 
+    TrainingTimeComponent ,
+    XMarkIcon
+    },
   
   setup() {
     const store = useStore();

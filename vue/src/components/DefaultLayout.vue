@@ -50,7 +50,7 @@
                       {{ user.name }}
                     </div>
                     <div class="text-sm font-medium leading-none text-gray-400">
-                      <!--{{ user.email }}-->
+                      {{ user.email }}
                     </div>
                   </div>
                   <MenuButton
