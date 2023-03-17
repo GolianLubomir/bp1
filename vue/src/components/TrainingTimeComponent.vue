@@ -104,7 +104,7 @@ export default {
                     color: '#888',
                     formatter: function (w) {
                       // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-                      console.log(w)
+                      //console.log(w)
                       let sum = w.config.series[0] + w.config.series[1] + w.config.series[2]
                       return sum + " min"          
                     }

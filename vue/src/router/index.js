@@ -8,7 +8,7 @@ import NumberMemory from "../views/NumberMemory.vue";
 import MathMemory from "../views/MathMemory.vue";
 import FindTheSame from "../views/FindTheSame.vue";
 import Graphs from "../views/Graphs.vue";
-import Game from "../views/Game.vue";
+import NumberSystems from "../views/NumberSystems.vue";
 import Surveys from "../views/Surveys.vue";
 import DefaultLayout from "../components/DefaultLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
@@ -79,10 +79,10 @@ const routes = [
             } 
           },
           {
-            path: "/training/game",
-            name: "Game",
+            path: "/training/numbersystems",
+            name: "NumberSystems",
             components: { 
-              default: Game,
+              default: NumberSystems,
               stats: StatsChart,
               description: Description,
             } 
