@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pt-10">
     <span v-if="trainRunning" @click="leaveTrain" class="absolute right-5">
       <XMarkIcon
         class="block h-8 w-8 border border-gray-600 rounded-full p-1 text-gray-600 transition duration-300 ease-in-out hover:rounded-lg cursor-pointer"
@@ -334,6 +334,10 @@ export default {
       
     };
   },
+
+  mounted() {
+      window.scrollTo(0, 0);
+  }
 };
 </script>
 

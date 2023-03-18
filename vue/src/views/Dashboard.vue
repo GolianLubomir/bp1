@@ -6,17 +6,30 @@
         <div class="my-6 flex mx-auto max-w-screen-xl ">
             <div class="w-32 h-fit mr-6 border-2 border-gray-200 bg-slate-100 rounded-lg hidden sm:block">
                 <div class="mx-4 my-4 w-24 h-24 rounded-lg bg-white">
-                    <router-link :to="'/training/mathreactions'" tag="a" >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="text-cyan-500 w-18 h-24 mx-auto ">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-                        </svg> 
+                    <router-link :to="'/training/mathreactions'" tag="a" class="">
+                        <img src="../icon/math-reaction-icon.png" alt="math-reaction-icon" class=" h-20 mx-auto pt-2"> 
                     </router-link>
                 </div>
-                <div class="mx-4 my-4 w-24 h-24 rounded-lg  bg-white"> <router-link :to="'/training/numbermemory'" tag="a" > <Icon class="text-cyan-500"> </Icon> </router-link></div>
-                <div class="mx-4 my-4 w-24 h-24 rounded-lg  bg-white"> <router-link :to="'/training/mathmemory'" tag="a" > <Icon class="text-cyan-500"> </Icon> </router-link></div>
-                <div class="mx-4 my-4 w-24 h-24 rounded-lg  bg-white"> <router-link :to="'/training/findthesame'" tag="a" > <Icon class="text-cyan-500"> </Icon> </router-link></div>
-                <div class="mx-4 my-4 w-24 h-24 rounded-lg  bg-white"> <router-link :to="'/training/graphs'" tag="a" > <Icon class="text-cyan-500"> </Icon> </router-link></div>
-                <div class="mx-4 my-4 w-24 h-24 rounded-lg  bg-white"> <router-link :to="'/training/numbersystems'" tag="a" > <Icon class="text-cyan-500"> </Icon> </router-link></div>
+                <div class="mx-4 my-4 w-24 h-24 rounded-lg  bg-white">
+                     <router-link :to="'/training/numbermemory'" tag="a" >
+                        <img src="../icon/number-memory-icon.png" alt="number-memory-icon" class=" h-20 mx-auto pt-2"> 
+                     </router-link></div>
+                <div class="mx-4 my-4 w-24 h-24 rounded-lg  bg-white">
+                    <router-link :to="'/training/mathmemory'" tag="a" > 
+                        <img src="../icon/math-memory-icon.png" alt="math-memory-icon" class=" h-20 mx-auto pt-2"> 
+                    </router-link></div>
+                <div class="mx-4 my-4 w-24 h-24 rounded-lg  bg-white"> 
+                    <router-link :to="'/training/findthesame'" tag="a" > 
+                        <img src="../icon/math-reaction-icon.png" alt="math-reaction-icon" class=" h-20 mx-auto pt-2"> 
+                    </router-link></div>
+                <div class="mx-4 my-4 w-24 h-24 rounded-lg  bg-white"> 
+                    <router-link :to="'/training/graphs'" tag="a" > 
+                        <img src="../icon/graphs-icon.png" alt="graphs-icon" class=" h-20 mx-auto pt-2"> 
+                    </router-link></div>
+                <div class="mx-4 my-4 w-24 h-24 rounded-lg  bg-white"> 
+                    <router-link :to="'/training/numbersystems'" tag="a" > 
+                        <img src="../icon/number-systems-icon.png" alt="number-systems-icon" class=" h-20 mx-auto pt-2"> 
+                    </router-link></div>
             </div>
             <div class="w-full">
                 <div class="ml-0 bg-slate-100 border-2 border-gray-200 flex rounded-lg">

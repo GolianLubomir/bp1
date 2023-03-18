@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div class="pt-10">
         <span v-if="trainRunning" @click="leaveTrain" class="absolute right-5">
             <XMarkIcon  class=" block h-8 w-8 border border-gray-600 rounded-full p-1 text-gray-600 transition  duration-300 ease-in-out hover:rounded-lg cursor-pointer"  />
         </span>
@@ -80,7 +80,7 @@ import { reactive, toRefs } from 'vue'
 import { ref, computed, watch, onMounted } from 'vue';
 //import MathJax from 'mathjax'
 
-function genExspression() {
+function genExpression() {
     
     let arr;
     let num1 = Math.floor(Math.random() * 50)+1
@@ -229,7 +229,7 @@ export default{
 
         const training = () => {
             if(exampleNum <= 5){
-                let arr =  genExspression()
+                let arr =  genExpression()
                 console.log(arr)
                 data.num1 = arr[0]
                 data.num2 = arr[1]
@@ -261,6 +261,10 @@ export default{
             stopStopwatch,
             averageOfTimes,
         }
+    },
+
+    mounted() {
+        window.scrollTo(0, 0);
     }
 }
 

@@ -1,20 +1,32 @@
 <template>
-  <div class="h-96 w-80 p-3 pt-12" >
-    <h2 class="text-white text-1xl">{{conversionSys}} </h2>
-    <p class="text-white text-3xl py-10">{{ numberFrom }}</p>
-    <input v-model="userAnswer" @keyup.enter="checkAnswer" placeholder="" class="bg-teal-500 border-2 text-center text-2xl text-white h-12 w-72 pb-1 focus:border-slate-600 focus:ring-slate-600"/>
-    <!--<p v-if="showResult">{{ result }}</p>-->
+  <div class="h-80 w-80 p-3 py-12" >
+    
+    <div v-if="!showResult">
+      <h2 class="text-white text-1xl">{{conversionSys}} </h2>
+      <p class="text-white text-3xl py-10">{{ numberFrom }}</p>
+      <input v-model="userAnswer" autofocus="true" @keyup.enter="checkAnswer" placeholder="" class="bg-teal-500 border-2 text-center text-2xl text-white h-12 w-72 pb-1 focus:border-slate-600 focus:ring-slate-600"/>
+    </div>
+    <div v-if="showResult">
+      <p class="text-white text-3xl p-16" >{{ result }}</p>
+    </div>
+    
   </div>
 </template>
 
 <script>
+
+
+
 export default {
+
+
   data() {
     return {
       numberFrom: '',
       numberTo: '',
       answer: '',
       result: '',
+      score: 0,
       conversionSys: '',
       showResult: false,
       conversions: [
@@ -37,11 +49,11 @@ export default {
       console.log("Random number: " + randomNumber);
       // Convert the number to a string in the current base
       if(this.currentConversion.valueFrom == 2){
-        numberString = randomNumber.toString(this.currentConversion.valueFrom).padStart(8, '0');;
+        numberString = randomNumber.toString(this.currentConversion.valueFrom).padStart(8, '0');
         this.numberFrom = numberString.match(/.{1,4}/g).join(' ');
       }else if(this.currentConversion.valueFrom == 16){
         numberString = randomNumber.toString(this.currentConversion.valueFrom);
-        this.numberFrom = numberString.toUpperCase();
+        this.numberFrom = numberString.toUpperCase().padStart(4, '0x');
       }else{
         console.log("Invalid conversion value")
       }
@@ -69,10 +81,10 @@ export default {
     },
     checkAnswer() {
       // Convert the user's answer to the current base
-      console.log("get answer")
+      /*console.log("get answer")
       console.log("answer: " + this.userAnswer)
       console.log("userAnswer: " + this.userAnswer)
-      console.log("numberTo: " + this.numberTo)
+      console.log("numberTo: " + this.numberTo)*/
       //let userAnswer = parseInt(this.answer, this.currentBase.value);
       // Convert the generated number to decimal
       //let correctAnswer = parseInt(this.number, this.currentBase.value);
@@ -80,15 +92,28 @@ export default {
       if (this.userAnswer.toUpperCase() === this.numberTo) {
         // Display a success message and generate a new number
         this.result = '+1';
+        this.score += 1
+        this.updateScore(this.score)
         this.showResult = true;
-        this.setConversion();        
-        this.generateNumber();
+        setTimeout(() => {
+            this.setConversion();        
+            this.generateNumber();
+        }, 1000);
+        
 
       } else {
         // Display a failure message
         this.result = 'Try again';
         this.showResult = true;
+        setTimeout(() => {
+            this.showResult = false;
+        }, 400);
       }
+    },
+
+    updateScore(){
+      console.log("update score")
+      this.$emit('update-score');
     }
 
   }

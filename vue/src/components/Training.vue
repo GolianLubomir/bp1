@@ -4,8 +4,8 @@
 
         </div>
 
-        <div class="w-full pt-10 text-center items-center">
-            <div class="w-full   mx-auto  primary-bg"> 
+        <div class="w-full pt-0 text-center items-center">
+            <div class="w-full  pt-0 mx-auto  primary-bg"> 
                 <router-view > </router-view>
             </div>
 

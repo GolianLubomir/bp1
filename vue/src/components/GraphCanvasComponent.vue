@@ -1,0 +1,363 @@
+<template>
+  <div >
+    
+
+    <div class="flex justify-center mb-16">
+      <canvas ref="canvas" width="400" height="400" class="bg-white"></canvas>
+    </div>
+
+
+  </div>
+</template>
+
+<script>
+import { XMarkIcon } from "@heroicons/vue/24/outline";
+import { reactive, toRefs } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
+
+
+
+export default {
+
+
+    methods: {
+        updateScore (score){
+            console.log("update score")
+            this.$emit('update-score', score);
+        }
+    },
+
+
+    mounted() {
+        let score = []
+            /*.push({
+                percent: 55,
+                deviation: 23,
+            })*/
+        //this.updateScore(score)
+
+        const canvas = this.$refs.canvas;
+        const context = canvas.getContext("2d");
+        const width = canvas.width;
+        const height = canvas.height;
+        let points = [];
+        const threshold = 1;
+
+        drawAxis();
+
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        canvas.addEventListener("mousedown", (event) => {
+            isDrawing = true;
+            points = [];
+            clearCanvas();
+            lastX = event.offsetX;
+            lastY = event.offsetY;
+            context.strokeStyle = "#000000";
+        });
+
+        canvas.addEventListener("mousemove", (event) => {
+        if (isDrawing) {
+            context.beginPath();
+            context.moveTo(lastX, lastY);
+            context.lineTo(event.offsetX, event.offsetY);
+            context.stroke();
+
+            //console.log("x: " + lastX + " y:" + lastY)
+
+            points.push({
+            x: lastX,
+            y: lastY,
+            });
+
+            lastX = event.offsetX;
+            lastY = event.offsetY;
+        }
+        });
+
+        function correctGraph(x) {
+            return x * x; // Replace with your own math function
+        }
+
+        canvas.addEventListener("mouseleave", () => {
+            if (isDrawing) {
+                endDrawing();
+            }
+        });
+
+        canvas.addEventListener("mouseup", () => {
+            if (isDrawing) {
+                endDrawing();
+            }
+            this.updateScore(score);
+        });
+
+        function endDrawing() {
+            isDrawing = false;
+
+            let error = 0;
+            // Your code to compare the drawn graph with the correct math graph goes here
+            let numUserCorrectPoints = 0;
+            let numRelevantCorrectPoints = 0;
+            let numRelevantCorrectPoints1 = 0;
+            let numRelevantCorrectPoints2 = 0;
+            let userPoints = [];
+            let difference = 0;
+            console.log(points.length);
+            if (points.length < 50 || points.length > 700) {
+                clearCanvas();
+                return;
+            }
+
+            console.log(points);
+            for (let i = 0; i < points.length; i++) {
+                const point = points[i];
+                userPoints.push({
+                x: (point.x - width / 2) / (width / 20),
+                y: (height / 2 - point.y) / (height / 20),
+                });
+            }
+
+            let correctPoints = [];
+            for (let x = -10; x <= 10; x += 0.1) {
+                console.log("-------x: " + x);
+                const userY = interpolation(userPoints, x); // Calculate the user's y-value at x using interpolation
+                let correctY = correctGraph(x); // Calculate the correct y-value at x
+                //if(correctY > 10 || correctY < -10){
+                if (correctY > 10 || correctY < -10) {
+                //correctY = null;
+                } else {
+                numRelevantCorrectPoints1++;
+                }
+                if (userY == null) {
+                //correctY = null;
+                } else {
+                numRelevantCorrectPoints2++;
+                }
+
+                correctPoints.push({
+                x: x,
+                y: correctY,
+                });
+
+                //if (userY != null){
+                const userX = x;
+                const correctX = interpolationInv(correctPoints, userY, x);
+                if (correctX != null) {
+                const differenceX = Math.abs(userX - correctX);
+                const differenceY = Math.abs(userY - correctY);
+
+                difference = differenceX < differenceY ? differenceX : differenceY;
+                error += difference;
+                console.log(userX, correctX);
+                console.log(userY, correctY);
+                console.log("Rozdiel x: " + differenceX + " y: " + differenceY);
+                console.log("Rozdiel: " + difference);
+                if (difference < threshold) {
+                    console.log("Correct");
+                    numUserCorrectPoints++;
+                }
+                }
+
+                //}
+
+                //error += Math.abs(userY - correctY); // Add the difference between the user's y-value and the correct y-value to the error
+                //console.log("Rozdiel: " + Math.abs(userY - correctY))
+                //console.log("Error: " + error)
+                //console.log(userY, correctY)
+                //if ( (userY != null) && (difference < threshold)) {
+                //            console.log("Correct")
+                //            numUserCorrectPoints++;
+                //        }
+            }
+            console.log("Relevant correct points: " + numRelevantCorrectPoints1);
+            console.log("Relevant correct points: " + numRelevantCorrectPoints2);
+            console.log("Num user correct points: " + numUserCorrectPoints);
+            drawPoints(correctPoints);
+
+            // Calculate the percentage of correct points
+            numRelevantCorrectPoints =
+                numRelevantCorrectPoints1 >= numRelevantCorrectPoints2
+                ? numRelevantCorrectPoints1
+                : numRelevantCorrectPoints2;
+            const percentCorrect =
+                (numUserCorrectPoints / numRelevantCorrectPoints) * 100;
+            console.log("Bigger correct points: " + numRelevantCorrectPoints);
+            // Output the percentage of correct points
+            console.log("Error: " + error);
+            console.log(`Percentage of correct points: ${percentCorrect}%`);
+
+            
+            score.push({
+                percent: percentCorrect.toFixed(2),
+                deviation: error.toFixed(2),
+            })
+            //this.updateScore(score)
+            
+            return;
+        }
+        
+       
+
+        function drawAxis() {
+            // Draw x-axis
+            context.strokeStyle = "#000";
+            context.beginPath();
+            context.moveTo(0, height / 2);
+            context.lineTo(width, height / 2);
+            context.stroke();
+
+            // Draw y-axis
+            context.beginPath();
+            context.moveTo(width / 2, 0);
+            context.lineTo(width / 2, height);
+            context.stroke();
+
+            // Draw Grid
+            // Draw x-axis ticks
+            for (let x = -10; x <= 10; x++) {
+                const xPos = (x + 10) * (width / 20);
+                context.beginPath();
+                context.moveTo(xPos, 0);
+                context.lineTo(xPos, height);
+                context.strokeStyle = "#ddd"; // Set the color of the grid lines
+                context.stroke();
+
+                // Draw the tick mark at the bottom of the canvas
+                context.beginPath();
+                context.moveTo(xPos, height / 2 - 5);
+                context.lineTo(xPos, height / 2 + 5);
+                context.strokeStyle = "#000"; // Set the color of the tick marks
+                context.stroke();
+            }
+
+            // Draw Grid
+            // Draw y-axis ticks
+            for (let y = -10; y <= 10; y++) {
+                const yPos = (y + 10) * (height / 20);
+                context.beginPath();
+                context.moveTo(0, yPos);
+                context.lineTo(height, yPos);
+                context.strokeStyle = "#ddd"; // Set the color of the grid lines
+                context.stroke();
+
+                // Draw the tick mark at the bottom of the canvas
+                context.beginPath();
+                context.moveTo(width / 2 - 5, yPos);
+                context.lineTo(width / 2 + 5, yPos);
+                context.strokeStyle = "#000"; // Set the color of the tick marks
+                context.stroke();
+            }
+        }
+
+        function clearCanvas() {
+            context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+            drawAxis();
+        }
+
+        function drawPoints(points) {
+            console.log("drawujem pointy");
+            //console.log(points)
+            context.strokeStyle = "#FF0000";
+            let canvasPoints = [];
+
+            // Calculate points to canvas dimension
+            for (let i = 0; i < points.length; i++) {
+                const point = points[i];
+                canvasPoints.push({
+                x: point.x * (width / 20) + width / 2,
+                y: height / 2 - point.y * (height / 20),
+                });
+            }
+
+            //Draw correct graph
+            for (let i = 0; i < canvasPoints.length - 1; i++) {
+                const point = canvasPoints[i];
+                const point2 = canvasPoints[i + 1];
+                //console.log(point, point2)
+                context.beginPath();
+                context.moveTo(point.x, point.y);
+                context.lineTo(point2.x, point2.y);
+                context.stroke();
+            }
+        }
+
+        function interpolation(points, x) {
+            // Sort points by x-value in ascending order
+            //console.log(points)
+            //points.sort((a, b) => a.x - b.x);
+            //.log(points)
+            // Find the two points that bracket x
+            let leftPoint = null;
+            let rightPoint = null;
+            for (let i = 0; i < points.length; i++) {
+                if (points[i].x < x) {
+                leftPoint = points[i];
+                } else if (points[i].x >= x && !rightPoint) {
+                rightPoint = points[i];
+                }
+            }
+
+            // If x is less than the smallest x-value or greater than the largest x-value, return null
+            if (!leftPoint || !rightPoint) {
+                return null;
+            }
+
+            // Calculate the slope of the line between the two points
+            const slope = (rightPoint.y - leftPoint.y) / (rightPoint.x - leftPoint.x);
+
+            // Calculate the y-value at x using linear interpolation
+            const y = leftPoint.y + slope * (x - leftPoint.x);
+
+            return y;
+        }
+
+        function interpolationInv(points, y, closestX) {
+            // Sort points by x-value in ascending order
+            //console.log(points)
+            //points.sort((a, b) => a.x - b.x);
+            //.log(points)
+            // Find the two points that bracket x
+            let leftPoint = null;
+            let rightPoint = null;
+            for (let i = 0; i < points.length; i++) {
+                if (points[i].y < y) {
+                leftPoint = points[i];
+                } else if (points[i].y >= y && !rightPoint) {
+                rightPoint = points[i];
+                }
+            }
+
+            // If x is less than the smallest x-value or greater than the largest x-value, return null
+            if (!leftPoint || !rightPoint) {
+                return null;
+            }
+
+            // Calculate the slope of the line between the two points
+            const slope = (rightPoint.x - leftPoint.x) / (rightPoint.y - leftPoint.y);
+
+            // Calculate the y-value at x using linear interpolation
+            const x = leftPoint.x + slope * (y - leftPoint.y);
+
+            if (closestX) {
+                let closestPoint = null;
+                let closestDistance = Infinity;
+                for (let i = 0; i < points.length; i++) {
+                const distance = Math.abs(points[i].x - x);
+                if (distance < closestDistance) {
+                    closestPoint = points[i];
+                    closestDistance = distance;
+                }
+                }
+                return closestPoint.x;
+            }
+
+            return x;
+        }
+    },
+};
+</script>
+
+<style></style>
