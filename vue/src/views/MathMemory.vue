@@ -108,6 +108,7 @@
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted, inject } from "vue";
+import store from "../store"
 //import MathJax from 'mathjax'
 
 function genNumberSequence(size) {
@@ -305,8 +306,18 @@ export default {
         state.remember = false;
         state.repeat = false;
         state.trainingEnded = true;
+        saveScore()
       }
     };
+
+    const saveScore = () => {
+      const score = {
+          game_id: 3,
+          score: state.sequenceLength - 1
+      }
+
+      store.dispatch('addScore', score);
+    }
 
 
     /*const input = ref(null)

@@ -217,6 +217,7 @@ export default {
 <style>
   :root{
     --primary-color: #0d9488;
+    /*--primary-color: #6CC4A1;*/
     --primary-color-hover: #0b8177;
   }
 

@@ -78,6 +78,7 @@
 import { XMarkIcon } from "@heroicons/vue/24/outline"
 import { reactive, toRefs } from 'vue'
 import { ref, computed, watch, onMounted } from 'vue';
+import store from "../store"
 //import MathJax from 'mathjax'
 
 function genExpression() {
@@ -148,7 +149,7 @@ export default{
         let exampleNum = 1;
         let times = [];
         const averageOfTimes = ref(0);
-
+        
         const stopwatch = computed(() => {
             if (running.value) {
                 return (Date.now() - startTime.value) / 1000;
@@ -243,8 +244,18 @@ export default{
                 averageOfTimes.value = getAverage(times)
                 averageOfTimes.value += penalties.value
                 trainingEnded.value = true;
+                saveScore()
             }
             
+        }
+
+        const saveScore = () => {
+            const score = {
+                game_id: 1,
+                score: averageOfTimes.value
+            }
+
+            store.dispatch('addScore', score);
         }
         
 

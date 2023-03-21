@@ -7,7 +7,7 @@
         </p>
     </div>-->
     <div id="chart">
-      <apexchart type="radialBar" height="220" :options="chartOptions" :series="seriesprops">
+      <apexchart type="radialBar" height="220" :options="chartOptions" :series="percentil">
         
       </apexchart>
     </div>
@@ -38,15 +38,11 @@ export default {
       type: String,
       default: "",
     },
-    percent: {
-      type: String,
-      default: "",
-    },
     points: {
-      type: String,
-      default: "",
+      type: Number,
+      default: 0,
     },
-    seriesprops: {
+    percentil: {
       type: Array,
       default: [50],
     },
@@ -127,6 +123,9 @@ export default {
             fill: {
               //type: 'gradient',
               colors: ['#06d6a0'],
+              //colors: ['#5cd1ad'],
+              //colors: ['#62c9a9'],
+              //colors: ['#33ff99'],
               /*gradient: {
                 shade: 'dark',
                 type: 'horizontal',

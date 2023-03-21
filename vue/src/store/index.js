@@ -11,11 +11,29 @@ const store = createStore({
                 //imageUrl: ,
                 //  ' ',
             },
+            scores:[],
             score:{
-                mathRe: 0,
-                numberMe: 0,
-                mathMe: 0,
-                findSa: 0,
+                mathReactions: {
+                    best: 0,
+                    percentil: 0,
+                    all: [],
+                    trainingTime: 0,
+                },
+                numberMemory: {
+                    best: 0,
+                    percentil: 0,
+                    all: [],
+                    trainingTime: 0,
+                },
+                mathMemory: {
+                    best: 0,
+                    percentil: 0,
+                    all: [],
+                    trainingTime: 0,
+                },
+                findTheSame: 0,
+                graphs: 0,
+                numberSystems: 0,
             },
 
             token: sessionStorage.getItem("TOKEN"),
@@ -56,7 +74,7 @@ const store = createStore({
                 return response;
             })
         },
-        silentAuth({ commit }) {
+        /*silentAuth({ commit }) {
             const token = sessionStorage.getItem('TOKEN');
             if (token) {
                 console.log("token true")
@@ -68,6 +86,14 @@ const store = createStore({
                   console.error('Silent auth error:', error);
                 });
             }
+        }*/
+        async fetchScores({ commit }) {
+            const response = await axiosClient.get('/scores');
+            commit('setScores', response.data);
+          },
+        async addScore({ commit }, score) {
+            const response = await axiosClient.post('/scores', score);
+            commit('addScore', response.data);
         }
     },
     mutations: {
@@ -85,19 +111,30 @@ const store = createStore({
 
             sessionStorage.setItem('TOKEN', userData.token);
         },
-        setReloadUser: (state, userData) => {
-            //console.log('setting user', userData.name)
-            
-            
-            state.user.data = userData;
-            //state.user.data.email = userData.email;
-
-            
-        },
         setToken: (state, token) => {
             state.user.token = token;
             sessionStorage.setItem('TOKEN', token);
-          },
+        },
+        /*setReloadUser: (state, userData) => {
+            //console.log('setting user', userData.name)
+            state.user.data = userData;
+            //state.user.data.email = userData.email;   
+        },*/
+        setScores: (state, scores) => {
+            state.user.scores = scores.scores
+            console.log(scores.scores)
+        },
+        addScore: (state, score) => {
+            //state.user.scores.unshift(score)
+            state.user.scores[score.game_name].all.push( {score:  score.score.score})
+            //state.user.scores[score.game_name].best = Math.min(state.user.scores[score.game_name].all)
+            console.log(state.user.scores[score.game_name])
+            
+            //.log(score.game_name)
+            // OPRAVIT  
+            console.log(score)
+        },
+
     },
     modules:{},
     plugins: [createPersistedState()]

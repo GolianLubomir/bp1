@@ -100,6 +100,7 @@
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
+import store from "../store"
 //import MathJax from 'mathjax'
 
 function genExspressionArray(size) {
@@ -263,6 +264,7 @@ export default {
             state.selectedExpId = [];
             state.foundExpId = [];
             time.value = (endTime.value - startTime.value) / 1000;
+            saveScore()
           }
           state.selectedId = [];
           state.selectedExpId = [];
@@ -279,6 +281,16 @@ export default {
       console.log(state.selectedId);
       console.log(state.foundExpId);
     };
+
+
+    const saveScore = () => {
+      const score = {
+          game_id: 4,
+          score: time.value
+      }
+
+      store.dispatch('addScore', score);
+    }
 
     return {
       ...toRefs(state),

@@ -78,6 +78,7 @@
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
+import store from "../store"
 import GraphCanvasComponent from "../components/GraphCanvasComponent.vue";
 
 
@@ -98,6 +99,7 @@ export default {
   data() {
     return {};
   },
+
 
   setup() {
 
@@ -131,6 +133,7 @@ export default {
       state.trainRunning = false;
       state.intro = false;
       state.trainingEnded = true;
+      saveScore()
     };
 
     const leaveTrain = () => {
@@ -140,7 +143,7 @@ export default {
     };
 
 
-    const training = () => {
+    /*const training = () => {
 
         if(graphNum <= 5){
 
@@ -152,9 +155,10 @@ export default {
             averageOfTimes.value = getAverage(times)
             averageOfTimes.value += penalties.value
             trainingEnded.value = true;
+            
         }
             
-    }
+    }*/
 
     const updateScore = (score) => {+
       score.forEach(element => {
@@ -187,7 +191,14 @@ export default {
       console.log(data.percentAverage, data.deviationAverage)
     } 
 
-    
+    const saveScore = () => {
+      const score = {
+          game_id: 5,
+          score: data.percentAverage
+      }
+
+      store.dispatch('addScore', score);
+    }
 
     return {
       ...toRefs(state),
@@ -199,6 +210,10 @@ export default {
 
   },
 
+  mounted() {
+      window.scrollTo(0, 0);
+      console.log(this.running);
+  }
   
   
 };

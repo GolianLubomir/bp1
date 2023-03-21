@@ -115,6 +115,7 @@ export default {
 
             fill:{
                 //colors:['#00bbf9', '#ffd166', '#06d6a0']
+                colors:['#76c0f5', '#fe5f77', '#f7cb73']
             },
             
             stroke: {
@@ -196,6 +197,7 @@ export default {
             },
             fill:{
                 //colors:['#e63946', '#06d6a0','#fb8500' ]//colors:['#ef476f', '#9b5de5', '#06d6a0']
+                colors:['#76c0f5', '#fe5f77', '#f7cb73']
             },
             stroke: {
               lineCap: 'round'

@@ -90,6 +90,7 @@ import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
 import TimerBar from "../components/TimerBar.vue"
+import store from "../store"
 //import MathJax from 'mathjax'
 
 function genNumberSequence(size) {
@@ -168,6 +169,7 @@ export default {
         state.remember = false;
         state.repeat = false;
         state.trainingEnded = true;
+        saveScore()
       }
     };
 
@@ -183,6 +185,17 @@ export default {
         }
       }
     )
+
+
+    const saveScore = () => {
+      const score = {
+          game_id: 2,
+          score: state.sequenceLength - 1
+      }
+
+      store.dispatch('addScore', score);
+    }
+
    
    
     return {

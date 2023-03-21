@@ -80,6 +80,7 @@ import NumSysInputComponent from "../components/NumSysInputComponent.vue";
 import TimerBar from "../components/TimerBar.vue";
 import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
+import store from "../store"
 
 export default {
   components: {
@@ -143,6 +144,7 @@ export default {
       state.trainRunning = false;
       state.intro = false;
       state.trainingEnded = true;
+      saveScore()
     };
 
     const leaveTrain = () => {
@@ -164,6 +166,15 @@ export default {
         data.score += 1
 
     };
+
+    const saveScore = () => {
+      const score = {
+          game_id: 6,
+          score: data.score
+      }
+
+      store.dispatch('addScore', score);
+    }
 
 
     return {
