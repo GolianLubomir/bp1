@@ -76,8 +76,8 @@
                 <StatsTileComponent
                   title="Math Reactions"
                   linkTo="MathReactions"
-                  :points="score['Math Reactions'].best"
-                  :percentil="[score['Math Reactions'].percentile]"
+                  :points="score['MathReactions'].best"
+                  :percentil="[score['MathReactions'].percentile]"
                 >
                 </StatsTileComponent>
               </router-link>
@@ -88,8 +88,8 @@
               <StatsTileComponent
                 title="Number Memory"
                 linkTo="NumberMemory"
-                :points="score['Number Memory'].best"
-                :percentil="[score['Number Memory'].percentile]"
+                :points="score['NumberMemory'].best"
+                :percentil="[score['NumberMemory'].percentile]"
               >
               </StatsTileComponent>
             </div>
@@ -99,8 +99,8 @@
               <StatsTileComponent
                 title="Math Memory"
                 linkTo="MathMemory"
-                :points="score['Math Memory'].best"
-                :percentil="[score['Math Memory'].percentile]"
+                :points="score['MathMemory'].best"
+                :percentil="[score['MathMemory'].percentile]"
               >
               </StatsTileComponent>
             </div>
@@ -110,8 +110,8 @@
               <StatsTileComponent
                 title="Find the Same"
                 linkTo="FindTheSame"
-                :points="score['Find The Same'].best"
-                :percentil="[score['Find The Same'].percentile]"
+                :points="score['FindTheSame'].best"
+                :percentil="[score['FindTheSame'].percentile]"
               >
               </StatsTileComponent>
             </div>
@@ -132,8 +132,8 @@
               <StatsTileComponent
                 title="Number Systems"
                 linkTo="NumberSystems"
-                :points="score['Number Systems'].best"
-                :percentil="[score['Number Systems'].percentile]"
+                :points="score['NumberSystems'].best"
+                :percentil="[score['NumberSystems'].percentile]"
               >
               </StatsTileComponent>
             </div>
@@ -143,7 +143,7 @@
           class="w-full h-96 my-6 border-2 border-gray-200 bg-slate-100 rounded-lg"
         >
           <div>
-            <TimerBar :time="5" :widthprops="'50px'"> </TimerBar>
+
           </div>
         </div>
       </div>

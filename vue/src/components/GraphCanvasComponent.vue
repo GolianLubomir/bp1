@@ -22,7 +22,7 @@ export default {
 
     methods: {
         updateScore (score){
-            console.log("update score")
+            //console.log("update score")
             this.$emit('update-score', score);
         }
     },
@@ -78,7 +78,7 @@ export default {
         });
 
         function correctGraph(x) {
-            return x * x; // Replace with your own math function
+            return x*x ; // Replace with your own math function
         }
 
         canvas.addEventListener("mouseleave", () => {
@@ -105,13 +105,15 @@ export default {
             let numRelevantCorrectPoints2 = 0;
             let userPoints = [];
             let difference = 0;
+            let yUser = [];
+            let yCorrect = [];
             console.log(points.length);
             if (points.length < 50 || points.length > 700) {
                 clearCanvas();
                 return;
             }
 
-            console.log(points);
+            //console.log(points);
             for (let i = 0; i < points.length; i++) {
                 const point = points[i];
                 userPoints.push({
@@ -122,7 +124,7 @@ export default {
 
             let correctPoints = [];
             for (let x = -10; x <= 10; x += 0.1) {
-                console.log("-------x: " + x);
+                //console.log("-------x: " + x);
                 const userY = interpolation(userPoints, x); // Calculate the user's y-value at x using interpolation
                 let correctY = correctGraph(x); // Calculate the correct y-value at x
                 //if(correctY > 10 || correctY < -10){
@@ -142,23 +144,35 @@ export default {
                 y: correctY,
                 });
 
+                yUser.push(userY);
+                yCorrect.push(correctY);
+
+                
+
                 //if (userY != null){
                 const userX = x;
                 const correctX = interpolationInv(correctPoints, userY, x);
-                if (correctX != null) {
-                const differenceX = Math.abs(userX - correctX);
-                const differenceY = Math.abs(userY - correctY);
+                console.log("userX: " + userX + " correctX: " + correctX)
+                console.log("userY: " + userY,"  correctY: " + correctY)
+                if (userY != null) {
+                    const differenceX = Math.abs(userX - correctX);
+                    const differenceY = Math.abs(userY - correctY);
+                    
+                    console.log("differenceX: " + differenceX + " differenceY: " + differenceY)
 
-                difference = differenceX < differenceY ? differenceX : differenceY;
-                error += difference;
-                console.log(userX, correctX);
-                console.log(userY, correctY);
-                console.log("Rozdiel x: " + differenceX + " y: " + differenceY);
-                console.log("Rozdiel: " + difference);
-                if (difference < threshold) {
-                    console.log("Correct");
-                    numUserCorrectPoints++;
-                }
+                    difference = (differenceX < differenceY && correctX !=null) ? differenceX : differenceY;
+
+                    error += difference;
+                    //console.log("++: " + difference)
+                    //console.log(userX, correctX);
+                    //console.log(userY, correctY);
+                    //console.log("Rozdiel x: " + differenceX + " y: " + differenceY);
+                    //console.log("Rozdiel: " + difference);
+                    if (difference < threshold) {
+                        //console.log("Correct");
+                        numUserCorrectPoints++;
+                        console.log("++++++++++++++++")
+                    }
                 }
 
                 //}
@@ -189,6 +203,7 @@ export default {
             console.log("Error: " + error);
             console.log(`Percentage of correct points: ${percentCorrect}%`);
 
+            console.log("Similarity: " + similarity(yUser, yCorrect));
             
             score.push({
                 percent: percentCorrect.toFixed(2),
@@ -199,7 +214,25 @@ export default {
             return;
         }
         
-       
+        
+        function similarity(y1, y2) {
+            let correlation = 0;
+            let mean_y1 = y1.reduce((acc, val) => acc + val, 0) / y1.length;
+            let mean_y2 = y2.reduce((acc, val) => acc + val, 0) / y2.length;
+            let sum_xy = 0;
+            let sum_x2 = 0;
+            let sum_y2 = 0;
+            for (let i = 0; i < y1.length; i++) {
+                let deviation_y1 = y1[i] - mean_y1;
+                let deviation_y2 = y2[i] - mean_y2;
+                sum_xy += deviation_y1 * deviation_y2;
+                sum_x2 += Math.pow(deviation_y1, 2);
+                sum_y2 += Math.pow(deviation_y2, 2);
+            }
+            correlation = sum_xy / Math.sqrt(sum_x2 * sum_y2);
+            return correlation;
+        }
+
 
         function drawAxis() {
             // Draw x-axis
@@ -258,7 +291,7 @@ export default {
         }
 
         function drawPoints(points) {
-            console.log("drawujem pointy");
+            //console.log("drawujem pointy");
             //console.log(points)
             context.strokeStyle = "#FF0000";
             let canvasPoints = [];
@@ -358,6 +391,29 @@ export default {
         }
     },
 };
+
+
+
+/* 
+function similarity($y1, $y2) {
+  $correlation = 0;
+  $mean_y1 = array_sum($y1) / count($y1);
+  $mean_y2 = array_sum($y2) / count($y2);
+  $sum_xy = 0;
+  $sum_x2 = 0;
+  $sum_y2 = 0;
+  for ($i = 0; $i < count($y1); $i++) {
+    $deviation_y1 = $y1[$i] - $mean_y1;
+    $deviation_y2 = $y2[$i] - $mean_y2;
+    $sum_xy += $deviation_y1 * $deviation_y2;
+    $sum_x2 += pow($deviation_y1, 2);
+    $sum_y2 += pow($deviation_y2, 2);
+  }
+  $correlation = $sum_xy / sqrt($sum_x2 * $sum_y2);
+  return $correlation;
+}
+
+*/ 
 </script>
 
 <style></style>

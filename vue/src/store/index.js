@@ -13,27 +13,27 @@ const store = createStore({
             },
             scores:[],
             score:{
-                mathReactions: {
+                MathReactions: {
                     best: 0,
                     percentil: 0,
                     all: [],
                     trainingTime: 0,
                 },
-                numberMemory: {
+                NumberMemory: {
                     best: 0,
                     percentil: 0,
                     all: [],
                     trainingTime: 0,
                 },
-                mathMemory: {
+                MathMemory: {
                     best: 0,
                     percentil: 0,
                     all: [],
                     trainingTime: 0,
                 },
-                findTheSame: 0,
-                graphs: 0,
-                numberSystems: 0,
+                FindTheSame: 0,
+                Graphs: 0,
+                NSumberSystems: 0,
             },
 
             token: sessionStorage.getItem("TOKEN"),
@@ -41,8 +41,12 @@ const store = createStore({
         game: {
             data: {
                 description: {
-                    mathReactions: "V hre trenujeme reakcie na matematicke výrazy. Tvojou úlohou je čo najrýchlejšie vyhodnotiť výraz a zvoliť true alebo false. Budeme merať tvoj priemerný reakčný čas pri vyhodnocovaní 5-tich roznych výrazov.",
-                    numberMemory: "Tvojou úlohou bude zapamätať si sekvenciu čísel a následne ju zapísať do poľa na obrazovke. Testujeme a trenujeme tvoju pamäť, ktorá je dôležitá pri intuitívnom riešení matematických úloh."
+                    MathReactions: "V hre trenujeme reakcie na matematicke výrazy. Tvojou úlohou je čo najrýchlejšie vyhodnotiť výraz a zvoliť true alebo false. Budeme merať tvoj priemerný reakčný čas pri vyhodnocovaní 5-tich roznych výrazov.",
+                    NumberMemory: "Tvojou úlohou bude zapamätať si sekvenciu čísel a následne ju zapísať do poľa na obrazovke. Testujeme a trenujeme tvoju pamäť, ktorá je dôležitá pri intuitívnom riešení matematických úloh.",
+                    MathMemory: "",
+                    FindTheSame: "",
+                    Graphs: "",
+                    NumberSystems: "",
                 }
             }
         }
