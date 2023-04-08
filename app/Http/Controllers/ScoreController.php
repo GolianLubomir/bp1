@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Score;
 use App\Models\Game;
+use App\Models\GeneratedScore;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,11 +19,14 @@ class ScoreController extends Controller
         $userId = Auth::id();
 
         //$scores = Score::with('user', 'game')->get();
-        $scores = Score::with('user', 'game')->where('user_id', $userId)->get();
+        $userScores = Score::with('user', 'game')->where('user_id', $userId)->get();
+        $allScores = Score::all();
         $games = Game::all();
+        $generatedScores = GeneratedScore::all();
 
         $result = [];
         $gameScoreValues = [];
+        $generatedScoreValues = [];
         
         foreach ($games as $game) {
             $result[$game->name] = [
@@ -31,16 +35,33 @@ class ScoreController extends Controller
                 'all' => [],
             ];
         }
-        
 
-        // loop through the scores and group them by game
-        foreach ($scores as $score) {
+        /*foreach ($allScores as $score) {
+            $gameId = $score->game_id;
+            //$gameName = $score->game->name;
+            $scoreValue = $score->score;
+            //$userName = $score->user->name;
+
+            $gameScoreValues[$gameId][] = $scoreValue;
+        }*/
+
+        foreach ($generatedScores as $score) {
+            $gameId = $score->game_id;
+            //$gameName = $score->game->name;
+            $scoreValue = $score->score;
+            //$userName = $score->user->name;
+
+            $generatedScoreValues[$gameId][] = $scoreValue;
+        }
+
+        // loop through the userS and group them by game
+        foreach ($userScores as $score) {
             $gameId = $score->game_id;
             $gameName = $score->game->name;
             $scoreValue = $score->score;
-            $userName = $score->user->name;
+            //$userName = $score->user->name;
 
-            $gameScoreValues[$gameName][] = $scoreValue;
+            //$gameScoreValues[$gameName][] = $scoreValue;
             /*if (!isset($result[$gameName])) {
                 $result[$gameName] = [
                     'best' => 0,
@@ -72,30 +93,69 @@ class ScoreController extends Controller
             ];
         }
 
-        foreach($gameScoreValues as $gameScoreValue){
 
-        }
-
-        foreach ($games as $game) {
+        /*foreach ($games as $game) {
             sort($gameScoreValues[$game->name]);
             $bestScoreValue = $result[$game->name]['best'];
             $position = 0;
+            $bestValues = 0;
             foreach ($gameScoreValues[$game->name] as $scoreValue){
                 if ($scoreValue < $bestScoreValue) {
                     $position++;
-                }else{
+                }else if (($scoreValue == $bestScoreValue)){
+
+                    $bestValues++;
+                }else {
                     break;
                 }
             }
+
+            if($bestValues == 1){
+                $position++;
+            }
+
             $position = $position == 0 ? 1 : $position;
             $total = count($gameScoreValues[$game->name]);
+            $result[$game->name]['percentile'] = $position / $total * 100;
+        }*/
+
+        foreach ($games as $game) {
+            sort($generatedScoreValues[$game->id]);
+            $bestScoreValue = $result[$game->name]['best'];
+            $position = 0;
+            $bestValues = 0;
+            foreach ($generatedScoreValues[$game->id] as $scoreValue){
+                if($game->id == 1 || $game->id == 4){
+                    if ($scoreValue > $bestScoreValue) {
+                        $position++;
+                    }else if (($scoreValue == $bestScoreValue)){
+
+                        $bestValues++;
+                    }
+                }else{
+                    if ($scoreValue < $bestScoreValue) {
+                        $position++;
+                    }else if (($scoreValue == $bestScoreValue)){
+
+                        $bestValues++;
+                    }else {
+                        break;
+                    }
+                }
+                
+            }
+
+            if($bestValues == 1){
+                $position++;
+            }
+
+            $position = $position == 0 ? 1 : $position;
+            $total = count($generatedScoreValues[$game->id]);
             $result[$game->name]['percentile'] = $position / $total * 100;
         }
 
 
         return response()->json(['scores' => $result]);
-
-
 
     }
 

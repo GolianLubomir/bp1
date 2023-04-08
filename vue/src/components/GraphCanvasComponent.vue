@@ -2,8 +2,21 @@
   <div >
     
 
-    <div class="flex justify-center mb-16">
+    <div class="justify-center">
+        <div class="w-96 m-auto h-28" >
+            <div v-if="training" class="">
+                <math-jax-component class="w-96 text-2xl whitespace-nowrap absolute text-white" :expression="mathjax"></math-jax-component>
+            </div>
+            <button
+                v-if="!training"
+              @click="updateScore"
+              class="inline-block bg-white mx-3 my-10 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+            >
+              Vyhodnotiť
+            </button>
+        </div>
       <canvas ref="canvas" width="400" height="400" class="bg-white"></canvas>
+      
     </div>
 
 
@@ -14,22 +27,82 @@
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
-
-
+import MathJaxComponent from '../components/MathJaxComponent.vue';
+import store from "../store"
 
 export default {
+    /*props: {
+      expression: {
+        type: Array,
+        required: true,
+      },   
+      mathjax: {
+        type: String,
+        required: true,
+      },   
+    },*/
 
+    setup(){
+        const data = reactive({
+            exps: store.state.game.training.graphs,
+            mathjax: store.state.game.training.graphs[1],
+            score: [],
+            counter: 3
+        })
 
-    methods: {
-        updateScore (score){
-            //console.log("update score")
-            this.$emit('update-score', score);
+        const state = reactive({
+            training: true,
+        })
+
+        return {
+            data,
+            state
         }
     },
 
 
+
+    components: {
+        MathJaxComponent,
+    },
+
+    computed: {
+        mathjax(){
+            return this.data.mathjax
+        },
+        training(){
+            return this.state.training
+        }
+
+    },
+
+    methods: {
+        checkScore (score){
+            console.log(score.length)
+            console.log(this.data.score.length)
+
+            this.data.score = score
+            //console.log("update score")
+            if(score.length == 5){
+                this.state.training = false;
+            }
+            this.data.mathjax = this.data.exps[this.data.counter];
+            this.data.counter += 2;
+
+        },
+
+        updateScore (){
+            this.$emit('update-score', this.data.score);
+        }
+
+
+    },
+
+    
+
     mounted() {
-        let score = []
+        let score1 = [];
+        let correctDrawn = false;
             /*.push({
                 percent: 55,
                 deviation: 23,
@@ -42,12 +115,18 @@ export default {
         const height = canvas.height;
         let points = [];
         const threshold = 1;
+        let counter = 2;
 
         drawAxis();
 
         let isDrawing = false;
         let lastX = 0;
         let lastY = 0;
+
+        //const allExpressions = store.state.game.training.graphs;
+        const allExpressions = this.data.exps
+        let expression = allExpressions[0]
+        //let mathjax = allExpressions[1]
 
         canvas.addEventListener("mousedown", (event) => {
             isDrawing = true;
@@ -78,20 +157,31 @@ export default {
         });
 
         function correctGraph(x) {
-            return x*x ; // Replace with your own math function
+            //console.log (eval('Math.log(x)'))
+            //console.log ("'" + expression + "'")
+
+            return eval(expression); 
         }
 
         canvas.addEventListener("mouseleave", () => {
             if (isDrawing) {
                 endDrawing();
+                if(correctDrawn){
+                   this.checkScore(score1); 
+                }
+                
             }
+            
         });
 
         canvas.addEventListener("mouseup", () => {
             if (isDrawing) {
                 endDrawing();
+                if(correctDrawn){
+                   this.checkScore(score1); 
+                }
             }
-            this.updateScore(score);
+
         });
 
         function endDrawing() {
@@ -110,6 +200,7 @@ export default {
             console.log(points.length);
             if (points.length < 50 || points.length > 700) {
                 clearCanvas();
+                correctDrawn = false;
                 return;
             }
 
@@ -123,15 +214,18 @@ export default {
             }
 
             let correctPoints = [];
-            for (let x = -10; x <= 10; x += 0.1) {
+            for (let x = -10; x <= 10; x += 0.05) {
                 //console.log("-------x: " + x);
                 const userY = interpolation(userPoints, x); // Calculate the user's y-value at x using interpolation
                 let correctY = correctGraph(x); // Calculate the correct y-value at x
+                //console.log(userY, correctY);
                 //if(correctY > 10 || correctY < -10){
-                if (correctY > 10 || correctY < -10) {
+                if ((correctY > 10 || correctY < -10) || isNaN(correctY)) {
                 //correctY = null;
+                    
                 } else {
                 numRelevantCorrectPoints1++;
+                //console.log(userY, correctY);
                 }
                 if (userY == null) {
                 //correctY = null;
@@ -152,13 +246,13 @@ export default {
                 //if (userY != null){
                 const userX = x;
                 const correctX = interpolationInv(correctPoints, userY, x);
-                console.log("userX: " + userX + " correctX: " + correctX)
-                console.log("userY: " + userY,"  correctY: " + correctY)
+                //console.log("userX: " + userX + " correctX: " + correctX)
+                //console.log("userY: " + userY,"  correctY: " + correctY)
                 if (userY != null) {
                     const differenceX = Math.abs(userX - correctX);
                     const differenceY = Math.abs(userY - correctY);
                     
-                    console.log("differenceX: " + differenceX + " differenceY: " + differenceY)
+                    //console.log("differenceX: " + differenceX + " differenceY: " + differenceY)
 
                     difference = (differenceX < differenceY && correctX !=null) ? differenceX : differenceY;
 
@@ -171,7 +265,7 @@ export default {
                     if (difference < threshold) {
                         //console.log("Correct");
                         numUserCorrectPoints++;
-                        console.log("++++++++++++++++")
+                        //console.log("++++++++++++++++")
                     }
                 }
 
@@ -186,8 +280,8 @@ export default {
                 //            numUserCorrectPoints++;
                 //        }
             }
-            console.log("Relevant correct points: " + numRelevantCorrectPoints1);
-            console.log("Relevant correct points: " + numRelevantCorrectPoints2);
+            console.log("Relevant correct points1: " + numRelevantCorrectPoints1);
+            console.log("Relevant correct points2: " + numRelevantCorrectPoints2);
             console.log("Num user correct points: " + numUserCorrectPoints);
             drawPoints(correctPoints);
 
@@ -205,11 +299,16 @@ export default {
 
             console.log("Similarity: " + similarity(yUser, yCorrect));
             
-            score.push({
+            score1.push({
                 percent: percentCorrect.toFixed(2),
                 deviation: error.toFixed(2),
             })
-            //this.updateScore(score)
+
+
+
+            correctDrawn = true;
+            expression = allExpressions[counter]
+            counter += 2;
             
             return;
         }

@@ -29,13 +29,22 @@
                     <div class="w-full text-end">  
                         <h1 class="text-4xl whitespace-nowrap text-white px-1 py-2"> {{num1}} {{sign}} {{num2}} </h1>
                     </div>
+                    
+
                     <div class="text-6xl text-center text-white">  
                         <h1 class="w-12 text-5xl text-white "> = </h1>
                     </div>
                     <div class="w-full text-start">  
                         <h1 class="text-4xl text-white px-1 py-2">  {{result}} </h1>
                     </div>
+
+                    <!--<div class="">
+                        <math-jax-component class="text-2xl whitespace-nowrap text-white " expression="$${-b \pm \sqrt{b^2-4ac} \over 2a}$$"></math-jax-component>
+                    </div>-->
+                    
                 </div>
+
+                
 
                 <div v-if="trainingEnded" class="pb-10 w-96 mx-auto text-center flex" > 
                     <div class="text-2xl text-white text-center">
@@ -79,6 +88,7 @@ import { XMarkIcon } from "@heroicons/vue/24/outline"
 import { reactive, toRefs } from 'vue'
 import { ref, computed, watch, onMounted } from 'vue';
 import store from "../store"
+import MathJaxComponent from '../components/MathJaxComponent.vue';
 //import MathJax from 'mathjax'
 
 function genExpression() {
@@ -136,6 +146,7 @@ export default{
 
     components: {
         XMarkIcon,
+        MathJaxComponent,
     },
 
 

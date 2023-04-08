@@ -91,6 +91,7 @@ import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
 import TimerBar from "../components/TimerBar.vue"
 import store from "../store"
+
 //import MathJax from 'mathjax'
 
 function genNumberSequence(size) {
@@ -108,7 +109,7 @@ function genNumberSequence(size) {
 export default {
   components: {
     XMarkIcon,
-    TimerBar
+    TimerBar,
   },
 
   setup() {

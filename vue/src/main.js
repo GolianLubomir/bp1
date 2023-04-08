@@ -11,6 +11,8 @@ import ApexCharts from 'apexcharts'
 import VueApexCharts from 'vue-apexcharts'
 import "./apexCharts"
 
+
+
 createApp(App).use(store).use(router).use(VueKonva).mount('#app')
 
 /*MathJax.startup.promise.then(() => {

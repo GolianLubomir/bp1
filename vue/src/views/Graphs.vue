@@ -1,9 +1,9 @@
 <template>
-  <div class="pt-10">
+  <div class="pt-0">
     <span
       v-if="trainRunning || trainingEnded"
       @click="leaveTrain"
-      class="absolute right-5"
+      class="absolute right-5 top-24"
     >
       <XMarkIcon
         class="block h-8 w-8 border border-gray-600 rounded-full p-1 text-gray-600 transition duration-300 ease-in-out hover:rounded-lg cursor-pointer"
@@ -14,7 +14,7 @@
 
 
 
-    <div v-if="intro" class="h-96">
+    <div v-if="intro" class="h-96 pt-10 mb-20">
       <div class="py-2 text-center">
         <h1 class="text-5xl text-white">Graphs</h1>
       </div>
@@ -36,9 +36,9 @@
 
 
 
-    <div v-if="trainRunning"  class="flex justify-center mb-16">
+    <div v-if="trainRunning"  class="flex justify-center mb-8">
       <!--<canvas ref="canvas" width="400" height="400" class="bg-white"></canvas>-->
-      <GraphCanvasComponent @update-score="updateScore"> </GraphCanvasComponent>
+      <GraphCanvasComponent @update-score="updateScore"  > </GraphCanvasComponent>
       <!--<div class="text-white text-lg p-3">
         <p v-for="scoreItem in score" :key="scoreItem.percent"> Score: {{scoreItem.percent}}</p>
       </div>-->
@@ -62,9 +62,15 @@
           <div class="text-lg text-white text-center py-6">
             <button
               @click="startTrain"
-              class="bg-white px-3 py-1 text-black rounded-full"
+              class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
             >
               Try again!
+            </button>
+            <button
+              @click="saveScore"
+              class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+            >
+              Save score
             </button>
           </div>
         </div>
@@ -80,11 +86,8 @@ import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
 import store from "../store"
 import GraphCanvasComponent from "../components/GraphCanvasComponent.vue";
+import { useStore } from 'vuex';
 
-
-function genExpression(){
-    return "x*x"
-}
 
 export default {
   components: {
@@ -96,6 +99,8 @@ export default {
     
   },
 
+
+
   data() {
     return {};
   },
@@ -104,9 +109,12 @@ export default {
   setup() {
 
 
-
+    const store = useStore();
     let graphNum = 1
     let percentArray = []
+
+    const allExpressions = {}
+
     const state = reactive({
         trainingEnded: false,
         trainRunning: false,
@@ -125,7 +133,6 @@ export default {
       state.trainRunning = true;
       state.intro = false;
       state.trainingEnded = false;
-
       
     };
 
@@ -133,7 +140,7 @@ export default {
       state.trainRunning = false;
       state.intro = false;
       state.trainingEnded = true;
-      saveScore()
+      //saveScore()
     };
 
     const leaveTrain = () => {
@@ -143,24 +150,7 @@ export default {
     };
 
 
-    /*const training = () => {
-
-        if(graphNum <= 5){
-
-            let arrexpression =  genExpression()
-
-            
-
-        }else{
-            averageOfTimes.value = getAverage(times)
-            averageOfTimes.value += penalties.value
-            trainingEnded.value = true;
-            
-        }
-            
-    }*/
-
-    const updateScore = (score) => {+
+    const updateScore = (score) => {
       score.forEach(element => {
         console.log("updateScore: " + element.percent)
       });
@@ -170,8 +160,6 @@ export default {
           calcResult()
           stopTrain();
         }
-        //data.score.deviation = score.deviation
-
     };
 
     const calcResult = () => {
@@ -200,12 +188,21 @@ export default {
       store.dispatch('addScore', score);
     }
 
+    
+
     return {
       ...toRefs(state),
       ...toRefs(data),
       startTrain,
       leaveTrain,
-      updateScore
+      updateScore,
+      saveScore,
+      expression: computed(() => {
+        return allExpressions
+      }),
+      /*mathjax: computed(() => {
+        return mathjax_i
+      })*/
     };
 
   },
@@ -213,6 +210,7 @@ export default {
   mounted() {
       window.scrollTo(0, 0);
       console.log(this.running);
+      store.dispatch('fetchGraphsExpressions');
   }
   
   

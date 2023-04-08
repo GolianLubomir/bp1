@@ -41,18 +41,29 @@ const store = createStore({
         game: {
             data: {
                 description: {
-                    MathReactions: "V hre trenujeme reakcie na matematicke výrazy. Tvojou úlohou je čo najrýchlejšie vyhodnotiť výraz a zvoliť true alebo false. Budeme merať tvoj priemerný reakčný čas pri vyhodnocovaní 5-tich roznych výrazov.",
+                    MathReactions: "V trenujeme reakcie na matematicke výrazy. Tvojou úlohou je čo najrýchlejšie vyhodnotiť výraz a zvoliť true alebo false. Budeme merať tvoj priemerný reakčný čas pri vyhodnocovaní 5-tich roznych výrazov.",
                     NumberMemory: "Tvojou úlohou bude zapamätať si sekvenciu čísel a následne ju zapísať do poľa na obrazovke. Testujeme a trenujeme tvoju pamäť, ktorá je dôležitá pri intuitívnom riešení matematických úloh.",
-                    MathMemory: "",
-                    FindTheSame: "",
-                    Graphs: "",
-                    NumberSystems: "",
+                    MathMemory: "sdavav",
+                    FindTheSame: "advadvadv",
+                    Graphs: "Táto hra hráčovi umožňuje trénovať grafy matematických funkcií. Cieľom je nakresliť správny graf zadanej funkcie pomocou interaktívneho kresliaceho panelu a získať body. Hra má základné aj pokročilé funkcie. Cieľom je získať čo najviac bodov. Hra je vhodná pre študentov matematiky a pre všetkých, ktorí sa chcú zabaviť a zlepšiť svoje matematické zručnosti",
+                    NumberSystems: "advadv",
                 }
+            },
+            training: {
+                graphs:{}
             }
         }
 
     },
-    getters: {},
+    getters: {
+        allExpressions: state => {
+            const easyExpressions = Object.values(state.game.training.graphs.easy)  || [];
+            const mediumExpressions = Object.values(state.game.training.graphs.medium)  || [];
+            const hardExpressions = Object.values(state.game.training.graphs.hard) || [];
+            console.log(mediumExpressions)
+            return [...easyExpressions, ...mediumExpressions, ...hardExpressions];
+        }
+    },
     actions: {
         register({commit}, user) {
             return axiosClient.post('/register', user)
@@ -68,6 +79,7 @@ const store = createStore({
             .then(({data}) => {
             commit('setUser', data.user);
             commit('setToken', data.token)
+            dispatch("fetchScores");
             return data;
             })
         },
@@ -98,7 +110,11 @@ const store = createStore({
         async addScore({ commit }, score) {
             const response = await axiosClient.post('/scores', score);
             commit('addScore', response.data);
-        }
+        },
+        async fetchGraphsExpressions({ commit }) {
+            const response = await axiosClient.get('/training/graphs');
+            commit('setGraphsExpressions', response.data);
+        },
     },
     mutations: {
         logout: (state) => {
@@ -138,10 +154,21 @@ const store = createStore({
             // OPRAVIT  
             console.log(score)
         },
+        setGraphsExpressions: (state, expressions) => {
+            state.game.training.graphs = expressions.expressions
+            console.log(expressions.expressions)
+        },
 
     },
     modules:{},
-    plugins: [createPersistedState()]
+    plugins: [
+        createPersistedState({
+          reducer: (state) => ({
+            user: state.user,
+          }),
+          expires: 12 * 60 * 60 * 1000, // 1 hour
+        }),
+    ],
 
 })
 

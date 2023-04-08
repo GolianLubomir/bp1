@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\TrainingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,4 +44,5 @@ Route::middleware('auth:api')->get('/auth/check', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/scores', [ScoreController::class, 'getScores']);
     Route::post('/scores', [ScoreController::class, 'addScore']);
+    Route::get('/training/graphs', [TrainingController::class, 'getGraphsExpressions']);
 });
