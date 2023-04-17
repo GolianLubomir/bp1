@@ -40,33 +40,10 @@
                 !selectedId.includes(expression.id) &&
                 !foundExpId.includes(expression.expId),
             }"
-            class="h-24 p-3 flex items-center justify-center border cursor-pointer"
+            class="h-24 px-3 relative w-48 border cursor-pointer"
           >
-            <h1
-              v-if="expression.exp.num1"
-              class="text-4xl whitespace-nowrap text-white px-1 py-2"
-            >
-              {{ expression.exp.num1 }}{{ expression.exp.sign
-              }}{{ expression.exp.num2 }}
-            </h1>
-            <h1
-              v-if="!expression.exp.num1"
-              class="text-4xl whitespace-nowrap text-white px-1 py-2"
-            >
-              {{ expression.exp }}
-            </h1>
+            <math-jax-component class="mx-auto text-3xl whitespace-nowrap text-white" :expression="expression.exp"></math-jax-component>
           </div>
-          <!--<div
-            v-for="expression in expressions"
-            :key="expression.id"
-            @click="fnc(expression.id)"
-            :class="{ 'grid-item-selected': selected.includes(expression.id), 'grid-item-found': found.includes(expression.id) }"
-            class=" h-24 p-3 flex items-center justify-center border"
-        >
-            <h1 class="text-4xl whitespace-nowrap text-white px-1 py-2">
-            {{ expression.exp.res }}
-            </h1>
-        </div>-->
         </div>
       </div>
       <div>
@@ -84,9 +61,15 @@
           <div class="text-lg text-white text-center py-6">
             <button
               @click="startTrain"
-              class="bg-white px-3 py-1 text-black rounded-full"
+              class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
             >
               Try again!
+            </button>
+            <button
+              @click="saveScore"
+              class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+            >
+              Save score
             </button>
           </div>
         </div>
@@ -100,80 +83,16 @@
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
+import MathJaxComponent from '../components/MathJaxComponent.vue';
 import store from "../store"
+
 //import MathJax from 'mathjax'
 
-function genExspressionArray(size) {
-  let arr;
-  let arr2 = [];
-  let difficulty;
-  let results = [];
-
-  for (let i = 0; i < size; i++) {
-    if (i == 0) {
-      difficulty = 10;
-    } else if (i == 1 || i == 2) {
-      difficulty = 20;
-    } else if (i == 3) {
-      difficulty = 30;
-    } else {
-      difficulty = 50;
-    }
-    //difficulty = (i+1)*10 % 50
-    let num1 = Math.floor(Math.random() * difficulty) + 1;
-    let num2 = Math.floor(Math.random() * difficulty) + 1;
-
-    //let result = num1 + num2;
-
-    if (Math.floor(Math.random() * 2) == 0) {
-      arr = [num1, num2, num1 + num2, " + "];
-    } else {
-      if (num1 > num2) {
-        arr = [num1, num2, num1 - num2, " - "];
-      } else {
-        arr = [num2, num1, num2 - num1, " - "];
-      }
-    }
-
-    if (results.includes(arr[2])) {
-      console.log(arr[2]);
-      console.log(results);
-      --i;
-    } else {
-      results.push(arr[2]);
-
-      arr2.push({
-        id: i + 1,
-        expId: i + 1,
-        exp: {
-          num1: arr[0].toString(),
-          num2: arr[1].toString(),
-          res: arr[2].toString(),
-          sign: arr[3],
-        },
-      });
-      arr2.push({
-        id: i + 1 + size,
-        expId: i + 1,
-        exp: arr[2].toString(),
-      });
-    }
-  }
-
-  console.log(arr2);
-  shuffle(arr2);
-  console.log(arr2);
-  return arr2;
-}
-
-function shuffle(array) {
-  array.sort(() => Math.random() - 0.5);
-  return array.sort(() => Math.random() - 0.5);
-}
 
 export default {
   components: {
     XMarkIcon,
+    MathJaxComponent,
   },
 
   setup() {
@@ -213,21 +132,25 @@ export default {
       selectedId: [],
       selectedExpId: [],
       foundExpId: [],
-      expressions: [
-        /*{id:1, exp: {num1: "5", num2: "5", res: "10", sign: "+"}},
-        {id:2, exp: {num1: "3", num2: "6", res: "9", sign: "+"}},
-        {id:3, exp: {num1: "4", num2: "3", res: "1", sign: "-"}},*/
-      ],
+      expressions: [],
     });
 
-    const data = reactive({
+    const data = reactive({ 
       num1: 0,
       num2: 0,
       sign: "",
       result: 0,
       expectedAnswer: null,
       answer: null,
+      databaseExpressions: null
     });
+
+    watch(
+      () => store.state.game.training.findthesame,
+      (newValue) => {
+        data.databaseExpressions = newValue;
+      }
+    );
 
     const startTrain = () => {
       state.trainRunning = true;
@@ -246,7 +169,8 @@ export default {
     };
 
     const training = () => {
-      state.expressions = genExspressionArray(8);
+      console.log(data.databaseExpressions)
+      state.expressions = getExpressions(8);
       startStopwatch();
     };
 
@@ -264,7 +188,7 @@ export default {
             state.selectedExpId = [];
             state.foundExpId = [];
             time.value = (endTime.value - startTime.value) / 1000;
-            saveScore()
+            //saveScore()
           }
           state.selectedId = [];
           state.selectedExpId = [];
@@ -292,6 +216,73 @@ export default {
       store.dispatch('addScore', score);
     }
 
+    const getExpressions = (size) => {
+      let arr;
+      let arr2 = [];
+      let difficulty;
+      let results = [];
+
+      for (let i = 0; i < 2; i++) {
+
+        difficulty = 50
+        let num1 = Math.floor(Math.random() * difficulty) + 1;
+        let num2 = Math.floor(Math.random() * difficulty) + 1;
+
+        if (Math.floor(Math.random() * 2) == 0) {
+          arr = [num1, num2, num1 + num2, " + "];
+        } else {
+          if (num1 > num2) {
+            arr = [num1, num2, num1 - num2, " - "];
+          } else {
+            arr = [num2, num1, num2 - num1, " - "];
+          }
+        }
+
+        if (results.includes(arr[2])) {
+          console.log(arr[2]);
+          console.log(results);
+          --i;
+        } else {
+          results.push(arr[2]);
+
+          arr2.push({
+            id: i + 1,
+            expId: i + 1,
+            exp: '$${' + arr[0] + ' ' + arr[3] + ' ' + arr[1] + '}$$',
+          });
+          arr2.push({
+            id: i + 1 + size,
+            expId: i + 1,
+            exp: '$${' + arr[2].toString() + '}$$',
+          });
+        }
+      }
+
+      for( let i = 0; i < 6; i++){
+        arr2.push({
+            id: i + 3,
+            expId: i + 3,
+            exp: data.databaseExpressions[i].mathjax_1,
+          });
+          arr2.push({
+            id: i + 3 + size,
+            expId: i + 3,
+            exp: data.databaseExpressions[i].mathjax_2,
+          });
+      }
+
+
+      console.log(arr2);
+      shuffle(arr2);
+      console.log(arr2);
+      return arr2;
+    }
+
+    const shuffle = (array) => {
+      array.sort(() => Math.random() - 0.5);
+      return array.sort(() => Math.random() - 0.5);
+    }
+
     return {
       ...toRefs(state),
       ...toRefs(data),
@@ -303,13 +294,20 @@ export default {
       startStopwatch,
       stopStopwatch,
       time,
+      saveScore,
     };
   },
 
   mounted() {
       window.scrollTo(0, 0);
-      console.log(this.running);
-  }
+      console.log("mounted");
+  },
+
+  created(){
+    store.dispatch('fetchFindTheSameExpressions'); 
+    console.log("created");
+  } 
+
 };
 </script>
 
@@ -324,4 +322,8 @@ export default {
 .grid-item-none {
   background-color: #0f766e;
 }
+.mjx-container{
+  margin: 0;
+}
+
 </style>

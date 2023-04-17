@@ -4,16 +4,43 @@
 
     <div class="justify-center">
         <div class="w-96 m-auto h-28" >
-            <div v-if="training" class="">
-                <math-jax-component class="w-96 text-2xl whitespace-nowrap absolute text-white" :expression="mathjax"></math-jax-component>
+            <div class="">
+                <math-jax-component class="w-96 text-3xl whitespace-nowrap absolute text-white" :expression="mathjax"></math-jax-component>
+                <div class="flex justify-between mt-1">
+                    <!--<div class="text-white text-right right flex"> <p> O </p> <p> O </p> <p> O </p> </div>-->
+                    <p class="text-white text-xl ">Score: {{numCorrectGraphs}}</p> 
+                    <LivesComponent :lives="lives" /> 
+                </div>
             </div>
-            <button
+            <!--<button
                 v-if="!training"
               @click="updateScore"
               class="inline-block bg-white mx-3 my-10 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
             >
               Vyhodnotiť
-            </button>
+            </button>-->
+            <div v-if="drawEnded" class="w-full flex justify-between">
+                <div class="mt-9 h-7 text-slate-100 text-lg w-28 font-bold  rounded-full py-0 px-4 ">
+                    {{lastScore}} %
+                </div>
+                <button
+                    v-if="training"
+                    @click="nextDrawn"
+                    class="inline-block mt-9 h-7 hover:text-amber-600 text-gray-500  font-bold py-0 px-4 rounded-full bg-white myButtonShadow"
+                    >
+                    Next -> 
+                </button>
+
+                <button
+                    v-if="!training"
+                    @click="updateScore"
+                    class="inline-block bg-white mx-3 mt-9 h-7  hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+                    >
+                    Evaluate
+                </button>
+                
+            </div>
+            
         </div>
       <canvas ref="canvas" width="400" height="400" class="bg-white"></canvas>
       
@@ -28,6 +55,8 @@ import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
 import MathJaxComponent from '../components/MathJaxComponent.vue';
+import LivesComponent from '../components/LivesComponent.vue'; 
+
 import store from "../store"
 
 export default {
@@ -47,11 +76,19 @@ export default {
             exps: store.state.game.training.graphs,
             mathjax: store.state.game.training.graphs[1],
             score: [],
-            counter: 3
+            lastScore: 0,
+            counter: 3,
+            canvas: null,
+            context: null,
+            canvasWidth: null,
+            canvasHeight: null,
+            lives: 3,
+            numCorrectGraphs: 0,
         })
 
         const state = reactive({
             training: true,
+            drawEnded: false,
         })
 
         return {
@@ -64,6 +101,7 @@ export default {
 
     components: {
         MathJaxComponent,
+        LivesComponent,
     },
 
     computed: {
@@ -72,27 +110,116 @@ export default {
         },
         training(){
             return this.state.training
+        },
+        drawEnded(){
+            return this.state.drawEnded
+        },
+        lastScore(){
+            return this.data.lastScore
+        },
+        lives(){
+            return this.data.lives
+        },
+        numCorrectGraphs(){
+            return this.data.numCorrectGraphs
         }
 
     },
 
     methods: {
         checkScore (score){
-            console.log(score.length)
-            console.log(this.data.score.length)
-
-            this.data.score = score
-            //console.log("update score")
-            if(score.length == 5){
-                this.state.training = false;
+            //console.log(score.length)
+            //console.log(this.data.score.length)
+            let lastScore = score.slice(-1)[0].percent
+            this.data.lastScore = lastScore
+            if(lastScore > 70){
+                this.data.score = score
+                this.data.numCorrectGraphs++
+            }else{
+                this.data.lives--
             }
+
+            
+            console.log(score.slice(-1)[0].percent)
+
+
+            //console.log("update score")
+            if(this.data.lives == 0){
+                this.state.training = false;
+                this.state.drawEnded = true;
+            }else{
+                this.state.drawEnded = true;
+            }
+            //this.data.mathjax = this.data.exps[this.data.counter];
+            //this.data.counter += 2;
+        },
+
+        updateScore (){
+            this.$emit('update-score', this.data.numCorrectGraphs);
+        },
+
+        nextDrawn(){
+            this.state.drawEnded = false;
+            this.clearCanvas(this.data.context, this.data.canvas);
             this.data.mathjax = this.data.exps[this.data.counter];
             this.data.counter += 2;
 
         },
 
-        updateScore (){
-            this.$emit('update-score', this.data.score);
+        clearCanvas(context, canvas) {
+            context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+            this.drawAxis(this.data.context, this.data.canvasWidth, this.data.canvasHeight);
+        },
+
+        drawAxis(context, width, height) {
+            // Draw x-axis
+            context.strokeStyle = "#000";
+            context.beginPath();
+            context.moveTo(0, height / 2);
+            context.lineTo(width, height / 2);
+            context.stroke();
+
+            // Draw y-axis
+            context.beginPath();
+            context.moveTo(width / 2, 0);
+            context.lineTo(width / 2, height);
+            context.stroke();
+
+            // Draw Grid
+            // Draw x-axis ticks
+            for (let x = -10; x <= 10; x++) {
+                const xPos = (x + 10) * (width / 20);
+                context.beginPath();
+                context.moveTo(xPos, 0);
+                context.lineTo(xPos, height);
+                context.strokeStyle = "#ddd"; // Set the color of the grid lines
+                context.stroke();
+
+                // Draw the tick mark at the bottom of the canvas
+                context.beginPath();
+                context.moveTo(xPos, height / 2 - 5);
+                context.lineTo(xPos, height / 2 + 5);
+                context.strokeStyle = "#000"; // Set the color of the tick marks
+                context.stroke();
+            }
+
+            // Draw Grid
+            // Draw y-axis ticks
+            for (let y = -10; y <= 10; y++) {
+                const yPos = (y + 10) * (height / 20);
+                context.beginPath();
+                context.moveTo(0, yPos);
+                context.lineTo(height, yPos);
+                context.strokeStyle = "#ddd"; // Set the color of the grid lines
+                context.stroke();
+
+                // Draw the tick mark at the bottom of the canvas
+                context.beginPath();
+                context.moveTo(width / 2 - 5, yPos);
+                context.lineTo(width / 2 + 5, yPos);
+                context.strokeStyle = "#000"; // Set the color of the tick marks
+                context.stroke();
+            }
         }
 
 
@@ -103,6 +230,7 @@ export default {
     mounted() {
         let score1 = [];
         let correctDrawn = false;
+        
             /*.push({
                 percent: 55,
                 deviation: 23,
@@ -111,8 +239,12 @@ export default {
 
         const canvas = this.$refs.canvas;
         const context = canvas.getContext("2d");
+        this.data.canvas = canvas;
+        this.data.context = context;
         const width = canvas.width;
         const height = canvas.height;
+        this.data.canvasWidth = width;
+        this.data.canvasHeight = height;
         let points = [];
         const threshold = 1;
         let counter = 2;
@@ -301,12 +433,13 @@ export default {
             
             score1.push({
                 percent: percentCorrect.toFixed(2),
-                deviation: error.toFixed(2),
+                //deviation: error.toFixed(2),
             })
 
 
 
             correctDrawn = true;
+
             expression = allExpressions[counter]
             counter += 2;
             

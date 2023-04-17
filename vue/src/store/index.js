@@ -50,7 +50,8 @@ const store = createStore({
                 }
             },
             training: {
-                graphs:{}
+                findthesame:{},
+                graphs:{},
             }
         }
 
@@ -115,6 +116,10 @@ const store = createStore({
             const response = await axiosClient.get('/training/graphs');
             commit('setGraphsExpressions', response.data);
         },
+        async fetchFindTheSameExpressions({ commit }) {
+            const response = await axiosClient.get('/training/findthesame');
+            commit('setFindTheSameExpressions', response.data);
+        },
     },
     mutations: {
         logout: (state) => {
@@ -158,6 +163,10 @@ const store = createStore({
             state.game.training.graphs = expressions.expressions
             console.log(expressions.expressions)
         },
+        setFindTheSameExpressions: (state, expressions) => {
+            state.game.training.findthesame = expressions.expressions
+            console.log(expressions.expressions)
+        },
 
     },
     modules:{},
@@ -166,7 +175,7 @@ const store = createStore({
           reducer: (state) => ({
             user: state.user,
           }),
-          expires: 12 * 60 * 60 * 1000, // 1 hour
+          expires: 12 * 60 * 60 * 1000, // 12 hour
         }),
     ],
 

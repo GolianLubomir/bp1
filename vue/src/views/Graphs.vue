@@ -56,8 +56,7 @@
         <div v-if="trainingEnded" class="w-full h-80">
           <div class="text-4xl text-white text-center py-9">
             <p>{{ percentAverage }} %</p>
-            <p class="text-1xl pt-6">and deviation</p>
-            <p class="text-3xl pt-6">{{deviationAverage}}</p>
+            
           </div>
           <div class="text-lg text-white text-center py-6">
             <button
@@ -110,10 +109,10 @@ export default {
 
 
     const store = useStore();
-    let graphNum = 1
-    let percentArray = []
+    //let graphNum = 1
+    //let percentArray = []
 
-    const allExpressions = {}
+    //const allExpressions = {}
 
     const state = reactive({
         trainingEnded: false,
@@ -123,7 +122,7 @@ export default {
     })
     const data = reactive({
         percentAverage: 0,
-        deviationAverage: 0,
+        //deviationAverage: 0,
         score: {
             
         },
@@ -156,27 +155,26 @@ export default {
       });
         
         data.score = score
-        if(data.score.length == 5){
+        //if(data.score.length == 5){
           calcResult()
           stopTrain();
-        }
+        //}
     };
 
     const calcResult = () => {
       let percentAvg = 0
-      let deviationAvg = 0 
+      //let deviationAvg = 0 
       data.score.forEach(el => {
-        console.log(el.percent, el.deviation)
         percentAvg += parseFloat(el.percent)
-        deviationAvg += parseFloat(el.deviation)
+        //deviationAvg += parseFloat(el.deviation)
       });
 
-      console.log(percentAvg, deviationAvg)
-      console.log(data.score.length)
+      //console.log(percentAvg)
+      console.log("length: " + data.score.length)
 
       data.percentAverage = (percentAvg / data.score.length).toFixed(2)
-      data.deviationAverage = (deviationAvg / data.score.length).toFixed(2)
-      console.log(data.percentAverage, data.deviationAverage)
+      //data.deviationAverage = (deviationAvg / data.score.length).toFixed(2)
+      console.log("priemer: " + data.percentAverage)
     } 
 
     const saveScore = () => {
@@ -197,9 +195,9 @@ export default {
       leaveTrain,
       updateScore,
       saveScore,
-      expression: computed(() => {
+      /*expression: computed(() => {
         return allExpressions
-      }),
+      }),*/
       /*mathjax: computed(() => {
         return mathjax_i
       })*/
@@ -209,7 +207,6 @@ export default {
 
   mounted() {
       window.scrollTo(0, 0);
-      console.log(this.running);
       store.dispatch('fetchGraphsExpressions');
   }
   

@@ -45,4 +45,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/scores', [ScoreController::class, 'getScores']);
     Route::post('/scores', [ScoreController::class, 'addScore']);
     Route::get('/training/graphs', [TrainingController::class, 'getGraphsExpressions']);
+    Route::get('/training/findthesame', [TrainingController::class, 'getFindTheSameExpressions']);
 });
