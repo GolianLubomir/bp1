@@ -174,6 +174,7 @@ const store = createStore({
         createPersistedState({
           reducer: (state) => ({
             user: state.user,
+            
           }),
           expires: 12 * 60 * 60 * 1000, // 12 hour
         }),

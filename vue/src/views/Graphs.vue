@@ -24,11 +24,16 @@
         </h1>
         <h1 class="text-xl text-white">We will measure your solution time.</h1>
         <button
-          @click="startTrain"
-          class="border rounded-full mt-4 px-2 pb-1 text-2xl text-white"
-        >
-          Click here to start.
-        </button>
+            @click="startTrain"
+            :disabled="!dataLoaded"
+            :class="{
+              'opacity-70': !dataLoaded,
+              'opacity-100': dataLoaded
+            }"
+            class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
+          >
+            Click here to start.
+          </button>
       </div>
     </div>
 
@@ -49,28 +54,36 @@
     <div>
         <div v-if="trainingEnded" class="pt-10 w-96 mx-auto text-center">
           <div class="text-2xl text-white text-center"> 
-            <p>Your average percentage of drawing graphs is</p>
+            <p>Your graph drawing score is</p>
           </div>
         </div>
 
         <div v-if="trainingEnded" class="w-full h-80">
-          <div class="text-4xl text-white text-center py-9">
-            <p>{{ percentAverage }} %</p>
+          <div class="text-4xl text-white text-center py-6">
+            <p>{{score}}</p>
             
           </div>
-          <div class="text-lg text-white text-center py-6">
+          <div class="text-xl text-white text-center"> 
+            <p>Your average percentage of all graphs drawn is</p> 
+            <p>{{ percentAverage }} %</p>
+          </div>
+
+          <div class="text-lg text-white text-center py-12">
             <button
               @click="startTrain"
+              :disabled="!dataLoaded"
               class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
             >
               Try again!
             </button>
             <button
-              @click="saveScore"
-              class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
-            >
-              Save score
-            </button>
+                  @click="saveScore"
+                  :disabled="scoreSaved"
+                  class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+                  >
+                  <p v-if="!scoreSaved">Save score</p>
+                  <p v-if="scoreSaved">Score saved</p>
+              </button>
           </div>
         </div>
       </div>
@@ -117,28 +130,38 @@ export default {
     const state = reactive({
         trainingEnded: false,
         trainRunning: false,
+        dataLoaded: false,
         intro: true,
         isDrawing: false,
+        scoreSaved: false,
     })
     const data = reactive({
         percentAverage: 0,
         //deviationAverage: 0,
-        score: {
-            
-        },
+        score: 0
     })
+
+    watch(
+      () => store.state.game.training.graphs,
+      (newValue) => {
+        
+        state.dataLoaded = true;
+      }
+    );
 
     const startTrain = () => {
       state.trainRunning = true;
       state.intro = false;
       state.trainingEnded = false;
-      
+      state.scoreSaved = false;
     };
 
     const stopTrain = () => {
       state.trainRunning = false;
       state.intro = false;
       state.trainingEnded = true;
+      state.dataLoaded = false;
+      store.dispatch('fetchGraphsExpressions');
       //saveScore()
     };
 
@@ -146,33 +169,37 @@ export default {
       state.trainRunning = false;
       state.intro = true;
       state.trainingEnded = false;
+      state.dataLoaded = false;
+      store.dispatch('fetchGraphsExpressions');
     };
 
 
     const updateScore = (score) => {
-      score.forEach(element => {
+      /*score.forEach(element => {
         console.log("updateScore: " + element.percent)
-      });
+      });*/
         
-        data.score = score
+        data.score = score.numCorrectGraphs
         //if(data.score.length == 5){
-          calcResult()
+          calcResult(score.percentArr)
           stopTrain();
         //}
     };
 
-    const calcResult = () => {
+    const calcResult = (array) => {
+      console.log(array)
       let percentAvg = 0
       //let deviationAvg = 0 
-      data.score.forEach(el => {
+      array.forEach(el => {
         percentAvg += parseFloat(el.percent)
         //deviationAvg += parseFloat(el.deviation)
       });
 
       //console.log(percentAvg)
-      console.log("length: " + data.score.length)
+      console.log("length: " + array.length)
+      console.log("sum percent: " + percentAvg)
 
-      data.percentAverage = (percentAvg / data.score.length).toFixed(2)
+      data.percentAverage = (percentAvg / array.length).toFixed(2)
       //data.deviationAverage = (deviationAvg / data.score.length).toFixed(2)
       console.log("priemer: " + data.percentAverage)
     } 
@@ -180,10 +207,11 @@ export default {
     const saveScore = () => {
       const score = {
           game_id: 5,
-          score: data.percentAverage
+          score: data.score
       }
 
       store.dispatch('addScore', score);
+      state.scoreSaved = true;
     }
 
     

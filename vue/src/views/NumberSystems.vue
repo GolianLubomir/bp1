@@ -1,7 +1,7 @@
 <template>
   <div class="pb-1">
     <div class="h-2.5">
-        <TimerBar v-if="trainRunning" :time="60" :widthprops="'100%'"> </TimerBar>
+        <TimerBar v-if="trainRunning" :time="timeToSolve" :widthprops="'100%'"> </TimerBar>
     </div>
     
 
@@ -28,10 +28,10 @@
             We will measure how many conversions you can do.
           </h1>
           <button
-            @click="startTrain"
-            class="border rounded-full mt-4 px-2 pb-1 text-2xl text-white"
+              @click="startTrain"
+              class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
           >
-            Click here to start.
+              Click here to start.
           </button>
         </div>
       </div>
@@ -62,11 +62,20 @@
           </div>
           <div class="text-lg text-white text-center py-6">
             <button
-              @click="startTrain"
-              class="bg-white px-3 py-1 text-black rounded-full"
-            >
-              Try again!
-            </button>
+                  @click="startTrain"
+                  
+                  class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+                  >
+                  Try again!
+              </button>
+              <button
+                  @click="saveScore"
+                  :disabled="scoreSaved"
+                  class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+                  >
+                  <p v-if="!scoreSaved">Save score</p>
+                  <p v-if="scoreSaved">Score saved</p>
+              </button>
           </div>
         </div>
       </div>
@@ -123,13 +132,13 @@ export default {
       trainingEnded: false,
       trainRunning: false,
       intro: true,
-
+      scoreSaved: false,
 
     });
 
     const data = reactive({
-        score: 0
-
+        score: 0,
+        timeToSolve: 120,
     });
 
     const startTrain = () => {
@@ -137,6 +146,7 @@ export default {
       state.trainRunning = true;
       state.intro = false;
       state.trainingEnded = false;
+      state.scoreSaved = false;
       training();
     };
 
@@ -144,7 +154,6 @@ export default {
       state.trainRunning = false;
       state.intro = false;
       state.trainingEnded = true;
-      saveScore()
     };
 
     const leaveTrain = () => {
@@ -158,7 +167,7 @@ export default {
       //startStopwatch();
       setTimeout(() => {
             stopTrain()
-        }, 60000);
+        }, data.timeToSolve * 1000);
     };
 
     const updateScore = () => {
@@ -174,6 +183,7 @@ export default {
       }
 
       store.dispatch('addScore', score);
+      state.scoreSaved = true;
     }
 
 
@@ -183,6 +193,7 @@ export default {
       startTrain,
       leaveTrain,
       updateScore,
+      saveScore,
     };
   },
 

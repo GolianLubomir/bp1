@@ -16,48 +16,25 @@
             Remember the number that appears and then write it in the field
           </h1>
           <button
-            @click="startTrain"
-            class="border rounded-full mt-4 px-2 pb-1 text-2xl text-white"
+              @click="startTrain"
+              class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
           >
-            Click here to start.
+              Click here to start.
           </button>
         </div>
-
-        <!--<div>
-                    <p>Here is an example of a mathematical expression: $\frac{1}{2}$. $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$</p>
-                    <p>Here is another expression: $sqrt{2x^2+5x+3}$.</p>
-                    <p>When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they
-                        are $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$</p>
-                </div>-->
       </div>
 
       <div v-if="trainRunning" class="h-96 flex items-center justify-center">
         <div v-if="remember || repeat" class="w-96">
-          <TimerBar :time="timeToRemember" :widthprops="'100%'"> </TimerBar>
-          <div
-            v-if="remember"
-            class="pb-10 w-full h-24 mx-auto flex items-center justify-center"
-          >
-            
-            <p class="text-white text-5xl">{{ numbersSequence }}</p>
-          </div>
-
-          <div v-if="repeat" class="pb-10 w-min h-24 mx-auto">
-            <input
-              ref="input"
-              type="text"
-              v-model="inputText"
-              @keyup.enter="submit"
-              class="bg-teal-500 border-2 text-center text-5xl text-white h-16 w-96 pb-3 focus:border-slate-600 focus:ring-slate-600"
-            />
-            <button
-              @click="submit"
-              class="bg-white px-3 py-1 my-6 text-black text-lg rounded-full"
-            >
-              Submit!
-            </button>
-          </div>
+          <NumberSequenceComponent 
+            :numbersSequence="numbersSequence" 
+            :remember="remember" :repeat="repeat" 
+            :timeToRemember="timeToRemember" 
+            @submit="submit"
+          />
         </div>
+
+        
 
         <div>
           <div v-if="trainingEnded" class="pt-10 w-96 mx-auto text-center">
@@ -72,10 +49,19 @@
             </div>
             <div class="text-lg text-white text-center py-6">
               <button
-                @click="startTrain"
-                class="bg-white px-3 py-1 text-black rounded-full"
-              >
-                Try again!
+                  @click="startTrain"
+                  
+                  class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+                  >
+                  Try again!
+              </button>
+              <button
+                  @click="saveScore"
+                  :disabled="scoreSaved"
+                  class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+                  >
+                  <p v-if="!scoreSaved">Save score</p>
+                  <p v-if="scoreSaved">Score saved</p>
               </button>
             </div>
           </div>
@@ -90,6 +76,7 @@ import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
 import TimerBar from "../components/TimerBar.vue"
+import NumberSequenceComponent from "../components/NumberSequenceComponent.vue"
 import store from "../store"
 
 //import MathJax from 'mathjax'
@@ -110,6 +97,7 @@ export default {
   components: {
     XMarkIcon,
     TimerBar,
+    NumberSequenceComponent,
   },
 
   setup() {
@@ -123,10 +111,11 @@ export default {
       intro: true,
       inputText: "",
       usersSeq: "",
-      sequenceLength: 3,
+      sequenceLength: 1,
       numbersSequence: "",
       timeToRemember: 3,
-      inputmy: null
+      inputmy: null,
+      scoreSaved: false,
     });
 
     const data = reactive({
@@ -138,6 +127,7 @@ export default {
       state.trainRunning = true;
       state.intro = false;
       state.trainingEnded = false;
+      state.scoreSaved = false;
       state.sequenceLength = 1;
       state.inputText = "";
       training();
@@ -155,14 +145,17 @@ export default {
       state.numbersSequence = genNumberSequence(state.sequenceLength);
       state.repeat = false;
       state.remember = true;
+      state.timeToRemember = 3 + state.sequenceLength/2
       timeoutID = setTimeout(() => {
         state.remember = false;
         state.repeat = true;
-      }, state.timeToRemember * 1000 + 200);
+      }, state.timeToRemember * 1000);
     };
 
-    const submit = () => {
-      if (state.numbersSequence == state.inputText) {
+    const submit = (result) => {
+      state.remember = false;
+      state.repeat = false;
+      if (result) {
         state.sequenceLength++;
         state.inputText = "";
         training();
@@ -170,23 +163,8 @@ export default {
         state.remember = false;
         state.repeat = false;
         state.trainingEnded = true;
-        saveScore()
       }
     };
-
-     const input = ref(null)
-
-    watch(
-      () => state.repeat,
-      (newValue) => {
-        if (newValue) {
-          setTimeout(() => {
-            input.value.focus()
-          }, 0)
-        }
-      }
-    )
-
 
     const saveScore = () => {
       const score = {
@@ -195,17 +173,16 @@ export default {
       }
 
       store.dispatch('addScore', score);
+      state.scoreSaved = true;
     }
 
-   
-   
     return {
       ...toRefs(state),
       ...toRefs(data),
       startTrain,
       leaveTrain,
       submit,
-      input
+      saveScore,
     };
   },
 

@@ -150,6 +150,8 @@
     </Disclosure>
 
     <router-view> </router-view>
+
+    <Footer />
   </div>
 </template>
 
@@ -168,6 +170,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { useStore } from "vuex";
 import { computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import Footer from "../components/Footer.vue";
 
 const navigation = [
   { name: "Intuitive Mats", to: { name: "DefaultLayout" } },
@@ -185,6 +188,7 @@ export default {
     Bars3Icon,
     BellIcon,
     XMarkIcon,
+    Footer,
   },
   setup() {
     const store = useStore();

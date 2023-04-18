@@ -11,7 +11,13 @@
                 </div>
                 <div class="py-6 text-center" > 
                     <h1 class="text-xl text-white"> If the expression is true, click as quickly as you can. </h1>    
-                    <button @click="startTrain" class="border rounded-full mt-4 px-2 pb-1 text-2xl text-white"> Click here to start. </button>
+                    <button
+                        @click="startTrain"
+                        
+                        class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
+                    >
+                        Click here to start.
+                    </button>
                 </div>
 
                 <!--<div>
@@ -66,7 +72,21 @@
                         <p>{{ averageOfTimes }}</p>
                     </div>
                     <div class="text-lg text-white text-center py-6">
-                        <button @click="startTrain" class="bg-white px-3 py-1 text-black rounded-full"> Try again!</button>
+                        <button
+                            @click="startTrain"
+                            
+                            class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+                            >
+                            Try again!
+                        </button>
+                        <button
+                            @click="saveScore"
+                            :disabled="scoreSaved"
+                            class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+                            >
+                            <p v-if="!scoreSaved">Save score</p>
+                            <p v-if="scoreSaved">Score saved</p>
+                        </button>
                     </div>
                 </div>
                 <div>
@@ -189,7 +209,8 @@ export default{
 
         const state = reactive({
             trainRunning: false,
-            intro: true
+            intro: true,
+            scoreSaved: false,
         })
 
         const data = reactive({
@@ -203,6 +224,7 @@ export default{
 
         const startTrain = () => {
             trainingEnded.value = false
+            state.scoreSaved = false
             exampleNum = 1
             times = []
             penalties.value = 0;
@@ -255,7 +277,7 @@ export default{
                 averageOfTimes.value = getAverage(times)
                 averageOfTimes.value += penalties.value
                 trainingEnded.value = true;
-                saveScore()
+                //saveScore()
             }
             
         }
@@ -267,6 +289,7 @@ export default{
             }
 
             store.dispatch('addScore', score);
+            state.scoreSaved = true;
         }
         
 
@@ -282,6 +305,7 @@ export default{
             startStopwatch,
             stopStopwatch,
             averageOfTimes,
+            saveScore,
         }
     },
 

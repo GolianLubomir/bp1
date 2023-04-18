@@ -20,7 +20,12 @@
           </h1>
           <button
             @click="startTrain"
-            class="border rounded-full mt-4 px-2 pb-1 text-2xl text-white"
+            :disabled="!dataLoaded"
+            :class="{
+              'opacity-70': !dataLoaded,
+              'opacity-100': dataLoaded
+            }"
+            class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
           >
             Click here to start.
           </button>
@@ -42,7 +47,7 @@
             }"
             class="h-24 px-3 relative w-48 border cursor-pointer"
           >
-            <math-jax-component class="mx-auto text-3xl whitespace-nowrap text-white" :expression="expression.exp"></math-jax-component>
+            <math-jax-component class="mx-auto text-2xl whitespace-nowrap text-white" :expression="expression.exp"></math-jax-component>
           </div>
         </div>
       </div>
@@ -61,16 +66,19 @@
           <div class="text-lg text-white text-center py-6">
             <button
               @click="startTrain"
+              :disabled="!dataLoaded"
               class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
             >
               Try again!
             </button>
             <button
-              @click="saveScore"
-              class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
-            >
-              Save score
-            </button>
+                  @click="saveScore"
+                  :disabled="scoreSaved"
+                  class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+                  >
+                  <p v-if="!scoreSaved">Save score</p>
+                  <p v-if="scoreSaved">Score saved</p>
+              </button>
           </div>
         </div>
       </div>
@@ -128,11 +136,13 @@ export default {
       trainingEnded: false,
       trainRunning: false,
       intro: true,
+      scoreSaved: false,
       sequenceLength: 1,
       selectedId: [],
       selectedExpId: [],
       foundExpId: [],
       expressions: [],
+      dataLoaded: false,
     });
 
     const data = reactive({ 
@@ -149,6 +159,7 @@ export default {
       () => store.state.game.training.findthesame,
       (newValue) => {
         data.databaseExpressions = newValue;
+        state.dataLoaded = true;
       }
     );
 
@@ -156,6 +167,7 @@ export default {
       state.trainRunning = true;
       state.intro = false;
       state.trainingEnded = false;
+      state.scoreSaved = false;
       training();
     };
 
@@ -166,6 +178,8 @@ export default {
       state.selectedId = [];
       state.selectedExpId = [];
       state.foundExpId = [];
+      state.dataLoaded= false;
+      store.dispatch('fetchFindTheSameExpressions');
     };
 
     const training = () => {
@@ -184,6 +198,8 @@ export default {
             stopStopwatch();
             state.trainRunning = false;
             state.trainingEnded = true;
+            state.dataLoaded = false;
+            store.dispatch('fetchFindTheSameExpressions');
             state.selectedId = [];
             state.selectedExpId = [];
             state.foundExpId = [];
@@ -214,6 +230,7 @@ export default {
       }
 
       store.dispatch('addScore', score);
+      state.scoreSaved = true;
     }
 
     const getExpressions = (size) => {
@@ -262,12 +279,12 @@ export default {
         arr2.push({
             id: i + 3,
             expId: i + 3,
-            exp: data.databaseExpressions[i].mathjax_1,
+            exp: store.state.game.training.findthesame[i].mathjax_1,
           });
           arr2.push({
             id: i + 3 + size,
             expId: i + 3,
-            exp: data.databaseExpressions[i].mathjax_2,
+            exp: store.state.game.training.findthesame[i].mathjax_2,
           });
       }
 
@@ -298,13 +315,20 @@ export default {
     };
   },
 
-  mounted() {
+  beforeMount() {
       window.scrollTo(0, 0);
-      console.log("mounted");
+      store.dispatch('fetchFindTheSameExpressions'); 
+      console.log("before mount");
   },
 
-  created(){
+  unmounted(){
     store.dispatch('fetchFindTheSameExpressions'); 
+    console.log("unmounted");
+  },
+
+
+  created(){
+    
     console.log("created");
   } 
 

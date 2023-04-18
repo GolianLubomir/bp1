@@ -34,7 +34,7 @@
                 <button
                     v-if="!training"
                     @click="updateScore"
-                    class="inline-block bg-white mx-3 mt-9 h-7  hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+                    class="inline-block bg-white mx-3 mt-9 h-7  hover:text-amber-600 text-gray-600 myButtonShadow font-bold px-4 rounded-full"
                     >
                     Evaluate
                 </button>
@@ -131,9 +131,12 @@ export default {
             //console.log(score.length)
             //console.log(this.data.score.length)
             let lastScore = score.slice(-1)[0].percent
+
             this.data.lastScore = lastScore
+            this.data.score = score
+
             if(lastScore > 70){
-                this.data.score = score
+                
                 this.data.numCorrectGraphs++
             }else{
                 this.data.lives--
@@ -155,7 +158,11 @@ export default {
         },
 
         updateScore (){
-            this.$emit('update-score', this.data.numCorrectGraphs);
+            const score = {
+                numCorrectGraphs: this.data.numCorrectGraphs,
+                percentArr: this.data.score
+            }
+            this.$emit('update-score', score);
         },
 
         nextDrawn(){
@@ -219,6 +226,28 @@ export default {
                 context.lineTo(width / 2 + 5, yPos);
                 context.strokeStyle = "#000"; // Set the color of the tick marks
                 context.stroke();
+            }
+
+            this.drawAxisLabels(context, width, height)
+        },
+
+        drawAxisLabels(context, width, height) {
+            context.font = "11px Arial";
+            context.fillStyle = "#000";
+            context.textAlign = "center";
+            context.textBaseline = "middle";
+
+            // Draw x-axis numbers
+            for (let x = -9; x <= 9; x++) {
+                const xPos = (x + 10) * (width / 20);
+                context.fillText(x, xPos, height / 2 + 12);
+            }
+
+            // Draw y-axis numbers
+            for (let y = -9; y <= 9; y++) {
+                if (y === 0) continue; // Skip the label at the origin
+                const yPos = (y + 10) * (height / 20);
+                context.fillText(-y, width / 2 - 12, yPos); // The negative sign is to make the positive numbers on top and negative numbers on the bottom
             }
         }
 
@@ -465,6 +494,26 @@ export default {
             return correlation;
         }
 
+        function drawAxisLabels() {
+            context.font = "11px Arial";
+            context.fillStyle = "#000";
+            context.textAlign = "center";
+            context.textBaseline = "middle";
+
+            // Draw x-axis numbers
+            for (let x = -9; x <= 9; x++) {
+                const xPos = (x + 10) * (width / 20);
+                context.fillText(x, xPos, height / 2 + 12);
+            }
+
+            // Draw y-axis numbers
+            for (let y = -9; y <= 9; y++) {
+                if (y === 0) continue; // Skip the label at the origin
+                const yPos = (y + 10) * (height / 20);
+                context.fillText(-y, width / 2 - 12, yPos); // The negative sign is to make the positive numbers on top and negative numbers on the bottom
+            }
+        }
+
 
         function drawAxis() {
             // Draw x-axis
@@ -515,6 +564,8 @@ export default {
                 context.strokeStyle = "#000"; // Set the color of the tick marks
                 context.stroke();
             }
+
+             drawAxisLabels();
         }
 
         function clearCanvas() {

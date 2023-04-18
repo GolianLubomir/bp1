@@ -17,19 +17,12 @@
             write it in the fields.
           </h1>
           <button
-            @click="startTrain"
-            class="border rounded-full mt-4 px-2 pb-1 text-2xl text-white"
+              @click="startTrain"
+              class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
           >
-            Click here to start.
+              Click here to start.
           </button>
         </div>
-
-        <!--<div>
-                    <p>Here is an example of a mathematical expression: $\frac{1}{2}$. $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$</p>
-                    <p>Here is another expression: $sqrt{2x^2+5x+3}$.</p>
-                    <p>When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they
-                        are $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$</p>
-                </div>-->
       </div>
 
       <div v-if="trainRunning" class="h-96 flex items-center justify-center">
@@ -38,6 +31,7 @@
             v-if="remember"
             class="flex flex-wrap items-center justify-center mx-auto max-w-screen-lg"
           >
+            <TimerBar v-if="remember" :time="timeToRemember" :widthprops="'100%'"> </TimerBar>
             <div
               v-for="expression in expressionsSequence"
               :key="expression.id"
@@ -60,7 +54,7 @@
               >
                 <input
                   type="text"
-                  
+                  :id="`input-${item.id}`" 
                   v-model="item.input"
                   @keyup.enter="submit"
                   class="bg-teal-500 default-none border-2 text-5xl text-white h-14 w-40 pb-3 focus:border-slate-600 focus:ring-slate-600"
@@ -91,10 +85,19 @@
             </div>
             <div class="text-lg text-white text-center py-6">
               <button
-                @click="startTrain"
-                class="bg-white px-3 py-1 text-black rounded-full"
-              >
-                Try again!
+                  @click="startTrain"
+                  
+                  class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+                  >
+                  Try again!
+              </button>
+              <button
+                  @click="saveScore"
+                  :disabled="scoreSaved"
+                  class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+                  >
+                  <p v-if="!scoreSaved">Save score</p>
+                  <p v-if="scoreSaved">Score saved</p>
               </button>
             </div>
           </div>
@@ -107,7 +110,8 @@
 <script>
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
-import { ref, computed, watch, onMounted, inject } from "vue";
+import { ref, computed, watch, onMounted, inject, nextTick } from "vue";
+import TimerBar from "../components/TimerBar.vue"
 import store from "../store"
 //import MathJax from 'mathjax'
 
@@ -133,11 +137,11 @@ function genExspressionArray(size) {
         difficulty = 10
     }else if(i==1 || i==2) {
         difficulty = 20
-    }else if(i==3) {
+    }else {     //if(i==3) 
         difficulty = 30
-    }else{
+    }/*else{
         difficulty = 50
-    }
+    }*/
     //difficulty = (i+1)*10 % 50
     let num1 = Math.floor(Math.random() * difficulty) + 1;
     let num2 = Math.floor(Math.random() * difficulty) + 1;
@@ -173,17 +177,20 @@ function genExspressionArray(size) {
 export default {
   components: {
     XMarkIcon,
+    TimerBar,
   },
 
   setup() {
     let timeoutID;
-    let timeout = 2000;
+    //let timeToRemember = 2000;
     const state = reactive({
       trainingEnded: false,
       trainRunning: false,
       remember: false,
       repeat: false,
       intro: true,
+      scoreSaved: false,
+      timeToRemember: 2000,
       inputText1: "",
       inputText2: "",
       inputText3: "",
@@ -195,11 +202,7 @@ export default {
       inputText9: "",
       inputText10: "",
       sequenceLength: 1,
-      expressionsSequence: [
-        /*{id:1, exp: {num1: "5", num2: "5", res: "10", sign: "+"}},
-        {id:2, exp: {num1: "3", num2: "6", res: "9", sign: "+"}},
-        {id:3, exp: {num1: "4", num2: "3", res: "1", sign: "-"}},*/
-      ],
+      expressionsSequence: [],
     });
 
     
@@ -230,17 +233,13 @@ export default {
       state.trainRunning = true;
       state.intro = false;
       state.trainingEnded = false;
+      state.scoreSaved = false;
       state.sequenceLength = 1;
       data.inputText = [];
-
-      /*data.inputText[0].input = "";
-      data.inputText[1].input = "";
-      data.inputText[2].input = "";*/
       training();
     };
 
     const leaveTrain = () => {
-      clearInputs(state.sequenceLength);
       data.inputText = [];
       state.trainRunning = false;
       state.intro = true;
@@ -254,19 +253,26 @@ export default {
         id: state.sequenceLength,
         input: data.inputs[state.sequenceLength - 1],
       });
-      /*for(let i = 0; i < state.sequenceLength; i++){
-        let arr = genMathExspression()
-        console.log(arr)
-        state.expressionsSequence[i+1].push(arr)
-      }*/
+
       console.log(state.expressionsSequence);
-      //console.log(state.expressionsSequence[1])
       state.repeat = false;
       state.remember = true;
+      state.timeToRemember = 3 + state.sequenceLength * (state.sequenceLength/2)
       timeoutID = setTimeout(() => {
         state.remember = false;
         state.repeat = true;
-      }, timeout*state.sequenceLength);
+      }, state.timeToRemember * 1000);
+    };
+
+    const focusFirstEmptyInput = async () => {
+      await nextTick();
+      const emptyInput = data.inputText.find((input) => !input.input);
+      if (emptyInput) {
+        const inputEl = document.getElementById(`input-${emptyInput.id}`);
+        if (inputEl) {
+          inputEl.focus();
+        }
+      }
     };
 
     const areInputsCorect = (count) => {
@@ -278,36 +284,51 @@ export default {
       return true;
     };
 
+    const areInputsFilled = (count) => {
+        for (let i = 0; i < count; i++) {
+          if(data.inputText[i].input == ''){
+            return false;
+          }
+        }
+        return true;
+    };
+
     const clearInputs = (count) => {
-      if (data.inputText.length)
         for (let i = 0; i < count; i++) {
           data.inputText[i].input = "";
         }
     };
 
-    const submit = () => {
-      /*console.log(state.expressionsSequence[0].exp.res.toString())
-        console.log(state.inputText1)
-        console.log(state.inputText2)
-        console.log(state.inputText3)*/
-      if (areInputsCorect(state.sequenceLength)) {
-        clearInputs(state.sequenceLength);
-        /*data.inputText.forEach(inp => {
-                    inp.input
-                });*/
-        /*data.inputText[0].input = "";
-                data.inputText[1].input = "";
-                data.inputText[2].input = "";*/
-        state.sequenceLength++;
-        training();
-      } else {
-        clearInputs(state.sequenceLength);
-        data.inputText = [];
-        state.remember = false;
-        state.repeat = false;
-        state.trainingEnded = true;
-        saveScore()
+    watch(
+      () => state.repeat,
+      (newValue) => {
+          if (newValue) {
+          setTimeout(() => {
+              focusFirstEmptyInput();
+          }, 0);
+          }
       }
+    );
+
+    const submit = () => {
+
+      if(areInputsFilled(state.sequenceLength)){
+        if (areInputsCorect(state.sequenceLength)) {
+          clearInputs(state.sequenceLength);
+          state.sequenceLength++;
+          training();
+        } else {
+          clearInputs(state.sequenceLength);
+          data.inputText = [];
+          state.remember = false;
+          state.repeat = false;
+          state.trainingEnded = true;
+          
+        }
+      }else{
+        focusFirstEmptyInput();
+      }
+      
     };
 
     const saveScore = () => {
@@ -317,22 +338,8 @@ export default {
       }
 
       store.dispatch('addScore', score);
+      state.scoreSaved = true;
     }
-
-
-    /*const input = ref(null)
-
-    watch(
-      () => state.repeat,
-      (newValue) => {
-        if (newValue) {
-          setTimeout(() => {
-            input.value.focus()
-          }, 0)
-        }
-      }
-    )*/
-
   
 
     return {
@@ -341,8 +348,8 @@ export default {
       startTrain,
       leaveTrain,
       submit,
-      
-      
+      saveScore,
+      focusFirstEmptyInput,
     };
   },
 
