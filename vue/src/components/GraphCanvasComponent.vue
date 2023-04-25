@@ -5,7 +5,7 @@
     <div class="justify-center">
         <div class="w-96 m-auto h-28" >
             <div class="">
-                <math-jax-component class="w-96 text-3xl whitespace-nowrap absolute text-white" :expression="mathjax"></math-jax-component>
+                <math-jax-component class="w-96 px-24 text-3xl whitespace-nowrap absolute text-white" :expression="mathjax"></math-jax-component>
                 <div class="flex justify-between mt-1">
                     <!--<div class="text-white text-right right flex"> <p> O </p> <p> O </p> <p> O </p> </div>-->
                     <p class="text-white text-xl ">Score: {{numCorrectGraphs}}</p> 
@@ -28,7 +28,7 @@
                     @click="nextDrawn"
                     class="inline-block mt-9 h-7 hover:text-amber-600 text-gray-500  font-bold py-0 px-4 rounded-full bg-white myButtonShadow"
                     >
-                    Next -> 
+                    Next - 
                 </button>
 
                 <button
@@ -170,12 +170,13 @@ export default {
             this.clearCanvas(this.data.context, this.data.canvas);
             this.data.mathjax = this.data.exps[this.data.counter];
             this.data.counter += 2;
-
+            console.log("next drawn ")
         },
 
         clearCanvas(context, canvas) {
             context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
             this.drawAxis(this.data.context, this.data.canvasWidth, this.data.canvasHeight);
+            console.log("clearujem")
         },
 
         drawAxis(context, width, height) {
@@ -275,7 +276,7 @@ export default {
         this.data.canvasWidth = width;
         this.data.canvasHeight = height;
         let points = [];
-        const threshold = 1;
+        const threshold = 2;
         let counter = 2;
 
         drawAxis();
@@ -290,6 +291,9 @@ export default {
         //let mathjax = allExpressions[1]
 
         canvas.addEventListener("mousedown", (event) => {
+            /*if(this.state.drawEnded){
+                return
+            }*/
             isDrawing = true;
             points = [];
             clearCanvas();

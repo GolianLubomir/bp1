@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import Dashboard from "../views/Dashboard.vue";
+import About from "../views/About.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import MathReactions from "../views/MathReactions.vue";
@@ -90,6 +91,7 @@ const routes = [
           
         ],
       },
+      { path: "/about", name: "About", component: About },
       /*{path: '/surveys', name: 'Surveys', component: Surveys}*/
     ],
   },

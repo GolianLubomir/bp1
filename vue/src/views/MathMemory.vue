@@ -57,6 +57,7 @@
                   :id="`input-${item.id}`" 
                   v-model="item.input"
                   @keyup.enter="submit"
+                  
                   class="bg-teal-500 default-none border-2 text-5xl text-white h-14 w-40 pb-3 focus:border-slate-600 focus:ring-slate-600"
                 />
               </div>
@@ -310,6 +311,16 @@ export default {
       }
     );
 
+    const checkLength = (inputId) => {
+      console.log("check length" + inputId)
+      const expectedSeq = state.expressionsSequence[inputId-1].exp.res
+      const inputSeq = data.inputText[inputId-1].input
+
+      if( expectedSeq.length == inputSeq.length){
+        focusFirstEmptyInput();
+      }
+    }
+
     const submit = () => {
 
       if(areInputsFilled(state.sequenceLength)){
@@ -340,7 +351,7 @@ export default {
       store.dispatch('addScore', score);
       state.scoreSaved = true;
     }
-  
+
 
     return {
       ...toRefs(state),
@@ -350,6 +361,7 @@ export default {
       submit,
       saveScore,
       focusFirstEmptyInput,
+      checkLength,
     };
   },
 

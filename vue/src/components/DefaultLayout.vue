@@ -14,14 +14,14 @@
       <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
           <div class="flex items-center">
-            <div class="flex-shrink-0">
+            <router-link class="flex-shrink-0" :to="{ name: 'DefaultLayout' }">
               <h1 class="text-white font-bold text-2xl text-teal-500 underline decoration-2">MathTrainer</h1>
               <!--<img
                 class="h-8 w-8"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                 alt="Your Company"
               />-->
-            </div>
+            </router-link>
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
                 <router-link
@@ -173,7 +173,8 @@ import { useRouter } from "vue-router";
 import Footer from "../components/Footer.vue";
 
 const navigation = [
-  { name: "Intuitive Mats", to: { name: "DefaultLayout" } },
+  { name: "Math Games", to: { name: "DefaultLayout" } },
+  { name: "Intuitive Mathematics", to: { name: "About" } },
   { name: "Dashboard", to: { name: "Dashboard" } },
 ];
 export default {

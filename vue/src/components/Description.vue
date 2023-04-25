@@ -1,7 +1,15 @@
 <template>
   <div>
-    <p class="text-lg text-center py-2">Description</p>
-    <p class="px-6">{{ description }}</p>
+    <div class="flex">
+      <p class="text-xl text-slate-600 font-bold text-center pb-2 w-1/2">Description</p>
+      <p class="text-xl text-slate-600 font-bold text-center pb-2 w-1/2">Instructions</p>
+    </div>
+    
+    <div class="flex text-center pb-8 pt-6">
+      <p class="w-1/2 px-16 text-lg border-r-2"> <span v-html="description.about"></span> </p>
+      <p class="w-1/2 px-16 text-lg border-l-2"> <span v-html="description.instructions"></span> </p>
+    </div>
+    
   </div>
 </template>
 
@@ -29,3 +37,9 @@ export default {
   },
 };
 </script>
+
+<style >
+/*.highlight-text {
+  text-slate-600 font-bold
+}*/
+</style>

@@ -17,11 +17,11 @@
 
         <div class="w-full h-content justify-around mx-auto pb-10 ">
 
-            <div class="w-4/5 max-w-5xl  px-6 py-6 mx-auto my-9 bg-white rounded-xl myBoxShadow2"> 
+            <div class="w-4/5   px-6 py-6 mx-auto my-9 bg-white rounded-xl myBoxShadow2"> 
                 <router-view name="description"> </router-view>
             </div>
 
-            <div class="w-4/5 max-w-5xl  px-6 py-6 mx-auto  my-12 bg-white rounded-xl myBoxShadow2"> 
+            <div class="w-4/5   px-6 py-6 mx-auto  my-12 bg-white rounded-xl myBoxShadow2"> 
                 <router-view name="stats"> </router-view>
             </div>
         

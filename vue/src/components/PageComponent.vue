@@ -25,7 +25,7 @@
             
         </div>-->
 
-        <div class="h-full mx-auto text-center py-10 "> 
+        <div class="h-full mx-auto text-center my-bg py-10 "> 
             <div class="grid grid-cols-1 gap-4  max-w-4xl my-7 mx-auto sm:w-11/12 sm:grid-cols-2 md:w-4/5  lg:grid-cols-3 lg:w-3/4 ">
                 <router-link :to="'/training/mathreactions'" tag="div" class="bg-white myBoxShadow w-4/5 max-w-xs h-48 text-black py-6 px-6 mx-auto my-2 rounded-lg lg:w-60">
                     <!--<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="0.5" stroke="currentColor" class="text-gray-600 w-24 h-24 mx-auto ">
@@ -86,6 +86,12 @@ const props = defineProps({
 </script>
 
 <style>
+
+.my-bg{
+    /*background-image: url("../img/math-bg.jpg");*/
+    
+}
+
 .myzindex{
     z-index: -1;
 }
