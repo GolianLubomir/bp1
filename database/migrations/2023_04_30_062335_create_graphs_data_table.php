@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('scores', function (Blueprint $table) {
+        Schema::create('graphs_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('game_id');
-            $table->unsignedFloat('score');
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('game_id')->references('id')->on('games');
+            $table->string('expression');
+            $table->string('mathjax');
+            $table->string('difficulty')->enum(['EASY', 'MEDIUM', 'HARD']);
         });
     }
 
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //Schema::dropIfExists('scores');
+        Schema::dropIfExists('graphs_data');
     }
 };

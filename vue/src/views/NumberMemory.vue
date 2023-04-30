@@ -68,6 +68,11 @@
         </div>
       </div>
     </div>
+    <ActivityTrackerComponent 
+      :startMeasurement="startMeasurement"
+      :stopMeasurement="stopMeasurement"
+      @time-spent="onTimeSpent" 
+    />
   </div>
 </template>
 
@@ -77,6 +82,7 @@ import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
 import TimerBar from "../components/TimerBar.vue"
 import NumberSequenceComponent from "../components/NumberSequenceComponent.vue"
+import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue"
 import store from "../store"
 
 //import MathJax from 'mathjax'
@@ -98,6 +104,7 @@ export default {
     XMarkIcon,
     TimerBar,
     NumberSequenceComponent,
+    ActivityTrackerComponent,
   },
 
   setup() {
@@ -116,6 +123,8 @@ export default {
       timeToRemember: 3,
       inputmy: null,
       scoreSaved: false,
+      startMeasurement: false,
+      stopMeasurement: false,
     });
 
     const data = reactive({
@@ -130,11 +139,13 @@ export default {
       state.scoreSaved = false;
       state.sequenceLength = 1;
       state.inputText = "";
+      startGame();
       training();
     };
 
     const leaveTrain = () => {
       state.trainRunning = false;
+      endGame();
       state.intro = true;
       state.inputText = "";
       state.trainingEnded = false;
@@ -163,6 +174,7 @@ export default {
         state.remember = false;
         state.repeat = false;
         state.trainingEnded = true;
+        endGame();
       }
     };
 
@@ -176,6 +188,23 @@ export default {
       state.scoreSaved = true;
     }
 
+    const startGame = () => {
+      state.startMeasurement = true;
+      state.stopMeasurement = false;
+    };
+    const endGame = () => {
+      state.stopMeasurement = true;
+      state.startMeasurement = false;
+    };
+    const onTimeSpent = (time) => {
+      console.log("Time spent:", time);
+      const activityData = {
+          game_id: 2,
+          time: time
+      }
+      this.$store.dispatch("saveTimeSpent", activityData);
+    };
+
     return {
       ...toRefs(state),
       ...toRefs(data),
@@ -183,6 +212,7 @@ export default {
       leaveTrain,
       submit,
       saveScore,
+      onTimeSpent,
     };
   },
 

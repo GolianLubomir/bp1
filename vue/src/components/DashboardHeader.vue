@@ -68,6 +68,7 @@
                 </div>-->
 
                 <TrainingTimeComponent :seriesprops1='[15, 25, 48]' :seriesprops2='[50, 45, 15]'></TrainingTimeComponent>
+                <!--<ActivityComponent />-->
             </div>
             
         </div>
@@ -81,11 +82,13 @@ import { computed } from "vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline"
 import { useRouter } from "vue-router";
 import TrainingTimeComponent from './TrainingTimeComponent.vue';
+import ActivityComponent from './ActivityComponent.vue';
 
 export default {
   components: { 
     TrainingTimeComponent ,
-    XMarkIcon
+    XMarkIcon,
+    ActivityComponent,
     },
   
   setup() {

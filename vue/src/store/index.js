@@ -36,6 +36,8 @@ const store = createStore({
                 NSumberSystems: 0,
             },
 
+            activity:[],
+
             token: sessionStorage.getItem("TOKEN"),
         },
         game: {
@@ -58,12 +60,12 @@ const store = createStore({
                         instructions: "Cieľom hry Find The Same je <span class='text-slate-600 font-bold'> nájsť a označiť všetky dvojice matematických výrazov, ktoré sú si rovné</span>. Keď klikneš na pole, zmení sa jeho farba. Potom musíš nájsť druhé pole s ekvivalentným výrazom a kliknúť naň. Ak si našiel správnu dvojicu, obe polia zostanú označené. Ak si klikol na nesprávne pole, pôvodné pole sa odznačí. <br> <br> Hra sa končí, keď označíš všetky dvojice. <span class='text-slate-600 font-bold'> Tvoje skóre je čas, ktorý si potreboval na dokončenie hry</span>. Ak chceš svoje skóre uložiť, stlač tlačidlo <span class='text-slate-600 font-bold whitespace-nowrap'> 'Save score' </span>, inak sa skóre neuloží."
                     },
                     Graphs: {
-                        about: "Táto hra umožňuje hráčovi <span class='text-slate-600 font-bold'> trénovať znalosti z matematických funkcií</span>. V hre si musíš vypočítať smer funkcie dosadzovaním hodnôt x-súradnice do funkcie a predstaviť si približný tvar a polohu funkcie. Týmto spôsobom si trénuješ svoju pracovnú pamäť, kognitívne funkcie a rýchlosť spracovania matematických informácií. <span class='text-slate-600 font-bold'> Ak si chceš osviežiť základné vzory na určovanie smeru a tvaru funkcií, môžeš použiť náš tahák</span>. S dostatočným tréningom sa ti bude dariť odhadovať grafy aj bez výpočtov a intuitívne reagovať na zadanú funkciu. <br> <br> Hra ti poskytuje spätnú väzbu o tvojej presnosti a porovnáva tvoj graf so správnym riešením. <span class='text-slate-600 font-bold'> Presnosť tvojho grafu neovplyvňuje tvoje výsledné skóre</span>, dôležité je len to, či si nakreslil graf správne. ",
+                        about: "Táto hra umožňuje hráčovi <span class='text-slate-600 font-bold'> trénovať znalosti z matematických funkcií</span>. V hre si musíš vypočítať smer funkcie dosadzovaním hodnôt x-súradnice do funkcie a predstaviť si približný tvar a polohu funkcie. Týmto spôsobom si trénuješ svoju pracovnú pamäť, kognitívne funkcie a rýchlosť spracovania matematických informácií. <span class='text-slate-600 font-bold'> Ak si chceš osviežiť základné vzory na určovanie smeru a tvaru funkcií, môžeš použiť náš ťahák</span>. S dostatočným tréningom sa ti bude dariť odhadovať grafy aj bez výpočtov a intuitívne reagovať na zadanú funkciu. <br> <br> Hra ti poskytuje spätnú väzbu o tvojej presnosti a porovnáva tvoj graf so správnym riešením. <span class='text-slate-600 font-bold'> Presnosť tvojho grafu neovplyvňuje tvoje výsledné skóre</span>, dôležité je len to, či si nakreslil graf správne. ",
                         instructions: "Tvojou úlohou je <span class='text-slate-600 font-bold'> nakresliť graf funkcie </span>, ktorá je zadaná. Použi interaktívny kresliaci panel, <span class='text-slate-600 font-bold'> stlačním ľavého tlačidla myši a pohybom </span> sa snaž nakresliť čo najpresnejší graf. Graf musí mať odchylku menšiu ako 2 jednotky v 70% svojej dĺžky, aby bol považovaný za správny. Za každý správny graf získaš bod. Keď začneš tréning, môžeš hneď začať kresliť. <span class='text-slate-600 font-bold'> Kresli jedným ťahom a stredným tempom, aby sa graf dobre zaznamenal.</span> Po dokončení kresby sa ti ukáže správny graf a porovnanie s tvojím grafom. Pokračuj v hre kliknutím na tlačidlo <span class='text-slate-600 font-bold'> 'Next'</span>. V pravom hornom rohu vidíš svoje životy. Ak trikrát nakreslíš nesprávny graf, hra sa skončí a ukáže sa ti tvoje skóre. Ak chceš svoje skóre uložiť, stlač tlačidlo <span class='text-slate-600 font-bold whitespace-nowrap'> 'Save score' </span>, inak sa skóre neuloží."
                     },
                     NumberSystems: {
-                        about: "Hra Number Systems je zameraná na <span class='text-slate-600 font-bold'> tréning znalostí z prevodov medzi číselnými sústavami</span>. V hre prevádzame čísla medzi týmito číselnými sústavami: Binárna -> Decimálna, Binárna -> Hexadecimálna a Hexadecimálna -> Binárna. <span class='text-slate-600 font-bold'> Ak si chceš osviežiť základné vzory a pravidlá na prevody medzi sústavami, môžeš použiť náš tahák</span> Týmto spôsobom si cvičíš svoju pracovnú pamäť, kognitívne funkcie a rýchlosť spracovania matematických informácií. Hra tiež stimuluje tvoje deduktívne a induktívne myslenie, keďže musíš použiť základné vzorce a pravidlá na prevody medzi číselnými sústavami. ",
-                        instructions: "V tejto hre trénujeme len nasledovné prevody: Binárna -> Decimálna, Binárna -> Hexadecimálna a Hexadecimálna -> Binárna. Na obrazovke sa zobrazia tri rôzne možnosti prevodov a užívateľ si môže vybrať, ktorý z nich chce vyriešiť.  Skóre reprezentuje počet úspešne vyriešených prevodov do časového limitu 2 minút."
+                        about: "Hra Number Systems je zameraná na <span class='text-slate-600 font-bold'> tréning znalostí z prevodov medzi číselnými sústavami</span>. Vzhľadom na koncept hry, prevádzame čísla len medzi týmito číselnými sústavami: <span class='text-slate-600 font-bold'> Binárna -> Decimálna, Binárna -> Hexadecimálna a Hexadecimálna -> Binárna. </span> Ak si chceš osviežiť základné vzory a pravidlá na prevody medzi sústavami, môžeš použiť náš <span class='text-slate-600 font-bold'>ťahák</span>. <br> <br> Týmto spôsobom si cvičíš svoju pracovnú pamäť, kognitívne funkcie a rýchlosť spracovania matematických informácií. Hra tiež stimuluje tvoje deduktívne a induktívne myslenie, keďže musíš použiť základné vzorce a pravidlá na prevody medzi číselnými sústavami. ",
+                        instructions: "Cieľom tejto hry je <span class='text-slate-600 font-bold'> vykonať čo najviac prevodov medzi rôznymi číselnými sústavami </span> v časovom limite 2 minút. Na obrazovke sú vždy zobrazené tri možnosti prevodov a ty si môžeš vybrať jednu z nich. Nad každou možnosťou je uvedený typ prevodu. Binárne, decimálne a hexadecimálne čísla sú v tvare:  <br> <br>  <p class='text-center'> <span class='text-slate-600 font-bold  whitespace-nowrap'> BBBB BBBB, B = {0,1} </span>, <span class='text-slate-600 font-bold  whitespace-nowrap'> DD, D = {0,1,2,3,4,5,6,7,8,9}</span>,  <span class='text-slate-600 font-bold  whitespace-nowrap'> 0xHH, H = {0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F}.</span> </p>  <br>   Pri zápise binárnych čísel môžeš použiť alebo vynechať medzery a nuly na začiatku. Pri zápise hexadecimálnych čísel môžeš použiť alebo vynechať predponu '0x' a veľké alebo malé písmená.<span class='text-slate-600 font-bold'> Na potvrdenie tvojej odpovede použi klávesu 'Enter'. </span>Tvoje skóre zobrazuje počet správne vykonaných prevodov do konca hry. Ak chceš svoje skóre uložiť, stlač tlačidlo <span class='text-slate-600 font-bold whitespace-nowrap'> 'Save score' </span>, inak sa skóre neuloží."
                     },
                 }
             },
@@ -138,6 +140,15 @@ const store = createStore({
             const response = await axiosClient.get('/training/findthesame');
             commit('setFindTheSameExpressions', response.data);
         },
+        async addSpentTime({ commit }, activityData) {
+            const response = await axiosClient.post('/activity', activityData);
+            commit('addSpentTime', response.data);
+        },
+        async getSpentTime({ commit }) {
+            const response = await axiosClient.get('/activity');
+            //commit('setSpentTime', response.data);
+            console.log(response.data);
+        },
     },
     mutations: {
         logout: (state) => {
@@ -184,6 +195,11 @@ const store = createStore({
         setFindTheSameExpressions: (state, expressions) => {
             state.game.training.findthesame = expressions.expressions
             console.log(expressions.expressions)
+        },
+        addScore: (state, activityData) => {
+
+            state.user.activity[activityData.game_name] = activityData.spentTime  // upravit potom
+
         },
 
     },

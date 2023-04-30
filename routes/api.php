@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\ActivityController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -46,4 +47,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/scores', [ScoreController::class, 'addScore']);
     Route::get('/training/graphs', [TrainingController::class, 'getGraphsExpressions']);
     Route::get('/training/findthesame', [TrainingController::class, 'getFindTheSameExpressions']);
+    Route::get('/activity', [ActivityController::class, 'getActivities']);
 });

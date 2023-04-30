@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p class="text-lg text-center py-2">Statistics</p>
+        <p class="text-xl text-slate-600 font-bold text-center pb-2">Statistics</p>
         <div>
         <apexchart  height="300" type="area" :options="chartOptions" :series="chartSeries"></apexchart>
         </div>
@@ -53,9 +53,6 @@ export default {
             id: "line-chart",
             type: "area", // set chart type to "area"
           },
-          markers: {
-            size: 7,
-          },
           fill: {
             type: "solid", // set fill type to "solid"
             opacity: 0.4, // set fill opacity
@@ -64,6 +61,14 @@ export default {
             width: 2, // set stroke width
             curve: "smooth", // set curve type
           },
+          dataLabels: {
+            enabled: false
+          },
+          /*xaxis: {
+            labels: {
+              show: false
+            }
+          }*/
         }),
       };
     },

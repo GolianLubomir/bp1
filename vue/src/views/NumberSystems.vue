@@ -51,7 +51,7 @@
       <div>
         <div v-if="trainingEnded" class="pt-10 w-96 mx-auto text-center">
           <div class="text-2xl text-white text-center">
-            <p>Your score in 1 minute is</p>
+            <p>Your score in 2 minutes is</p>
           </div>
         </div>
 

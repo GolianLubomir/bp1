@@ -87,10 +87,10 @@ const props = defineProps({
 
 <style>
 
-.my-bg{
-    /*background-image: url("../img/math-bg.jpg");*/
+/*.my-bg{
+    background-image: url("../img/math-bg.jpg");
     
-}
+}*/
 
 .myzindex{
     z-index: -1;

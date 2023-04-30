@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('scores', function (Blueprint $table) {
+        Schema::create('find_the_same_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('game_id');
-            $table->unsignedFloat('score');
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('game_id')->references('id')->on('games');
+            $table->string('mathjax_1');
+            $table->string('mathjax_2');
+            $table->string('type')->enum(['TYPE_1', 'TYPE_2', 'TYPE_3', 'TYPE_4',]);
         });
     }
 
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //Schema::dropIfExists('scores');
+        Schema::dropIfExists('find_the_same_data');
     }
 };

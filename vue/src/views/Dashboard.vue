@@ -174,6 +174,7 @@ export default {
     //this.$store.dispatch('fetchScores');
 
     store.dispatch("fetchScores");
+    store.dispatch("getSpentTime");
   },
 
   setup() {
