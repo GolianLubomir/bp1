@@ -200,9 +200,9 @@ export default {
       console.log("Time spent:", time);
       const activityData = {
           game_id: 2,
-          time: time
+          training_time: time
       }
-      this.$store.dispatch("saveTimeSpent", activityData);
+      store.dispatch("addSpentTime", activityData);
     };
 
     return {

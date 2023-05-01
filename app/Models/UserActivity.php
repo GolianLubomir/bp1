@@ -18,6 +18,8 @@ class UserActivity extends Model
         'user_id',
         'game_id',
         'training_time',
+        'created_at',
+        'updated_at',
     ];
 
     public function user(){

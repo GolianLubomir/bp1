@@ -11,8 +11,8 @@ const store = createStore({
                 //imageUrl: ,
                 //  ' ',
             },
-            scores:[],
-            score:{
+            //scores:[],
+            scores:{
                 MathReactions: {
                     best: 0,
                     percentil: 0,
@@ -31,9 +31,24 @@ const store = createStore({
                     all: [],
                     trainingTime: 0,
                 },
-                FindTheSame: 0,
-                Graphs: 0,
-                NSumberSystems: 0,
+                FindTheSame: {
+                    best: 0,
+                    percentil: 0,
+                    all: [],
+                    trainingTime: 0,
+                },
+                Graphs: {
+                    best: 0,
+                    percentil: 0,
+                    all: [],
+                    trainingTime: 0,
+                },
+                NumberSystems: {
+                    best: 0,
+                    percentil: 0,
+                    all: [],
+                    trainingTime: 0,
+                },
             },
 
             activity:[],
@@ -143,10 +158,11 @@ const store = createStore({
         async addSpentTime({ commit }, activityData) {
             const response = await axiosClient.post('/activity', activityData);
             commit('addSpentTime', response.data);
+            console.log(response.data);
         },
         async getSpentTime({ commit }) {
             const response = await axiosClient.get('/activity');
-            //commit('setSpentTime', response.data);
+            commit('setActivities', response.data);
             console.log(response.data);
         },
     },
@@ -196,9 +212,14 @@ const store = createStore({
             state.game.training.findthesame = expressions.expressions
             console.log(expressions.expressions)
         },
-        addScore: (state, activityData) => {
+        addSpentTime: (state, activityData) => {
 
-            state.user.activity[activityData.game_name] = activityData.spentTime  // upravit potom
+            state.user.activity[activityData.game_name] = activityData.spentTime 
+
+        },
+        setActivities: (state, activityData) => {
+
+            state.user.activity = activityData
 
         },
 

@@ -56,6 +56,8 @@ class ScoreController extends Controller
 
         // loop through the userS and group them by game
         foreach ($userScores as $score) {
+
+            
             $gameId = $score->game_id;
             $gameName = $score->game->name;
             $scoreValue = $score->score;
@@ -120,38 +122,40 @@ class ScoreController extends Controller
         }*/
 
         foreach ($games as $game) {
-            sort($generatedScoreValues[$game->id]);
-            $bestScoreValue = $result[$game->name]['best'];
-            $position = 0;
-            $bestValues = 0;
-            foreach ($generatedScoreValues[$game->id] as $scoreValue){
-                if($game->id == 1 || $game->id == 4){
-                    if ($scoreValue > $bestScoreValue) {
-                        $position++;
-                    }else if (($scoreValue == $bestScoreValue)){
+            if($result[$game->name]['all'] != []){
+                sort($generatedScoreValues[$game->id]);
+                $bestScoreValue = $result[$game->name]['best'];
+                $position = 0;
+                $bestValues = 0;
+                foreach ($generatedScoreValues[$game->id] as $scoreValue){
+                    if($game->id == 1 || $game->id == 4){
+                        if ($scoreValue > $bestScoreValue) {
+                            $position++;
+                        }else if (($scoreValue == $bestScoreValue)){
 
-                        $bestValues++;
-                    }
-                }else{
-                    if ($scoreValue < $bestScoreValue) {
-                        $position++;
-                    }else if (($scoreValue == $bestScoreValue)){
+                            $bestValues++;
+                        }
+                    }else{
+                        if ($scoreValue < $bestScoreValue) {
+                            $position++;
+                        }else if (($scoreValue == $bestScoreValue)){
 
-                        $bestValues++;
-                    }else {
-                        break;
+                            $bestValues++;
+                        }else {
+                            break;
+                        }
                     }
+                    
                 }
-                
-            }
 
-            if($bestValues == 1){
-                $position++;
-            }
+                if($bestValues == 1){
+                    $position++;
+                }
 
-            $position = $position == 0 ? 1 : $position;
-            $total = count($generatedScoreValues[$game->id]);
-            $result[$game->name]['percentile'] = $position / $total * 100;
+                $position = $position == 0 ? 1 : $position;
+                $total = count($generatedScoreValues[$game->id]);
+                $result[$game->name]['percentile'] = $position / $total * 100;
+            }
         }
 
 

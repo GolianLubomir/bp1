@@ -25,7 +25,7 @@ return new class extends Migration
             ['name' => 'MathMemory'],
             ['name' => 'FindTheSame'],
             ['name' => 'Graphs'],
-            ['name' => 'NumberMemory'],
+            ['name' => 'NumberSystems'],
         ]);
     }
 

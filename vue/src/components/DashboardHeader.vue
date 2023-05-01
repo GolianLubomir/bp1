@@ -67,7 +67,18 @@
                     
                 </div>-->
 
-                <TrainingTimeComponent :seriesprops1='[15, 25, 48]' :seriesprops2='[50, 45, 15]'></TrainingTimeComponent>
+                <TrainingTimeComponent 
+                    :seriesprops1="[
+                        activity && activity.MathReactions ? activity.MathReactions.weeklyActivity : 0,
+                        activity && activity.NumberMemory ? activity.NumberMemory.weeklyActivity : 0,
+                        activity && activity.MathMemory ? activity.MathMemory.weeklyActivity : 0
+                    ]" 
+                    :seriesprops2="[
+                        activity && activity.FindTheSame ? activity.FindTheSame.weeklyActivity : 0,
+                        activity && activity.Graphs ? activity.Graphs.weeklyActivity : 0,
+                        activity && activity.NumberSystems ? activity.NumberSystems.weeklyActivity : 0
+                    ]"
+                ></TrainingTimeComponent>
                 <!--<ActivityComponent />-->
             </div>
             
@@ -96,6 +107,7 @@ export default {
 
     return {
       user: computed(() => store.state.user.data),
+      activity: computed(() => store.state.user.activity)
     };
   }
 };

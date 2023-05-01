@@ -3,10 +3,10 @@
     
    
     <div id="chart" class="w-48">
-      <apexchart type="radialBar" height="220" :options="chartOptions" :series="seriesprops1"></apexchart>
+      <apexchart type="radialBar" height="220" :options="chartOptions" :series="serprops1"></apexchart>
     </div>
     <div id="chart1" class="w-48">
-      <apexchart type="radialBar" height="220" :options="chartOptions1" :series="seriesprops2"></apexchart>
+      <apexchart type="radialBar" height="220" :options="chartOptions1" :series="serprops2"></apexchart>
     </div>
     
   </div>
@@ -38,6 +38,15 @@ export default {
       type: Array,
       default: [50, 50, 50],
     },
+  },
+
+  computed: {
+    serprops1(){
+      return [this.seriesprops1[0] * 15, this.seriesprops1[1] * 10, this.seriesprops1[2] * 15]
+    },
+    serprops2(){
+      return [this.seriesprops2[0] * 30, this.seriesprops2[1] * 20, this.seriesprops2[2] * 30]
+    }
   },
 
   components: {
@@ -105,7 +114,7 @@ export default {
                     formatter: function (w) {
                       // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
                       //console.log(w)
-                      let sum = w.config.series[0] + w.config.series[1] + w.config.series[2]
+                      let sum = w.config.series[0] / 15 + w.config.series[1] / 10+ w.config.series[2] / 15
                       return sum + " min"          
                     }
                   }
@@ -186,7 +195,7 @@ export default {
                     color: '#888',
                     formatter: function (w) {
                       // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-                      let sum = w.config.series[0] + w.config.series[1] + w.config.series[2]
+                      let sum = w.config.series[0] / 30 + w.config.series[1] / 20 + w.config.series[2] / 30
                       return sum + " min"
                       
                     }
@@ -202,7 +211,7 @@ export default {
             stroke: {
               lineCap: 'round'
             },
-            labels: ['Apples', 'Oranges', 'Bananas'],
+            labels: ['Find The Same', 'Graphs', 'Number Systems'],
           },
           
           
