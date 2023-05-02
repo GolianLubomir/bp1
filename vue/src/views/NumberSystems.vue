@@ -80,12 +80,18 @@
         </div>
       </div>
     </div>
+    <ActivityTrackerComponent 
+      :startMeasurement="startMeasurement"
+      :stopMeasurement="stopMeasurement"
+      @time-spent="onTimeSpent" 
+    />
   </div>
 </template>
 
 <script>
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import NumSysInputComponent from "../components/NumSysInputComponent.vue";
+import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue"
 import TimerBar from "../components/TimerBar.vue";
 import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
@@ -96,6 +102,7 @@ export default {
     NumSysInputComponent,
     XMarkIcon,
     TimerBar,
+    ActivityTrackerComponent,
   },
 
   setup() {
@@ -133,6 +140,8 @@ export default {
       trainRunning: false,
       intro: true,
       scoreSaved: false,
+      startMeasurement: false,
+      stopMeasurement: false,
 
     });
 
@@ -147,20 +156,22 @@ export default {
       state.intro = false;
       state.trainingEnded = false;
       state.scoreSaved = false;
+      startGame();
       training();
     };
 
     const stopTrain = () => {
       state.trainRunning = false;
+      endGame();
       state.intro = false;
       state.trainingEnded = true;
     };
 
     const leaveTrain = () => {
       state.trainRunning = false;
+      endGame();
       state.intro = true;
       state.trainingEnded = false;
-
     };
 
     const training = () => {
@@ -186,6 +197,24 @@ export default {
       state.scoreSaved = true;
     }
 
+    const startGame = () => {
+        state.startMeasurement = true;
+        state.stopMeasurement = false;
+    };
+    
+    const endGame = () => {
+        state.stopMeasurement = true;
+        state.startMeasurement = false;
+    };
+
+    const onTimeSpent = (time) => {
+        console.log("Time spent:", time);
+        const activityData = {
+            game_id: 6,
+            training_time: time
+        }
+        store.dispatch("addSpentTime", activityData);
+    };
 
     return {
       ...toRefs(state),
@@ -194,6 +223,7 @@ export default {
       leaveTrain,
       updateScore,
       saveScore,
+      onTimeSpent,
     };
   },
 

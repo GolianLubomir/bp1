@@ -192,10 +192,12 @@ export default {
       state.startMeasurement = true;
       state.stopMeasurement = false;
     };
+
     const endGame = () => {
       state.stopMeasurement = true;
       state.startMeasurement = false;
     };
+    
     const onTimeSpent = (time) => {
       console.log("Time spent:", time);
       const activityData = {

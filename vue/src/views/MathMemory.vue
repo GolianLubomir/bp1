@@ -105,6 +105,11 @@
         </div>
       </div>
     </div>
+    <ActivityTrackerComponent 
+      :startMeasurement="startMeasurement"
+      :stopMeasurement="stopMeasurement"
+      @time-spent="onTimeSpent" 
+    />
   </div>
 </template>
 
@@ -114,6 +119,7 @@ import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted, inject, nextTick } from "vue";
 import TimerBar from "../components/TimerBar.vue"
 import store from "../store"
+import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue"
 //import MathJax from 'mathjax'
 
 function genNumberSequence(size) {
@@ -179,6 +185,7 @@ export default {
   components: {
     XMarkIcon,
     TimerBar,
+    ActivityTrackerComponent,
   },
 
   setup() {
@@ -204,6 +211,8 @@ export default {
       inputText10: "",
       sequenceLength: 1,
       expressionsSequence: [],
+      startMeasurement: false,
+      stopMeasurement: false,
     });
 
     
@@ -237,12 +246,14 @@ export default {
       state.scoreSaved = false;
       state.sequenceLength = 1;
       data.inputText = [];
+      startGame();
       training();
     };
 
     const leaveTrain = () => {
       data.inputText = [];
       state.trainRunning = false;
+      endGame();
       state.intro = true;
       state.trainingEnded = false;
       clearTimeout(timeoutID);
@@ -334,7 +345,7 @@ export default {
           state.remember = false;
           state.repeat = false;
           state.trainingEnded = true;
-          
+          endGame();
         }
       }else{
         focusFirstEmptyInput();
@@ -352,6 +363,24 @@ export default {
       state.scoreSaved = true;
     }
 
+      const startGame = () => {
+        state.startMeasurement = true;
+        state.stopMeasurement = false;
+      };
+
+      const endGame = () => {
+        state.stopMeasurement = true;
+        state.startMeasurement = false;
+      };
+
+      const onTimeSpent = (time) => {
+        console.log("Time spent:", time);
+        const activityData = {
+            game_id: 3,
+            training_time: time
+        }
+        store.dispatch("addSpentTime", activityData);
+      };
 
     return {
       ...toRefs(state),
@@ -362,6 +391,7 @@ export default {
       saveScore,
       focusFirstEmptyInput,
       checkLength,
+      onTimeSpent,
     };
   },
 

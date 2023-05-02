@@ -98,7 +98,11 @@
         </div>
 
 
-
+        <ActivityTrackerComponent 
+        :startMeasurement="startMeasurement"
+        :stopMeasurement="stopMeasurement"
+        @time-spent="onTimeSpent" 
+        />
     </div>
 </template>
 
@@ -109,6 +113,7 @@ import { reactive, toRefs } from 'vue'
 import { ref, computed, watch, onMounted } from 'vue';
 import store from "../store"
 import MathJaxComponent from '../components/MathJaxComponent.vue';
+import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue"
 //import MathJax from 'mathjax'
 
 function genExpression() {
@@ -167,6 +172,7 @@ export default{
     components: {
         XMarkIcon,
         MathJaxComponent,
+        ActivityTrackerComponent,
     },
 
 
@@ -211,6 +217,8 @@ export default{
             trainRunning: false,
             intro: true,
             scoreSaved: false,
+            startMeasurement: false,
+            stopMeasurement: false,
         })
 
         const data = reactive({
@@ -229,6 +237,7 @@ export default{
             times = []
             penalties.value = 0;
             state.intro = false
+            startGame();
             training()
             setTimeout(() => {
                 state.trainRunning = true
@@ -240,7 +249,7 @@ export default{
         const leaveTrain = () => {
             state.trainRunning = false
             state.intro = true
-            
+            endGame();
         }
 
         const userAnswered = (answer) => {
@@ -274,9 +283,11 @@ export default{
                 
 
             }else{
-                averageOfTimes.value = getAverage(times)
-                averageOfTimes.value += penalties.value
+                let avgTime = getAverage(times)
+                avgTime += penalties.value
+                averageOfTimes.value = avgTime.toFixed(3)
                 trainingEnded.value = true;
+                endGame();
                 //saveScore()
             }
             
@@ -292,6 +303,24 @@ export default{
             state.scoreSaved = true;
         }
         
+        const startGame = () => {
+            state.startMeasurement = true;
+            state.stopMeasurement = false;
+        };
+
+        const endGame = () => {
+            state.stopMeasurement = true;
+            state.startMeasurement = false;
+        };
+
+        const onTimeSpent = (time) => {
+            console.log("Time spent:", time);
+            const activityData = {
+                game_id: 1,
+                training_time: time
+            }
+            store.dispatch("addSpentTime", activityData);
+        };
 
         return {
             ...toRefs(state),
@@ -306,6 +335,7 @@ export default{
             stopStopwatch,
             averageOfTimes,
             saveScore,
+            onTimeSpent,
         }
     },
 

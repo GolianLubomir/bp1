@@ -88,7 +88,11 @@
         </div>
       </div>
 
-
+      <ActivityTrackerComponent 
+        :startMeasurement="startMeasurement"
+        :stopMeasurement="stopMeasurement"
+        @time-spent="onTimeSpent" 
+      />
   </div>
 </template>
 
@@ -98,13 +102,15 @@ import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
 import store from "../store"
 import GraphCanvasComponent from "../components/GraphCanvasComponent.vue";
+import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue"
 import { useStore } from 'vuex';
 
 
 export default {
   components: {
     XMarkIcon,
-    GraphCanvasComponent
+    GraphCanvasComponent,
+    ActivityTrackerComponent,
   },
 
   methods:{
@@ -134,6 +140,8 @@ export default {
         intro: true,
         isDrawing: false,
         scoreSaved: false,
+        startMeasurement: false,
+        stopMeasurement: false,
     })
     const data = reactive({
         percentAverage: 0,
@@ -154,10 +162,12 @@ export default {
       state.intro = false;
       state.trainingEnded = false;
       state.scoreSaved = false;
+      startGame();
     };
 
     const stopTrain = () => {
       state.trainRunning = false;
+      endGame();
       state.intro = false;
       state.trainingEnded = true;
       state.dataLoaded = false;
@@ -167,6 +177,7 @@ export default {
 
     const leaveTrain = () => {
       state.trainRunning = false;
+      endGame();
       state.intro = true;
       state.trainingEnded = false;
       state.dataLoaded = false;
@@ -214,7 +225,24 @@ export default {
       state.scoreSaved = true;
     }
 
-    
+    const startGame = () => {
+      state.startMeasurement = true;
+      state.stopMeasurement = false;
+    };
+
+    const endGame = () => {
+      state.stopMeasurement = true;
+      state.startMeasurement = false;
+    };
+
+    const onTimeSpent = (time) => {
+      console.log("Time spent:", time);
+      const activityData = {
+          game_id: 5,
+          training_time: time
+      }
+      store.dispatch("addSpentTime", activityData);
+    };
 
     return {
       ...toRefs(state),
@@ -223,6 +251,7 @@ export default {
       leaveTrain,
       updateScore,
       saveScore,
+      onTimeSpent,
       /*expression: computed(() => {
         return allExpressions
       }),*/

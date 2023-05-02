@@ -84,6 +84,11 @@
       </div>
       
     </div>
+    <ActivityTrackerComponent 
+      :startMeasurement="startMeasurement"
+      :stopMeasurement="stopMeasurement"
+      @time-spent="onTimeSpent" 
+    />
   </div>
 </template>
 
@@ -92,6 +97,7 @@ import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
 import MathJaxComponent from '../components/MathJaxComponent.vue';
+import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue"
 import store from "../store"
 
 //import MathJax from 'mathjax'
@@ -101,6 +107,7 @@ export default {
   components: {
     XMarkIcon,
     MathJaxComponent,
+    ActivityTrackerComponent,
   },
 
   setup() {
@@ -143,6 +150,8 @@ export default {
       foundExpId: [],
       expressions: [],
       dataLoaded: false,
+      startMeasurement: false,
+      stopMeasurement: false,
     });
 
     const data = reactive({ 
@@ -168,6 +177,7 @@ export default {
       state.intro = false;
       state.trainingEnded = false;
       state.scoreSaved = false;
+      startGame();
       training();
     };
 
@@ -175,6 +185,7 @@ export default {
       state.trainRunning = false;
       state.intro = true;
       state.trainingEnded = false;
+      endGame();
       state.selectedId = [];
       state.selectedExpId = [];
       state.foundExpId = [];
@@ -204,6 +215,7 @@ export default {
             state.selectedExpId = [];
             state.foundExpId = [];
             time.value = (endTime.value - startTime.value) / 1000;
+            endGame();
             //saveScore()
           }
           state.selectedId = [];
@@ -232,6 +244,25 @@ export default {
       store.dispatch('addScore', score);
       state.scoreSaved = true;
     }
+
+    const startGame = () => {
+      state.startMeasurement = true;
+      state.stopMeasurement = false;
+    };
+
+    const endGame = () => {
+      state.stopMeasurement = true;
+      state.startMeasurement = false;
+    };
+
+    const onTimeSpent = (time) => {
+      console.log("Time spent:", time);
+      const activityData = {
+          game_id: 4,
+          training_time: time
+      }
+      store.dispatch("addSpentTime", activityData);
+    };
 
     const getExpressions = (size) => {
       let arr;
@@ -312,6 +343,7 @@ export default {
       stopStopwatch,
       time,
       saveScore,
+      onTimeSpent,
     };
   },
 

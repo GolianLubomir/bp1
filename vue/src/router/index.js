@@ -10,6 +10,7 @@ import MathMemory from "../views/MathMemory.vue";
 import FindTheSame from "../views/FindTheSame.vue";
 import Graphs from "../views/Graphs.vue";
 import NumberSystems from "../views/NumberSystems.vue";
+import Profile from "../views/Profile.vue";
 import Surveys from "../views/Surveys.vue";
 import DefaultLayout from "../components/DefaultLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
@@ -92,6 +93,7 @@ const routes = [
         ],
       },
       { path: "/about", name: "About", component: About },
+      { path: "/profile", name: "Profile", component: Profile },
       /*{path: '/surveys', name: 'Surveys', component: Surveys}*/
     ],
   },
