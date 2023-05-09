@@ -291,9 +291,9 @@ export default {
         //let mathjax = allExpressions[1]
 
         canvas.addEventListener("mousedown", (event) => {
-            /*if(this.state.drawEnded){
+            if(this.state.drawEnded){
                 return
-            }*/
+            }
             isDrawing = true;
             points = [];
             clearCanvas();
@@ -462,7 +462,7 @@ export default {
             console.log("Error: " + error);
             console.log(`Percentage of correct points: ${percentCorrect}%`);
 
-            console.log("Similarity: " + similarity(yUser, yCorrect));
+            //console.log("Similarity: " + similarity(yUser, yCorrect));
             
             score1.push({
                 percent: percentCorrect.toFixed(2),
@@ -480,7 +480,7 @@ export default {
         }
         
         
-        function similarity(y1, y2) {
+        /*function similarity(y1, y2) {
             let correlation = 0;
             let mean_y1 = y1.reduce((acc, val) => acc + val, 0) / y1.length;
             let mean_y2 = y2.reduce((acc, val) => acc + val, 0) / y2.length;
@@ -496,7 +496,7 @@ export default {
             }
             correlation = sum_xy / Math.sqrt(sum_x2 * sum_y2);
             return correlation;
-        }
+        }*/
 
         function drawAxisLabels() {
             context.font = "11px Arial";

@@ -24,6 +24,19 @@
             <div class="w-4/5   px-6 py-6 mx-auto  my-12 bg-white rounded-xl myBoxShadow2"> 
                 <router-view name="stats"> </router-view>
             </div>
+
+
+            <div v-if="gameName == 'NumberSystems'" class="w-4/5 mx-auto my-12 bg-white rounded-xl myBoxShadow2"> 
+                <CheatSheetNumberSystems />
+            </div>
+
+            <div v-if="gameName == 'Graphs'" class="w-4/5 mx-auto  my-12 bg-white rounded-xl myBoxShadow2"> 
+                <CheatSheetGraphs />
+            </div>
+
+            <div v-if="gameName == 'FindTheSame'" class="w-4/5 mx-auto  my-12 bg-white rounded-xl myBoxShadow2"> 
+                <CheatSheetFindTheSame />
+            </div>
         
         </div>
         
@@ -34,13 +47,35 @@
 
 <script >
 import PageComponent from "../components/PageComponent.vue"
+import CheatSheetFindTheSame from "../components/CheatSheetFindTheSame.vue"
+import CheatSheetGraphs from "../components/CheatSheetGraphs.vue"
+import CheatSheetNumberSystems from "../components/CheatSheetNumberSystems.vue"
+import { useRouter } from "vue-router";
 
 export default {
+    components:{
+        CheatSheetFindTheSame,
+        CheatSheetGraphs,
+        CheatSheetNumberSystems
+
+    },
+
     setup(){
 
 
 
 
+    },
+
+    data(){
+        return{
+            gameName: '',
+        }
+    },
+
+    mounted(){
+        const router = useRouter();
+        this.gameName = router.currentRoute.value.name;
     }
 }
 </script>

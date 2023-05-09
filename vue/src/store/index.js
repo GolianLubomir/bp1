@@ -1,5 +1,7 @@
 import {createStore} from "vuex";
+
 import axiosClient from "../axios";
+                                                                                 
 import createPersistedState from 'vuex-persistedstate'
 
 const store = createStore({
@@ -11,7 +13,6 @@ const store = createStore({
                 //imageUrl: ,
                 //  ' ',
             },
-            //scores:[],
             scores:{
                 MathReactions: {
                     best: 0,
@@ -115,7 +116,7 @@ const store = createStore({
             .then(({data}) => {
             commit('setUser', data.user);
             commit('setToken', data.token)
-            dispatch("fetchScores");
+            //dispatch("fetchScores");
             return data;
             })
         },
@@ -126,23 +127,11 @@ const store = createStore({
                 return response;
             })
         },
-        /*silentAuth({ commit }) {
-            const token = sessionStorage.getItem('TOKEN');
-            if (token) {
-                console.log("token true")
-                return axiosClient.post('/reload')
-                .then(({ data }) => {
-                  commit('setReloadUser', data.user);
-                })
-                .catch(error => {
-                  console.error('Silent auth error:', error);
-                });
-            }
-        }*/
         async fetchScores({ commit }) {
             const response = await axiosClient.get('/scores');
             commit('setScores', response.data);
-          },
+        },
+                                                                
         async addScore({ commit }, score) {
             const response = await axiosClient.post('/scores', score);
             commit('addScore', response.data);
@@ -170,7 +159,8 @@ const store = createStore({
         logout: (state) => {
             state.user.token = null;
             state.user.data = {};
-            //sessionStorage.clear();
+            sessionStorage.clear();
+            localStorage.clear();
         },
         setUser: (state, userData) => {
             //console.log('setting user', userData.name)
@@ -184,6 +174,7 @@ const store = createStore({
         setToken: (state, token) => {
             state.user.token = token;
             sessionStorage.setItem('TOKEN', token);
+            console.log(state.user.token)
         },
         /*setReloadUser: (state, userData) => {
             //console.log('setting user', userData.name)
@@ -227,11 +218,12 @@ const store = createStore({
     modules:{},
     plugins: [
         createPersistedState({
+          storage: window.sessionStorage,
           reducer: (state) => ({
             user: state.user,
             
           }),
-          expires: 12 * 60 * 60 * 1000, // 12 hour
+          //expires: 10 * 1000 //12 * 60 * 60 * 1000, // 12 hour
         }),
     ],
 

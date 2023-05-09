@@ -270,7 +270,7 @@ export default {
       let difficulty;
       let results = [];
 
-      for (let i = 0; i < 2; i++) {
+      /*for (let i = 0; i < 2; i++) {
 
         difficulty = 50
         let num1 = Math.floor(Math.random() * difficulty) + 1;
@@ -304,9 +304,9 @@ export default {
             exp: '$${' + arr[2].toString() + '}$$',
           });
         }
-      }
+      }*/
 
-      for( let i = 0; i < 6; i++){
+      for( let i = 0; i < 8; i++){
         arr2.push({
             id: i + 3,
             expId: i + 3,

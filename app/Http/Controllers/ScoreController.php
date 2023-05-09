@@ -164,10 +164,10 @@ class ScoreController extends Controller
     }
 
     // Adds a score achieved by the user in the game
+
     public function addScore(Request $request)
     {
         $request->validate([
-            //'user_id' => 'required',
             'game_id' => 'required',
             'score' => 'required|numeric|between:0,999.999',
         ]);
@@ -177,13 +177,15 @@ class ScoreController extends Controller
             'game_id' => $request->game_id,
             'score' => $request->score,
         ]);
-
-       
-
         return response()->json([
             'message' => 'Score added successfully',
             'game_name' => $score->game->name,
             'score' => $score,
         ]);
     }
+
+                                                                                
 }
+
+
+

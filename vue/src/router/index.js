@@ -25,15 +25,16 @@ const routes = [
     redirect: "/home",
     name: "DefaultLayout",
     component: DefaultLayout,
-    meta: { requiresAuth: true },
+    //meta: { requiresAuth: true },
     children: [
       { path: "/home", name: "Home", component: Home },
-      { path: "/dashboard", name: "Dashboard", component: Dashboard },
+      { path: "/dashboard", name: "Dashboard", component: Dashboard, meta: { requiresAuth: true }, },
       {
         path: "/training",
         redirect: "/training/mathreactions",
         name: "Training",
         component: Training,
+        meta: { requiresAuth: true },
         children: [
           {
             path: "/training/mathreactions",
@@ -43,7 +44,7 @@ const routes = [
                 stats: StatsChart,
                 description: Description,
             } 
-          },
+          },                                                                     
           {
             path: "/training/numbermemory",
             name: "NumberMemory",
@@ -94,28 +95,28 @@ const routes = [
       },
       { path: "/about", name: "About", component: About },
       { path: "/profile", name: "Profile", component: Profile },
-      /*{path: '/surveys', name: 'Surveys', component: Surveys}*/
-    ],
-  },
-  {
-    path: "/auth",
-    redirect: "/login",
-    name: "Auth",
-    component: AuthLayout,
-    meta: { isGuest: true },
-    children: [
       {
-        path: "/login",
-        name: "Login",
-        component: Login,
-      },
-      {
-        path: "/register",
-        name: "Register",
-        component: Register,
+        path: "/auth",
+        redirect: "/login",
+        name: "Auth",
+        component: AuthLayout,
+        children: [
+          {
+            path: "/login",
+            name: "Login",
+            component: Login,
+          },
+          {
+            path: "/register",
+            name: "Register",
+            component: Register,
+          },
+        ],
       },
     ],
+    
   },
+  
 ];
 
 const router = createRouter({
@@ -125,9 +126,11 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && !store.state.user.token) {
-    next({ name: "Login" });
-  } else if (store.state.user.token && to.meta.isGuest) {
-    next({ name: "Dashboard" });
+    if (to.name === "Home" || to.name === "About") {
+      next();
+    } else {
+      next({ name: "Login" });
+    }
   } else {
     next();
   }

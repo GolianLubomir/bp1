@@ -87,7 +87,16 @@ function login(ev) {
       });
     })
     .catch(err => {
-      errorMsg.value = err.response.data.error
+      console.log('Error:', err);
+      /*(err.response.data.message){
+        errorMsg.value = err.response.data.message;
+      }else if(err.response.data.error){
+        if
+        errorMsg.value = err.response.data.error;
+      }else {
+        errorMsg.value = 'Zadaný email alebo heslo je nesprávne.'
+      }*/
+      errorMsg.value = 'Prihlasovacie údaje sú nesprávne.'
     })
 }
 </script>

@@ -13,9 +13,9 @@ class TrainingController extends Controller
         $medium = 'MEDIUM';
         $hard = 'HARD';
         
-        $expresionsEasy = GraphsData::where('difficulty', $easy)->inRandomOrder()->limit(2)->get();
-        $expresionsMedium = GraphsData::where('difficulty', $medium)->inRandomOrder()->limit(2)->get();
-        $expresionsHard = GraphsData::where('difficulty', $hard)->inRandomOrder()->limit(2)->get();
+        $expresionsEasy = GraphsData::where('difficulty', $easy)->inRandomOrder()->limit(4)->get();
+        $expresionsMedium = GraphsData::where('difficulty', $medium)->inRandomOrder()->limit(4)->get();
+        $expresionsHard = GraphsData::where('difficulty', $hard)->inRandomOrder()->limit(4)->get();
 
         $expressions = [];
 

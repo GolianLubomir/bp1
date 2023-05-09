@@ -41,7 +41,32 @@
             </div>
           </div>
           <div class="hidden md:block">
-            <div class="ml-4 flex items-center md:ml-6">
+            <div v-if="!userToken" class="">
+              <router-link
+                  :to="{ name: 'Login' }"
+                  active-class="bg-gray-900 text-white"
+                  :class="[
+                    this.$route.name === 'Login'
+                      ? ''
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'px-3 py-2 rounded-md text-sm font-medium',
+                  ]"
+                  >Login
+              </router-link>
+              
+              <router-link
+                  :to="{ name: 'Register' }"
+                  active-class="bg-gray-900 text-white"
+                  :class="[
+                    this.$route.name === 'Register'
+                      ? ''
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'px-3 py-2 rounded-md text-sm font-medium',
+                  ]"
+                  >Sign up
+              </router-link>
+            </div>
+            <div  v-if="userToken"  class="ml-4 flex items-center md:ml-6">
               <!-- Profile dropdown -->
               <Menu as="div" class="relative ml-3">
                 <div class="flex text-end">
@@ -59,7 +84,7 @@
                     <span class="sr-only">Open user menu</span>
                     <img
                       class="h-10 w-10 rounded-full"
-                      src="../img/profile-photo.jpg"
+                      src="../icon/user2.png"
                       alt=""
                     />
                   </MenuButton>
@@ -133,7 +158,26 @@
             >{{ item.name }}</router-link
           >
         </div>
-        <div class="border-t border-gray-700 pt-4 pb-3">
+        <div v-if="!userToken">
+          <div class="mt-3 space-y-1 px-2">
+            <router-link
+              :to="{ name: 'Login' }"
+              class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer"
+            >
+              Login
+            </router-link>
+
+            <router-link
+              :to="{ name: 'Register' }"
+              class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer"
+            >
+              Sign Up
+            </router-link>
+       
+            >
+          </div>
+        </div>
+        <div v-if="userToken" class="border-t border-gray-700 pt-4 pb-3">
           <div class="flex items-center px-5">
             <div class="flex-shrink-0">
               <img class="h-8 w-8 rounded-full" src="../img/profile-photo.jpg" alt="" />
@@ -217,7 +261,7 @@ export default {
     function logout() {
       store.dispatch("logout").then(() => {
         router.push({
-          name: "Auth",
+          name: "Login",
         });
       });
     }
@@ -230,6 +274,7 @@ export default {
 
     return {
       user: computed(() => store.state.user.data),
+      userToken: computed(() => store.state.user.token),
       navigation,
       logout,
     };
@@ -240,7 +285,7 @@ export default {
 
 <style>
   :root{
-    --primary-color: #0d9488;
+    --primary-color: rgb(13, 148, 136);
     /*--primary-color: #6CC4A1;*/
     --primary-color-hover: #0b8177;
   }
