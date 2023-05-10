@@ -7,7 +7,7 @@
     <div class="primary-bg w-full h-8 rounded-t-lg"></div>
     <div class=" py-6 px-6 my-6 w-11/12 mx-auto border-b-2">
         <h3 class="text-2xl text-slate-600 font-bold mb-4">Schopnosť intuitívne riešiť matematické úlohy:</h3>
-        <p class="text-lg mb-4">Intuitívne riešenie matematických úloh je schopnosť, ktorú mnohí prirodzene vlastnia a prostredníctvom ktorej dokážu rýchlo a efektívne spracovať matematické informácie bez toho, aby museli podrobne prechádzať jednotlivými krokmi algoritmického riešenia. Túto schopnosť možno rozvíjať a zlepšovať prostredníctvom tréningu kognitívnych funkcií. V nasledujúcom texte sa pokúsime vysvetliť problematiku intuitívneho riešenia matematických úloh a popíšeme, ako trénovať kognitívne funkcie na zlepšenie tejto schopnosti. </p>
+        <p class="text-lg mb-4">Intuitívne riešenie matematických úloh je schopnosť, ktorú mnohí prirodzene vlastnia a prostredníctvom ktorej dokážu rýchlo a efektívne spracovať matematické informácie bez toho, aby museli podrobne prechádzať jednotlivými krokmi algoritmického riešenia. Túto schopnosť možno rozvíjať a zlepšovať prostredníctvom tréningu kognitívnych funkcií. V nasledujúcom texte sa pokúsime vysvetliť problematiku intuitívneho riešenia matematických úloh a popíšeme, ako trénovať kognitívne funkcie na zlepšenie tejto schopnosti. Informácie v tomto texte som čerpal z nasledujúcich zdrojov. <a class="text-slate-600 font-bold hover:text-slate-400" href="https://www.cognifit.com/science/cognitive-skills/processing-speed">Cognifit/Processing-speed</a> , <a class="text-slate-600 font-bold hover:text-slate-400" href="https://www.cognifit.com/science/cognitive-skills/working-memory">Cognifit/working-memory</a> </p>
     </div>
     
     <div  class=" py-6 px-6 my-6 w-11/12 mx-auto  border-b-2">
@@ -26,7 +26,7 @@
             <div class="primary-bg w-4 rounded-lg my-2"></div>
             <div class="px-4">
               <h1 class="text-lg text-slate-600 font-bold">Pracovná pamäť</h1>
-              <p class="text-lg">Pracovná pamäť je kognitívna funkcia, ktorá umožňuje jedincovi udržať si informácie v krátkodobej pamäti a manipulovať s nimi. Pri riešení matematických úloh je dôležité udržať si súvislosti medzi jednotlivými časťami úlohy a pracovná pamäť je kľúčová pre udržanie týchto súvislostí.</p>
+              <p class="text-lg">Pracovná pamäť je kognitívna funkcia, ktorá umožňuje jedincovi udržať si informácie v krátkodobej pamäti a manipulovať s nimi. Pri riešení matematických úloh je dôležité udržať si súvislosti medzi jednotlivými časťami úlohy a pracovná pamäť je kľúčová pre udržanie týchto súvislostí. Ak vás táto téma zaujala, odporúčam pozrieť sa na model pracovnej pamäte, ktorý navrhli Baddeley a Hitch.</p>
             </div>
           </li>
 
