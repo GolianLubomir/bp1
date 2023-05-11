@@ -19,15 +19,6 @@
                         Click here to start.
                     </button>
                 </div>
-
-                <!--<div>
-                    <p>Here is an example of a mathematical expression: $\frac{1}{2}$. $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$</p>
-                    <p>Here is another expression: $sqrt{2x^2+5x+3}$.</p>
-                    <p>When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they
-                        are $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$</p>
-                </div>-->
-
-                
             </div>
 
             <div v-if="trainRunning" class="">
@@ -43,14 +34,7 @@
                     <div class="w-full text-start">  
                         <h1 class="text-4xl text-white px-1 py-2">  {{result}} </h1>
                     </div>
-
-                    <!--<div class="">
-                        <math-jax-component class="text-2xl whitespace-nowrap text-white " expression="$${-b \pm \sqrt{b^2-4ac} \over 2a}$$"></math-jax-component>
-                    </div>-->
-                    
                 </div>
-
-                
 
                 <div v-if="trainingEnded" class="pb-10 w-96 mx-auto text-center flex" > 
                     <div class="text-2xl text-white text-center">
@@ -344,8 +328,6 @@ export default{
     }
 }
 
-
-//\sqrt{\frac{2x}{4z}+x^{2}}+\lim_{x\rightarrow \infty }x^{2}\frac{x}{2x}
 </script>
 
 <style>

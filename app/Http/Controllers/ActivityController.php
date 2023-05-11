@@ -21,12 +21,14 @@ class ActivityController extends Controller
             ->orderBy('game_id')
             ->get();
 
+
+
         $games = Game::all();
         $result = [];
         foreach ($activities as $gameActivity) {
             $gameName = Game::select('name')->where('id', $gameActivity->game_id)->value('name');
             $result[$gameName] = [ 
-                'weeklyActivity' => round($gameActivity->time /60),
+                'weeklyActivity' => ($gameActivity->time /60),
             ];
         }
         return response()->json($result);

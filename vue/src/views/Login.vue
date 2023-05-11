@@ -85,6 +85,8 @@ function login(ev) {
       router.push({
         name: 'Home',
       });
+      store.dispatch("fetchScores")
+      store.dispatch("getSpentTime")
     })
     .catch(err => {
       console.log('Error:', err);

@@ -39,7 +39,7 @@
         <div class="mx-4 my-4 w-24 h-24 rounded-lg bg-white">
           <router-link :to="'/training/findthesame'" tag="a">
             <img
-              src="../icon/math-reaction-icon.png"
+              src="../icon/find-the-same-icon.png"
               alt="math-reaction-icon"
               class="h-20 mx-auto pt-2"
             />

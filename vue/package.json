@@ -19,7 +19,7 @@
     "konva": "^8.4.2",
     "mathjax": "^3.2.2",
     "mathjax-vue": "^1.0.1",
-    "mathjs": "^11.5.1",
+    "mathjs": "^11.8.0",
     "vue": "^3.2.45",
     "vue-apexcharts": "^1.6.2",
     "vue-konva": "^3.0.2",

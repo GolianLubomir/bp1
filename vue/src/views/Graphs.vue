@@ -1,5 +1,10 @@
 <template>
   <div class="pt-0">
+    <div class="h-2.5">
+        <TimerBar v-if="trainRunning" :time="timeToSolve" :widthprops="'100%'"> </TimerBar>
+    </div>
+
+
     <span
       v-if="trainRunning || trainingEnded"
       @click="leaveTrain"
@@ -102,6 +107,7 @@ import { reactive, toRefs } from "vue";
 import { ref, computed, watch, onMounted } from "vue";
 import store from "../store"
 import GraphCanvasComponent from "../components/GraphCanvasComponent.vue";
+import TimerBar from "../components/TimerBar.vue";
 import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue"
 import { useStore } from 'vuex';
 
@@ -110,6 +116,7 @@ export default {
   components: {
     XMarkIcon,
     GraphCanvasComponent,
+    TimerBar,
     ActivityTrackerComponent,
   },
 
@@ -146,7 +153,10 @@ export default {
     const data = reactive({
         percentAverage: 0,
         //deviationAverage: 0,
-        score: 0
+        timeToSolve: 120,
+        score: 0,
+        percentArr: [],
+        timeoutId: null,
     })
 
     watch(
@@ -163,11 +173,21 @@ export default {
       state.trainingEnded = false;
       state.scoreSaved = false;
       startGame();
+      training();
+    };
+
+    const training = () => {
+      //startStopwatch();
+      data.timeoutId = setTimeout(() => {
+            calcResult(data.percentArr)
+            stopTrain()
+        }, data.timeToSolve * 1000);
     };
 
     const stopTrain = () => {
       state.trainRunning = false;
       endGame();
+      clearTimeout(data.timeoutId)
       state.intro = false;
       state.trainingEnded = true;
       state.dataLoaded = false;
@@ -178,6 +198,7 @@ export default {
     const leaveTrain = () => {
       state.trainRunning = false;
       endGame();
+      clearTimeout(data.timeoutId)
       state.intro = true;
       state.trainingEnded = false;
       state.dataLoaded = false;
@@ -189,12 +210,13 @@ export default {
       /*score.forEach(element => {
         console.log("updateScore: " + element.percent)
       });*/
-        
+        console.log("updateScore: " + score.trainingEnded)
         data.score = score.numCorrectGraphs
-        //if(data.score.length == 5){
+        data.percentArr = score.percentArr
+        if(score.trainingEnded){
           calcResult(score.percentArr)
           stopTrain();
-        //}
+        }
     };
 
     const calcResult = (array) => {

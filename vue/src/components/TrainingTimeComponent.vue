@@ -42,10 +42,10 @@ export default {
 
   computed: {
     serprops1(){
-      return [this.seriesprops1[0] * 15, this.seriesprops1[1] * 10, this.seriesprops1[2] * 15]
+      return [Math.round(this.seriesprops1[0] * 10), Math.round(this.seriesprops1[1] * 7), Math.round(this.seriesprops1[2] * 7)]
     },
     serprops2(){
-      return [this.seriesprops2[0] * 30, this.seriesprops2[1] * 20, this.seriesprops2[2] * 30]
+      return [Math.round(this.seriesprops2[0] * 7), Math.round(this.seriesprops2[1] * 3), Math.round(this.seriesprops2[2] * 5)]
     }
   },
 
@@ -114,7 +114,7 @@ export default {
                     formatter: function (w) {
                       // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
                       //console.log(w)
-                      let sum = w.config.series[0] / 15 + w.config.series[1] / 10+ w.config.series[2] / 15
+                      let sum = Math.round(w.config.series[0] / 10 + w.config.series[1] / 7 + w.config.series[2] / 7)
                       return sum + " min"          
                     }
                   }
@@ -195,7 +195,7 @@ export default {
                     color: '#888',
                     formatter: function (w) {
                       // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-                      let sum = w.config.series[0] / 30 + w.config.series[1] / 20 + w.config.series[2] / 30
+                      let sum = Math.round(w.config.series[0] / 7 + w.config.series[1] / 3 + w.config.series[2] / 5)
                       return sum + " min"
                       
                     }
