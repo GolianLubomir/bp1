@@ -299,6 +299,7 @@ export default{
 
         const onTimeSpent = (time) => {
             console.log("Time spent:", time);
+            time = time <= 30 ? time : 30;
             const activityData = {
                 game_id: 1,
                 training_time: time

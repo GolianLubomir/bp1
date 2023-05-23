@@ -44,10 +44,10 @@ class TrainingController extends Controller
         $type_3 = 'TYPE_3';
         $type_4 = 'TYPE_4';
         
-        $expressionsType_1 = FindTheSameData::where('type', $type_1)->inRandomOrder()->limit(2)->get();
-        $expressionsType_2 = FindTheSameData::where('type', $type_2)->inRandomOrder()->limit(2)->get();
-        $expressionsType_3 = FindTheSameData::where('type', $type_3)->inRandomOrder()->limit(2)->get();
-        $expressionsType_4 = FindTheSameData::where('type', $type_4)->inRandomOrder()->limit(2)->get();
+        $expressionsType_1 = FindTheSameData::where('type', $type_1)->inRandomOrder()->limit(4)->get();
+        $expressionsType_2 = FindTheSameData::where('type', $type_2)->inRandomOrder()->limit(4)->get();
+        //$expressionsType_3 = FindTheSameData::where('type', $type_3)->inRandomOrder()->limit(2)->get();
+        //$expressionsType_4 = FindTheSameData::where('type', $type_4)->inRandomOrder()->limit(2)->get();
 
         $expressions = [];
 
@@ -61,7 +61,7 @@ class TrainingController extends Controller
                              'mathjax_2' => $expression->mathjax_2 );
             $expressions[] = $tempExp;
         }
-        foreach ($expressionsType_3 as $expression) {
+        /*foreach ($expressionsType_3 as $expression) {
             $tempExp = array('mathjax_1' => $expression->mathjax_1,
                              'mathjax_2' => $expression->mathjax_2 );
             $expressions[] = $tempExp;
@@ -70,7 +70,7 @@ class TrainingController extends Controller
             $tempExp = array('mathjax_1' => $expression->mathjax_1,
                              'mathjax_2' => $expression->mathjax_2 );
             $expressions[] = $tempExp;
-        }
+        }*/
 
 
         return response()->json([

@@ -33,21 +33,33 @@
       </div>
 
       <div v-if="trainRunning" class="flex items-center justify-center">
-        <div class="grid grid-cols-4 gap-1">
+        <div class="grid grid-cols-4 gap-2">
+          
           <div
             v-for="expression in expressions"
             :key="expression.id"
             @click="fnc(expression.id, expression.expId)"
             :class="{
-              'grid-item-selected': selectedId.includes(expression.id),
+              'grid-item-selected': selectedId == expression.id , //.includes(expression.id),
               'grid-item-found': foundExpId.includes(expression.expId),
+              'grid-item-mistake': mistakeId.includes(expression.id),
               'grid-item-none':
                 !selectedId.includes(expression.id) &&
                 !foundExpId.includes(expression.expId),
+
+              'card-flip': true,
+              'flipped': isFlipped(expression.id)
             }"
-            class="h-24 px-3 relative w-48 border cursor-pointer"
+            class="h-24 px-3 relative w-48 cursor-pointer"
           >
-            <math-jax-component class="mx-auto text-2xl whitespace-nowrap text-white" :expression="expression.exp"></math-jax-component>
+
+            <div class="card-front">
+              <!-- Here we create the 'front' of the card -->
+            </div>
+            <div class="card-back">
+              <!-- The 'back' of the card contains the math-jax-component -->
+              <math-jax-component class="mx-auto text-xl whitespace-nowrap text-gray-700" :expression="expression.exp"></math-jax-component>
+            </div>
           </div>
         </div>
       </div>
@@ -60,7 +72,7 @@
 
         <div v-if="trainingEnded" class="w-full h-80">
           <div class="text-4xl text-white text-center py-9">
-            <p>{{ stopwatch }}</p>
+            <p>{{ time }}</p>
             <p class="text-2xl pt-6">seconds.</p>
           </div>
           <div class="text-lg text-white text-center py-6">
@@ -94,7 +106,7 @@
 
 <script>
 import { XMarkIcon } from "@heroicons/vue/24/outline";
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs} from "vue";
 import { ref, computed, watch, onMounted } from "vue";
 import MathJaxComponent from '../components/MathJaxComponent.vue';
 import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue"
@@ -148,7 +160,10 @@ export default {
       selectedId: [],
       selectedExpId: [],
       foundExpId: [],
+      mistakeId: [],
       expressions: [],
+      flippedCard: null,
+      mistakesCounter: 0,
       dataLoaded: false,
       startMeasurement: false,
       stopMeasurement: false,
@@ -177,6 +192,7 @@ export default {
       state.intro = false;
       state.trainingEnded = false;
       state.scoreSaved = false;
+      state.mistakesCounter = 0;
       startGame();
       training();
     };
@@ -196,10 +212,25 @@ export default {
     const training = () => {
       console.log(data.databaseExpressions)
       state.expressions = getExpressions(8);
+      state.dataLoaded= false;
+      store.dispatch('fetchFindTheSameExpressions');
       startStopwatch();
     };
 
     const fnc = (id, expId) => {
+
+      if(state.foundExpId.includes(expId)){
+        return
+      }
+
+      if (state.flippedCard == id) {
+        state.flippedCard = null;
+      } else if (id < 8){
+        state.flippedCard = id;
+      }else{
+
+      }
+      console.log(state.flippedCard)
       console.log(id, expId);
       if (state.selectedId.length > 0) {
         console.log("tusom");
@@ -209,18 +240,32 @@ export default {
             stopStopwatch();
             state.trainRunning = false;
             state.trainingEnded = true;
-            state.dataLoaded = false;
-            store.dispatch('fetchFindTheSameExpressions');
+            //state.dataLoaded = false;
+            //store.dispatch('fetchFindTheSameExpressions');
             state.selectedId = [];
             state.selectedExpId = [];
             state.foundExpId = [];
-            time.value = (endTime.value - startTime.value) / 1000;
+            state.flippedCard = null;
+            time.value = (((endTime.value - startTime.value) / 1000) + state.mistakesCounter * 4).toFixed(2);
             endGame();
             //saveScore()
           }
           state.selectedId = [];
           state.selectedExpId = [];
+          
+        } else if(state.selectedId == id){
+          state.selectedId = [];
+          state.selectedExpId = [];
+          console.log("to iste");
         } else {
+          state.mistakesCounter++;
+          state.mistakeId.push(state.selectedId[0])
+          state.mistakeId.push(id)
+          setTimeout(() => {
+            state.mistakeId = []
+            state.flippedCard = null
+          }, 1000);
+
           state.selectedId = [];
           state.selectedExpId = [];
           console.log("chyba");
@@ -257,6 +302,7 @@ export default {
 
     const onTimeSpent = (time) => {
       console.log("Time spent:", time);
+      time = time <= 120 ? time : 120;
       const activityData = {
           game_id: 4,
           training_time: time
@@ -270,55 +316,18 @@ export default {
       let difficulty;
       let results = [];
 
-      /*for (let i = 0; i < 2; i++) {
-
-        difficulty = 50
-        let num1 = Math.floor(Math.random() * difficulty) + 1;
-        let num2 = Math.floor(Math.random() * difficulty) + 1;
-
-        if (Math.floor(Math.random() * 2) == 0) {
-          arr = [num1, num2, num1 + num2, " + "];
-        } else {
-          if (num1 > num2) {
-            arr = [num1, num2, num1 - num2, " - "];
-          } else {
-            arr = [num2, num1, num2 - num1, " - "];
-          }
-        }
-
-        if (results.includes(arr[2])) {
-          console.log(arr[2]);
-          console.log(results);
-          --i;
-        } else {
-          results.push(arr[2]);
-
-          arr2.push({
-            id: i + 1,
-            expId: i + 1,
-            exp: '$${' + arr[0] + ' ' + arr[3] + ' ' + arr[1] + '}$$',
-          });
-          arr2.push({
-            id: i + 1 + size,
-            expId: i + 1,
-            exp: '$${' + arr[2].toString() + '}$$',
-          });
-        }
-      }*/
-
       for( let i = 0; i < 8; i++){
         arr2.push({
-            id: i + 3,
-            expId: i + 3,
+            id: i,
+            expId: i,
             exp: store.state.game.training.findthesame[i].mathjax_1,
           });
           arr2.push({
-            id: i + 3 + size,
-            expId: i + 3,
+            id: i + size,
+            expId: i,
             exp: store.state.game.training.findthesame[i].mathjax_2,
           });
       }
-
 
       console.log(arr2);
       shuffle(arr2);
@@ -331,9 +340,14 @@ export default {
       return array.sort(() => Math.random() - 0.5);
     }
 
+      const isFlipped = (id) => {
+        return state.flippedCard == id || id >= 8 || state.foundExpId.includes(id);
+      };
+
     return {
       ...toRefs(state),
       ...toRefs(data),
+      isFlipped,
       startTrain,
       leaveTrain,
       fnc,
@@ -354,7 +368,7 @@ export default {
   },
 
   unmounted(){
-    store.dispatch('fetchFindTheSameExpressions'); 
+    //store.dispatch('fetchFindTheSameExpressions'); 
     console.log("unmounted");
   },
 
@@ -368,7 +382,7 @@ export default {
 </script>
 
 <style>
-.grid-item-selected {
+/*.grid-item-selected {
   background-color: #053d39;
 }
 .grid-item-found {
@@ -377,9 +391,58 @@ export default {
 }
 .grid-item-none {
   background-color: #0f766e;
+}*/
+
+.grid-item-selected {
+  background-color: #76c1f4;
+    border-radius: 10px;
 }
+.grid-item-found {
+  background-color: #ffffff;
+  opacity: 0.4;
+    border-radius: 10px;
+}
+.grid-item-none {
+  background-color: #fcfcfc;
+  border-radius: 10px;
+}
+
+.grid-item-mistake {
+  background-color: #fe5e76;
+  border-radius: 10px;
+}
+
+
 .mjx-container{
   margin: 0;
+}
+
+.card-flip {
+  perspective: 1000px;
+  /*position: relative;*/
+  width: 100%;
+  height: 100%;
+}
+
+.card-front, .card-back {
+  backface-visibility: hidden;
+  transition: transform 0.8s;
+  /*position: absolute;
+  top: 0;
+  left: 0;*/
+}
+
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.card-flip.flipped .card-back {
+  transform: rotateY(0deg);
+}
+
+.card-flip.flipped .card-front {
+  transform: rotateY(180deg);
 }
 
 </style>

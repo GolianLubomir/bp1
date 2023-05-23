@@ -56,6 +56,7 @@
                   type="text"
                   :id="`input-${item.id}`" 
                   v-model="item.input"
+                  @keypress="numericInputCheck"
                   @keyup.enter="submit"
                   
                   class="bg-teal-500 default-none border-2 text-5xl text-white h-14 w-40 pb-3 focus:border-slate-600 focus:ring-slate-600"
@@ -332,6 +333,13 @@ export default {
       }
     }
 
+    const numericInputCheck = (e) => {
+      const ch = String.fromCharCode(e.which);
+      if (!(/[0-9]/.test(ch))) {
+        e.preventDefault();
+      }
+    };
+
     const submit = () => {
 
       if(areInputsFilled(state.sequenceLength)){
@@ -375,6 +383,7 @@ export default {
 
       const onTimeSpent = (time) => {
         console.log("Time spent:", time);
+        time = time <= 120 ? time : 120;
         const activityData = {
             game_id: 3,
             training_time: time
@@ -387,6 +396,7 @@ export default {
       ...toRefs(data),
       startTrain,
       leaveTrain,
+      numericInputCheck,
       submit,
       saveScore,
       focusFirstEmptyInput,

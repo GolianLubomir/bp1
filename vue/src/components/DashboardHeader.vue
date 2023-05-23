@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class=" w-full h-full ml-6 border-l-2 hidden overflow-auto lg:block">
-                <div class="mx-6 my-3">
+                <!--<div class="mx-6 my-3">
                     <p class="my-2 text-green-600 font-semibold border-2 rounded-lg bg-slate-200 p-1 pr-6 relative">
                         1. Dgasfmawmr awrkg o noawnrg wan gonlwrg waonr nanwn onwr nrwa n awrn 
                         <span @click="deleteMessage" class="absolute right-1 top-1">
@@ -28,7 +28,7 @@
                         </span>
                         3. Dgasfmawmr awrkg o noawnrg wan gonlwrg waonr nanwn onwr nrwa n awrn 
                     </p>
-                </div>
+                </div>-->
                 
             </div>
         <div class="w-full h-full flex justify-end">

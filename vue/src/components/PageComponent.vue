@@ -111,7 +111,7 @@ const props = defineProps({
 
 .myButtonShadow{
     box-shadow: 2px -1px 10px rgba(0, 0, 0, 0.4);
-    transition: all 0.5s
+    transition: all 0.5s;
 }
 
 .myButtonShadow:hover{

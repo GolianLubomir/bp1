@@ -111,29 +111,6 @@ export default {
     const running = ref(false);
     let intervalId = null;
     const time = ref(0);
-    //let score = ref(0);
-
-    /*const stopwatch = computed(() => {
-      if (running.value) {
-        return (Date.now() - startTime.value) / 1000;
-      } else {
-        return (endTime.value - startTime.value) / 1000;
-      }
-    });
-
-    const startStopwatch = () => {
-      running.value = true;
-      startTime.value = Date.now();
-      intervalId = setInterval(() => {
-        stopwatch.value;
-      }, 10);
-    };
-
-    const stopStopwatch = () => {
-      running.value = false;
-      endTime.value = Date.now();
-      clearInterval(intervalId);
-    };*/
 
     const state = reactive({
       trainingEnded: false,
@@ -184,7 +161,6 @@ export default {
     const updateScore = () => {
         console.log("parent updateScore")
         data.score += 1
-
     };
 
     const saveScore = () => {
@@ -235,29 +211,3 @@ export default {
 
 <style></style>
 
-<!--<script>
-import { XMarkIcon } from "@heroicons/vue/24/outline";
-import NumSysInputComponent from '../components/NumSysInputComponent.vue'
-import TimerBar from "../components/TimerBar.vue"
-
-export default {
-    components:{
-        NumSysInputComponent,
-        XMarkIcon,
-        TimerBar
-    },
-
-    data() {
-        return {
-            score: 0
-        }
-    },
-
-    methods: {
-        updateScore(){
-            console.log("parent updateScore")
-            this.score += 1
-        }
-    }
-}
-</script>-->

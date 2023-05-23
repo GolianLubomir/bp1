@@ -10,7 +10,8 @@
         ref="input"
         type="text"
         focused="true"
-        v-model="inputText"
+         v-model="inputText"
+        @keypress="numericInputCheck"
         @keyup.enter="submit"
         class="bg-teal-500 border-2 text-center text-5xl text-white h-16 w-96 pb-3 focus:border-slate-600 focus:ring-slate-600"
       />
@@ -61,6 +62,13 @@ import TimerBar from "../components/TimerBar.vue"
     },
 
     methods: {
+
+      numericInputCheck(e) {
+        const ch = String.fromCharCode(e.which);
+        if (!(/[0-9]/.test(ch))) {
+          e.preventDefault();
+        }
+      },
 
       submit() {
         console.log(this.numbersSequence + " " + this.inputText)

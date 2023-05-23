@@ -44,7 +44,7 @@ class FindTheSameDataTableSeeder extends Seeder
         }
         fclose($csvFile);
 
-        $csvFile = fopen(base_path("database/data/find-the-same-data-lim.csv"), "r"); 
+        /*$csvFile = fopen(base_path("database/data/find-the-same-data-lim.csv"), "r"); 
         $firstline = true;
         while (($data = fgetcsv($csvFile, 2000, ";")) !== FALSE) {
             if (!$firstline) {
@@ -56,6 +56,6 @@ class FindTheSameDataTableSeeder extends Seeder
             }
             $firstline = false;
         }
-        fclose($csvFile);
+        fclose($csvFile);*/
     }
 }
