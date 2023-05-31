@@ -16,11 +16,12 @@ id;mathjax_1;mathjax_2;type
 15;$${\int x + 2 dx}$$;$${\frac{x^2}{2} + 2x + c}$$;TYPE_2
 16;$${\int 2x + 2 dx}$$;$${x^2 + 2x + c}$$;TYPE_2
 17;$${\int 3^x dx}$$;$${\frac{3^x}{ln(3)} + c}$$;TYPE_2
-18;$${\int sin (x + 1) dx}$$;$${-cos(x+1) + c}$$;TYPE_2
-19;$${\int cos (x + 1) dx}$$;$${sin(x+1) + c}$$;TYPE_2
-20;$${\int sin (2x) dx}$$;$${-\frac{cos(2x)}{2} + c}$$;TYPE_2
-21;$${\int cos (2x) dx}$$;$${\frac{sin(2x)}{2} + c}$$;TYPE_2
-22;$${\int \frac{1}{sin^2 x} dx}$$;$${-cotg(x) + c}$$;TYPE_2
-23;$${\int sin (x) dx}$$;$${-cos(x) + c}$$;TYPE_2
-24;$${\int cos (x) dx}$$;$${sin(x) + c}$$;TYPE_2
-25;$${\int \frac{1}{cos^2 x} dx}$$;$${tg(x) + c}$$;TYPE_2
+18;$${\int 3^{2x} dx}$$;$${\frac{9^x}{ln(9)} + c}$$;TYPE_2
+19;$${\int sin (x + 1) dx}$$;$${-cos(x+1) + c}$$;TYPE_2
+20;$${\int cos (x + 1) dx}$$;$${sin(x+1) + c}$$;TYPE_2
+21;$${\int \frac{1}{sin^2 x} dx}$$;$${-cotg(x) + c}$$;TYPE_2
+22;$${\int sin (x) dx}$$;$${-cos(x) + c}$$;TYPE_2
+23;$${\int cos (x) dx}$$;$${sin(x) + c}$$;TYPE_2
+24;$${\int \frac{1}{cos^2 x} dx}$$;$${tg(x) + c}$$;TYPE_2
+25;$${\int e^x dx}$$;$${e^x + c}$$;TYPE_2
+26;$${\int 2e^x dx}$$;$${2e^x + c}$$;TYPE_2

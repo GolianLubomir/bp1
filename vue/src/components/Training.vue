@@ -104,7 +104,7 @@ export default {
     this.gameName = router.currentRoute.value.name;
     setTimeout(() => {
       this.showScrollButton = false;
-    }, 80000);
+    }, 8000);
   },
 };
 </script>

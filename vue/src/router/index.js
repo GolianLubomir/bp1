@@ -28,7 +28,12 @@ const routes = [
     //meta: { requiresAuth: true },
     children: [
       { path: "/home", name: "Home", component: Home },
-      { path: "/dashboard", name: "Dashboard", component: Dashboard, meta: { requiresAuth: true }, },
+      {
+        path: "/dashboard",
+        name: "Dashboard",
+        component: Dashboard,
+        meta: { requiresAuth: true },
+      },
       {
         path: "/training",
         redirect: "/training/mathreactions",
@@ -39,58 +44,57 @@ const routes = [
           {
             path: "/training/mathreactions",
             name: "MathReactions",
-            components: { 
-                default: MathReactions,
-                stats: StatsChart,
-                description: Description,
-            } 
-          },                                                                     
+            components: {
+              default: MathReactions,
+              stats: StatsChart,
+              description: Description,
+            },
+          },
           {
             path: "/training/numbermemory",
             name: "NumberMemory",
-            components: { 
+            components: {
               default: NumberMemory,
               stats: StatsChart,
               description: Description,
-            } 
+            },
           },
           {
             path: "/training/mathmemory",
             name: "MathMemory",
-            components: { 
+            components: {
               default: MathMemory,
               stats: StatsChart,
               description: Description,
-            } 
+            },
           },
           {
             path: "/training/findthesame",
             name: "FindTheSame",
-            components: { 
+            components: {
               default: FindTheSame,
               stats: StatsChart,
               description: Description,
-            } 
+            },
           },
           {
             path: "/training/graphs",
             name: "Graphs",
-            components: { 
+            components: {
               default: Graphs,
               stats: StatsChart,
               description: Description,
-            } 
+            },
           },
           {
             path: "/training/numbersystems",
             name: "NumberSystems",
-            components: { 
+            components: {
               default: NumberSystems,
               stats: StatsChart,
               description: Description,
-            } 
+            },
           },
-          
         ],
       },
       { path: "/about", name: "About", component: About },
@@ -114,9 +118,7 @@ const routes = [
         ],
       },
     ],
-    
   },
-  
 ];
 
 const router = createRouter({

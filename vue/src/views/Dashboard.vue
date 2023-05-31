@@ -74,7 +74,7 @@
             >
               <router-link :to="'/training/numbermemory'">
                 <StatsTileComponent
-                  title="Math Reactions"
+                  title="Matematické Reakcie"
                   linkTo="MathReactions"
                   :points="score['MathReactions'].best"
                   :percentil="[score['MathReactions'].percentile]"
@@ -86,7 +86,7 @@
               class="mx-4 my-4 w-content h-80 rounded-lg tile-shadow bg-white"
             >
               <StatsTileComponent
-                title="Number Memory"
+                title="Číselná Pamäť"
                 linkTo="NumberMemory"
                 :points="score['NumberMemory'].best"
                 :percentil="[score['NumberMemory'].percentile]"
@@ -97,7 +97,7 @@
               class="mx-4 my-4 w-content h-80 rounded-lg tile-shadow bg-white"
             >
               <StatsTileComponent
-                title="Math Memory"
+                title="Matematická Pamäť"
                 linkTo="MathMemory"
                 :points="score['MathMemory'].best"
                 :percentil="[score['MathMemory'].percentile]"
@@ -108,7 +108,7 @@
               class="mx-4 my-4 w-content h-80 rounded-lg tile-shadow bg-white"
             >
               <StatsTileComponent
-                title="Find the Same"
+                title="Nájdi rovnaké"
                 linkTo="FindTheSame"
                 :points="score['FindTheSame'].best"
                 :percentil="[score['FindTheSame'].percentile]"
@@ -119,7 +119,7 @@
               class="mx-4 my-4 w-content h-80 rounded-lg tile-shadow bg-white"
             >
               <StatsTileComponent
-                title="Graphs"
+                title="Grafy"
                 linkTo="Graphs"
                 :points="score['Graphs'].best"
                 :percentil="[score['Graphs'].percentile]"
@@ -130,20 +130,13 @@
               class="mx-4 my-4 w-content h-80 rounded-lg tile-shadow bg-white"
             >
               <StatsTileComponent
-                title="Number Systems"
+                title="Číselné sústavy"
                 linkTo="NumberSystems"
                 :points="score['NumberSystems'].best"
                 :percentil="[score['NumberSystems'].percentile]"
               >
               </StatsTileComponent>
             </div>
-          </div>
-        </div>
-        <div
-          class="w-full h-96 my-6 border-2 border-gray-200 bg-slate-100 rounded-lg"
-        >
-          <div>
-
           </div>
         </div>
       </div>

@@ -9,18 +9,18 @@
     <div class="h-96 mb-20">
       <div v-if="intro" class="h-96">
         <div class="py-2 text-center">
-          <h1 class="text-5xl text-white">Math Memory</h1>
+          <h1 class="text-5xl text-white">Matematická pamäť</h1>
         </div>
         <div class="py-6 text-center">
           <h1 class="text-xl text-white">
-            Remember the sequence of math expressions that appears and then
-            write it in the fields.
+            Zapamätajte si postupnosť matematických výrazov, a potom
+             zapíšte ich výsledky.
           </h1>
           <button
               @click="startTrain"
               class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
           >
-              Click here to start.
+              Kliknite tu a začnite.
           </button>
         </div>
       </div>
@@ -59,7 +59,7 @@
                   @keypress="numericInputCheck"
                   @keyup.enter="submit"
                   
-                  class="bg-teal-500 default-none border-2 text-5xl text-white h-14 w-40 pb-3 focus:border-slate-600 focus:ring-slate-600"
+                  class="bg-teal-500 default-none border-2 text-5xl text-white text-center h-14 w-40 pb-3 focus:border-slate-600 focus:ring-slate-600"
                 />
               </div>
             </div>
@@ -70,20 +70,21 @@
             @click="submit"
             class="bg-white px-3 py-1 my-6 text-black text-lg rounded-full"
           >
-            Submit!
+            Skontrolovať!
           </button>
         </div>
 
         <div>
           <div v-if="trainingEnded" class="pt-10 w-96 mx-auto text-center">
             <div class="text-2xl text-white text-center">
-              <p>You can remember a sequence of</p>
+              <p>Dokázal si si zapamätať postupnosť</p>
             </div>
           </div>
 
           <div v-if="trainingEnded" class="w-full h-80">
             <div class="text-4xl text-white text-center py-9">
-              <p>{{ sequenceLength - 1 }} expressions.</p>
+              <p v-if="sequenceLength - 1 == 1" >{{ sequenceLength - 1 }} výrazu.</p>
+              <p v-if="sequenceLength - 1 != 1" >{{ sequenceLength - 1 }} výrazov.</p>
             </div>
             <div class="text-lg text-white text-center py-6">
               <button
@@ -91,15 +92,15 @@
                   
                   class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
                   >
-                  Try again!
+                  Skúste to znova!
               </button>
               <button
                   @click="saveScore"
                   :disabled="scoreSaved"
                   class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
                   >
-                  <p v-if="!scoreSaved">Save score</p>
-                  <p v-if="scoreSaved">Score saved</p>
+                  <p v-if="!scoreSaved">Uložiť skóre</p>
+                  <p v-if="scoreSaved">Skóre uložené</p>
               </button>
             </div>
           </div>
@@ -123,64 +124,48 @@ import store from "../store"
 import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue"
 //import MathJax from 'mathjax'
 
-function genNumberSequence(size) {
-  let sequence = "";
-  for (var i = 0; i < size; i++) {
-    let num = Math.floor(Math.random() * 10);
-    let str1 = num.toString();
-    let str2 = sequence.concat(str1);
-    sequence = str2;
-  }
 
-  return sequence;
-}
+function genExspressionArray(length) {
+  let arr = [];
+  
+  for (let i = 0; i < length; i++) {
+    let difficulty = 10;
+    if(i==1 || i==2) {
+        difficulty = 20;
+    } else if(i>=3) {
+        difficulty = 30;
+    }
 
-function genExspressionArray(size) {
-  let arr;
-  let arr2 = [];
-  let difficulty;
-
-  for (let i = 0; i < size; i++) {
-    if(i==0){
-        difficulty = 10
-    }else if(i==1 || i==2) {
-        difficulty = 20
-    }else {     //if(i==3) 
-        difficulty = 30
-    }/*else{
-        difficulty = 50
-    }*/
-    //difficulty = (i+1)*10 % 50
     let num1 = Math.floor(Math.random() * difficulty) + 1;
     let num2 = Math.floor(Math.random() * difficulty) + 1;
 
-    //let result = num1 + num2;
+    let result, sign;
 
     if (Math.floor(Math.random() * 2) == 0) {
-      arr = [num1, num2, num1 + num2, " + "];
+      result = num1 + num2;
+      sign = " + ";
     } else {
-      if (num1 > num2) {
-        arr = [num1, num2, num1 - num2, " - "];
-      } else {
-        arr = [num2, num1, num2 - num1, " - "];
-      }
+      if (num1 < num2) [num1, num2] = [num2, num1];
+      result = num1 - num2;
+      sign = " - ";
     }
 
-    arr2.push({
+    arr.push({
       id: i + 1,
       exp: {
-        num1: arr[0].toString(),
-        num2: arr[1].toString(),
-        res: arr[2].toString(),
-        sign: arr[3],
+        num1: num1.toString(),
+        num2: num2.toString(),
+        res: result.toString(),
+        sign: sign,
       },
     });
   }
 
-  console.log(arr2);
+  console.log(arr);
 
-  return arr2;
+  return arr;
 }
+
 
 export default {
   components: {

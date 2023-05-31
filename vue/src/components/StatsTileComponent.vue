@@ -1,26 +1,44 @@
 <template>
   <div class="px-6 py-1 text-center">
-    <h1  class="text-2xl font-bold text-slate-600 mb-2 whitespace-nowrap  border-b-2"> {{title}} </h1>
+    <h1
+      class="text-2xl font-bold text-slate-600 mb-2 whitespace-nowrap border-b-2"
+    >
+      {{ title }}
+    </h1>
     <!--<div class="py-6 mx-auto w-36 h-36 my-border border-green-500 rounded-full text-center">
         <p class="text-3xl text-slate-600 py-4">
            {{percent}}%
         </p>
     </div>-->
     <div id="chart">
-      <apexchart type="radialBar" height="220" :options="chartOptions" :series="percentil">
-        
+      <apexchart
+        type="radialBar"
+        height="220"
+        :options="chartOptions"
+        :series="percentil"
+      >
       </apexchart>
     </div>
-    <p  class="text-lg pb-1"> Score: <span class="text-2xl">{{points}}</span>  points </p>
-    <router-link :to="{name: linkTo}" tag="a" class="text-lg font-bold underline decoration-2 text-sky-500"> Play </router-link>
+    <p class="text-lg pb-1">
+      Skóre:
+       <span class="text-2xl">{{ points }}</span> bodov
+        <!--<span v-if="points == 1"> bod</span> 
+        <span v-if="points > 1 && points <=4"> bodu</span>
+        <span v-if="points == 0 || points > 4"> bodov</span>-->
+    </p>
+    <router-link
+      :to="{ name: linkTo }"
+      tag="a"
+      class="text-lg font-bold underline decoration-2 text-sky-500"
+    >
+      Trénovať
+    </router-link>
   </div>
-  
 </template>
 
 <script>
-
-import {useRouter} from "vue-router"
-import VueApexCharts from 'vue3-apexcharts';
+import { useRouter } from "vue-router";
+import VueApexCharts from "vue3-apexcharts";
 /*const props = defineProps({
     title: "String",
     percent: "String",
@@ -28,9 +46,6 @@ import VueApexCharts from 'vue3-apexcharts';
 
 
 })*/
-
-
-
 
 export default {
   props: {
@@ -49,84 +64,84 @@ export default {
     linkTo: {
       type: String,
       default: "Home",
-    }
+    },
   },
 
   components: {
-          apexchart: VueApexCharts,
-        },
+    apexchart: VueApexCharts,
+  },
 
   data() {
-        return {
-            series: [90],
-          chartOptions: {
-            chart: {
-              height: 50,
-              
-              type: 'radialBar',
-              toolbar: {
-                show: true
-              }
+    return {
+      series: [90],
+      chartOptions: {
+        chart: {
+          height: 50,
+
+          type: "radialBar",
+          toolbar: {
+            show: true,
+          },
+        },
+        plotOptions: {
+          radialBar: {
+            startAngle: 0,
+            endAngle: 360,
+            hollow: {
+              margin: 0,
+              size: "65%",
+              background: "#fff",
+              image: undefined,
+              imageOffsetX: 0,
+              imageOffsetY: 0,
+              position: "front",
+              dropShadow: {
+                enabled: true,
+                top: 3,
+                left: 0,
+                blur: 4,
+                opacity: 0.24,
+              },
             },
-            plotOptions: {
-              radialBar: {
-                startAngle: 0,
-                endAngle: 360,
-                 hollow: {
-                  margin: 0,
-                  size: '65%',
-                  background: '#fff',
-                  image: undefined,
-                  imageOffsetX: 0,
-                  imageOffsetY: 0,
-                  position: 'front',
-                  dropShadow: {
-                    enabled: true,
-                    top: 3,
-                    left: 0,
-                    blur: 4,
-                    opacity: 0.24
-                  }
-                },
-                track: {
-                  background: '#fff',
-                  strokeWidth: '67%',
-                  margin: 0, // margin is in pixels
-                  dropShadow: {
-                    enabled: true,
-                    top: -3,
-                    left: 0,
-                    blur: 4,
-                    opacity: 0.35
-                  }
-                },
-            
-                dataLabels: {
-                  show: true,
-                  name: {
-                    offsetY: -10,
-                    show: true,
-                    color: '#888',
-                    fontSize: '17px'
-                  },
-                  value: {
-                    formatter: function(val) {
-                      return parseInt(val);
-                    },
-                    color: '#111',
-                    fontSize: '36px',
-                    show: true,
-                  }
-                }
-              }
+            track: {
+              background: "#fff",
+              strokeWidth: "67%",
+              margin: 0, // margin is in pixels
+              dropShadow: {
+                enabled: true,
+                top: -3,
+                left: 0,
+                blur: 4,
+                opacity: 0.35,
+              },
             },
-            fill: {
-              //type: 'gradient',
-              colors: ['#06d6a0'],
-              //colors: ['#5cd1ad'],
-              //colors: ['#62c9a9'],
-              //colors: ['#33ff99'],
-              /*gradient: {
+
+            dataLabels: {
+              show: true,
+              name: {
+                offsetY: -10,
+                show: true,
+                color: "#888",
+                fontSize: "17px",
+              },
+              value: {
+                formatter: function (val) {
+                  return parseInt(val);
+                },
+                color: "#111",
+                fontSize: "36px",
+                show: true,
+              },
+            },
+          },
+        },
+        fill: {
+          //type: 'gradient',
+          colors: ["#06d6a0"],
+          //colors: ['#5cd1ad'],
+          //colors: ['#62c9a9'],
+          //colors: ['#33ff99'],
+          /*gradient: {
                 shade: 'dark',
                 type: 'horizontal',
                 shadeIntensity: 1,
@@ -137,19 +152,14 @@ export default {
                 opacityTo: 1,
                 stops: [25, 50]
               }*/
-            },
-            stroke: {
-              lineCap: 'round'
-            },
-            labels: ['Percentil'],
-          },
-          
-          
-        };
-        
+        },
+        stroke: {
+          lineCap: "round",
+        },
+        labels: ["Percentil"],
+      },
+    };
   },
-
-
 
   /*setup() {
     const router = useRouter()
@@ -162,13 +172,11 @@ export default {
       goToHome,
     }
   },*/
-}
-
-
+};
 </script>
 
 <style>
-.my-border{
-    border-width: 12px;
+.my-border {
+  border-width: 12px;
 }
 </style>

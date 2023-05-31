@@ -9,14 +9,14 @@
     <div class="h-96 mb-20">
       <div v-if="intro" class="h-96">
         <div class="py-2 text-center">
-          <h1 class="text-5xl text-white">Find the Same</h1>
+          <h1 class="text-5xl text-white">Nájdi rovnaké</h1>
         </div>
         <div class="py-6 text-center">
           <h1 class="text-xl text-white">
-            Find and click on two squares of the same value as fast as you can.
+            Nájdi a klikni na dve kartičky rovnakej hodnoty tak rýchlo ako môžeš.
           </h1>
           <h1 class="text-xl text-white">
-            We will measure your solution time.
+            Budeme merať čas, potrebný na nájdenie všetkých dvojíc.
           </h1>
           <button
             @click="startTrain"
@@ -27,7 +27,7 @@
             }"
             class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
           >
-            Click here to start.
+            Kliknite tu a začnite.
           </button>
         </div>
       </div>
@@ -66,14 +66,14 @@
       <div>
         <div v-if="trainingEnded" class="pt-10 w-96 mx-auto text-center">
           <div class="text-2xl text-white text-center">
-            <p>Your solution time is</p>
+            <p>Váš čas riešenia je</p>
           </div>
         </div>
 
         <div v-if="trainingEnded" class="w-full h-80">
           <div class="text-4xl text-white text-center py-9">
             <p>{{ time }}</p>
-            <p class="text-2xl pt-6">seconds.</p>
+            <p class="text-2xl pt-6">sekúnd.</p>
           </div>
           <div class="text-lg text-white text-center py-6">
             <button
@@ -81,15 +81,15 @@
               :disabled="!dataLoaded"
               class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
             >
-              Try again!
+              Skúste to znova!
             </button>
             <button
                   @click="saveScore"
                   :disabled="scoreSaved"
                   class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
                   >
-                  <p v-if="!scoreSaved">Save score</p>
-                  <p v-if="scoreSaved">Score saved</p>
+                  <p v-if="!scoreSaved">Uložiť skóre</p>
+                  <p v-if="scoreSaved">Skóre uložené</p>
               </button>
           </div>
         </div>
@@ -211,7 +211,7 @@ export default {
 
     const training = () => {
       console.log(data.databaseExpressions)
-      state.expressions = getExpressions(8);
+      state.expressions = getExpressions();
       state.dataLoaded= false;
       store.dispatch('fetchFindTheSameExpressions');
       startStopwatch();
@@ -264,7 +264,7 @@ export default {
           setTimeout(() => {
             state.mistakeId = []
             state.flippedCard = null
-          }, 1000);
+          }, 800);
 
           state.selectedId = [];
           state.selectedExpId = [];
@@ -310,29 +310,28 @@ export default {
       store.dispatch("addSpentTime", activityData);
     };
 
-    const getExpressions = (size) => {
-      let arr;
-      let arr2 = [];
-      let difficulty;
-      let results = [];
+    const getExpressions = () => {
+      let arr = [];
+      const length = 8;
 
-      for( let i = 0; i < 8; i++){
-        arr2.push({
+      for( let i = 0; i < length; i++){
+        const trainingData = store.state.game.training.findthesame[i];
+        arr.push({
             id: i,
             expId: i,
-            exp: store.state.game.training.findthesame[i].mathjax_1,
+            exp: trainingData.mathjax_1,
           });
-          arr2.push({
-            id: i + size,
+          arr.push({
+            id: i + length,
             expId: i,
-            exp: store.state.game.training.findthesame[i].mathjax_2,
+            exp: trainingData.mathjax_2,
           });
       }
 
-      console.log(arr2);
-      shuffle(arr2);
-      console.log(arr2);
-      return arr2;
+      //console.log(arr);
+      shuffle(arr);
+      //console.log(arr);
+      return arr;
     }
 
     const shuffle = (array) => {
@@ -400,7 +399,7 @@ export default {
 .grid-item-found {
   background-color: #ffffff;
   opacity: 0.4;
-    border-radius: 10px;
+  border-radius: 10px;
 }
 .grid-item-none {
   background-color: #fcfcfc;

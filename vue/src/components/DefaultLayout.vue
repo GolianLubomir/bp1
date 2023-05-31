@@ -51,7 +51,7 @@
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'px-3 py-2 rounded-md text-sm font-medium',
                   ]"
-                  >Login
+                  >Prihlásiť sa
               </router-link>
               
               <router-link
@@ -63,7 +63,7 @@
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'px-3 py-2 rounded-md text-sm font-medium',
                   ]"
-                  >Sign up
+                  >Registrovať sa
               </router-link>
             </div>
             <div  v-if="userToken"  class="ml-4 flex items-center md:ml-6">
@@ -108,7 +108,7 @@
                           'block px-4 py-2 text-md font-bold text-gray-300 bg-gray-800 cursor-pointer hover:text-gray-100',
                           { 'bg-gray-900 text-white': active }
                         ]"
-                        >Your profile</router-link
+                        >Tvoj Profil</router-link
                       >
                     </MenuItem>
                     <MenuItem v-slot="{ active }">
@@ -117,7 +117,7 @@
                         :class="[
                           'block px-4 py-2 text-md font-bold text-gray-300 bg-gray-800 cursor-pointer hover:text-gray-100',
                         ]"
-                        >Sing out</a
+                        >Odhlásiť sa</a
                       >
                     </MenuItem>
                   </MenuItems>
@@ -164,14 +164,14 @@
               :to="{ name: 'Login' }"
               class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer"
             >
-              Login
+              Prihlásiť sa
             </router-link>
 
             <router-link
               :to="{ name: 'Register' }"
               class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer"
             >
-              Sign Up
+              Registrovať sa
             </router-link>
        
             >
@@ -197,7 +197,7 @@
               :to="{ name: 'Profile' }"
               class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer"
             >
-              Your profile
+              Tvoj Profil
             </router-link>
 
 
@@ -205,7 +205,7 @@
               as="a"
               @click="logout"
               class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer"
-              >Sing out</DisclosureButton
+              >Odhlásiť sa</DisclosureButton
             >
           </div>
         </div>
@@ -236,9 +236,9 @@ import { useRouter } from "vue-router";
 import Footer from "../components/Footer.vue";
 
 const navigation = [
-  { name: "Math Games", to: { name: "DefaultLayout" } },
-  { name: "Intuitive Mathematics", to: { name: "About" } },
-  { name: "Dashboard", to: { name: "Dashboard" } },
+  { name: "Matematické Hry", to: { name: "DefaultLayout" } },
+  { name: "Intuitívna Matematika", to: { name: "About" } },
+  { name: "Nástenka", to: { name: "Dashboard" } },
 ];
 export default {
   components: {

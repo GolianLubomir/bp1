@@ -18,20 +18,20 @@
     <div class="h-96 pt-10  mb-20">
       <div v-if="intro" class="h-96">
         <div class="py-2 text-center">
-          <h1 class="text-5xl text-white">Number systems conversions</h1>
+          <h1 class="text-5xl text-white">Prevody číselných sústav</h1>
         </div>
         <div class="py-6 text-center">
           <h1 class="text-xl text-white">
-            Convert numbers in any system .
+            Preveďte číslo do inej sustavy.
           </h1>
           <h1 class="text-xl text-white">
-            We will measure how many conversions you can do.
+            Budeme merať koľko prevodov dokažete spraviť za 2 minúty.
           </h1>
           <button
               @click="startTrain"
               class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
           >
-              Click here to start.
+              Kliknite tu a začnite.
           </button>
         </div>
       </div>
@@ -51,14 +51,16 @@
       <div>
         <div v-if="trainingEnded" class="pt-10 w-96 mx-auto text-center">
           <div class="text-2xl text-white text-center">
-            <p>Your score in 2 minutes is</p>
+            <p>Vaše skóre za 2 minúty je</p>
           </div>
         </div>
 
         <div v-if="trainingEnded" class="w-full h-80">
           <div class="text-4xl text-white text-center py-9">
             <p>{{ score }}</p>
-            <p class="text-2xl pt-6">conversions.</p>
+            <p v-if="score == 1" class="text-2xl pt-6">prevod.</p>
+            <p v-if="score > 1 && score <=4" class="text-2xl pt-6">prevody.</p>
+            <p v-if="score == 0 || score > 4" class="text-2xl pt-6">prevodov.</p>
           </div>
           <div class="text-lg text-white text-center py-6">
             <button
@@ -66,15 +68,15 @@
                   
                   class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
                   >
-                  Try again!
+                  Skúste to znova!
               </button>
               <button
                   @click="saveScore"
                   :disabled="scoreSaved"
                   class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
                   >
-                  <p v-if="!scoreSaved">Save score</p>
-                  <p v-if="scoreSaved">Score saved</p>
+                  <p v-if="!scoreSaved">Uložiť skóre</p>
+                  <p v-if="scoreSaved">Skóre uložené</p>
               </button>
           </div>
         </div>

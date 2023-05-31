@@ -44,10 +44,10 @@ class TrainingController extends Controller
         $type_3 = 'TYPE_3';
         $type_4 = 'TYPE_4';
         
-        $expressionsType_1 = FindTheSameData::where('type', $type_1)->inRandomOrder()->limit(4)->get();
-        $expressionsType_2 = FindTheSameData::where('type', $type_2)->inRandomOrder()->limit(4)->get();
-        //$expressionsType_3 = FindTheSameData::where('type', $type_3)->inRandomOrder()->limit(2)->get();
-        //$expressionsType_4 = FindTheSameData::where('type', $type_4)->inRandomOrder()->limit(2)->get();
+        $expressionsType_1 = $this->getUniqueExpression($type_1, 4);
+        $expressionsType_2 = $this->getUniqueExpression($type_2, 4);
+        // $expressionsType_3 = $this->getUniqueExpression($type_3, 2);
+        // $expressionsType_4 = $this->getUniqueExpression($type_4, 2);
 
         $expressions = [];
 
@@ -78,4 +78,21 @@ class TrainingController extends Controller
             'expressions' => $expressions,
         ]);
     }
+
+    public function getUniqueExpression($type, $limit) {
+        $uniqueExpressions = collect();
+        while($uniqueExpressions->count() < $limit) {
+            $expressions = FindTheSameData::where('type', $type)->inRandomOrder()->get();
+            foreach ($expressions as $expression) {
+                if (!$uniqueExpressions->contains('mathjax_2', $expression->mathjax_2)) {
+                    $uniqueExpressions->push($expression);
+                }
+                if ($uniqueExpressions->count() == $limit) {
+                    break;
+                }
+            }
+        }
+        return $uniqueExpressions;
+    }
+    
 }

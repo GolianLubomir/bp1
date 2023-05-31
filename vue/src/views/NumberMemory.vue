@@ -9,17 +9,17 @@
     <div class="h-96 mb-20">
       <div v-if="intro" class="h-96">
         <div class="py-2 text-center">
-          <h1 class="text-5xl text-white">Number Memory</h1>
+          <h1 class="text-5xl text-white">Číselná pamäť</h1>
         </div>
         <div class="py-6 text-center">
           <h1 class="text-xl text-white">
-            Remember the number that appears and then write it in the field
+            Zapamätaj si číslo, ktoré sa objaví, a potom ho zapíš do poľa.
           </h1>
           <button
               @click="startTrain"
               class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
           >
-              Click here to start.
+              Kliknite tu a začnite.
           </button>
         </div>
       </div>
@@ -39,13 +39,14 @@
         <div>
           <div v-if="trainingEnded" class="pt-10 w-96 mx-auto text-center">
             <div class="text-2xl text-white text-center">
-              <p>You can remember a sequence of</p>
+              <p>Dokážeš si zapamätať postupnosť</p>
             </div>
           </div>
 
           <div v-if="trainingEnded" class="w-full h-80">
             <div class="text-4xl text-white text-center py-9">
-              <p>{{ sequenceLength - 1 }} numbers.</p>
+              <p v-if="sequenceLength - 1 == 1">{{ sequenceLength - 1 }} čísla.</p>
+              <p v-if="sequenceLength - 1 != 1">{{ sequenceLength - 1 }} čísel.</p>
             </div>
             <div class="text-lg text-white text-center py-6">
               <button
@@ -53,15 +54,15 @@
                   
                   class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
                   >
-                  Try again!
+                  Skúste to znova!
               </button>
               <button
                   @click="saveScore"
                   :disabled="scoreSaved"
                   class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
                   >
-                  <p v-if="!scoreSaved">Save score</p>
-                  <p v-if="scoreSaved">Score saved</p>
+                  <p v-if="!scoreSaved">Uložiť skóre</p>
+                  <p v-if="scoreSaved">Skóre uložené</p>
               </button>
             </div>
           </div>
@@ -87,16 +88,12 @@ import store from "../store"
 
 //import MathJax from 'mathjax'
 
-function genNumberSequence(size) {
-  let sequence = "";
-  for (var i = 0; i < size; i++) {
-    let num = Math.floor(Math.random() * 10);
-    let str1 = num.toString();
-    let str2 = sequence.concat(str1);
-    sequence = str2;
-  }
-
-  return sequence;
+function genNumberSequence(length) {
+    let sequence = "";
+    for(let i = 0; i < length; i++) {
+        sequence += Math.floor(Math.random() * 10);
+    }
+    return sequence;
 }
 
 export default {

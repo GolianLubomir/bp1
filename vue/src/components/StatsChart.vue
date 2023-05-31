@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p class="text-xl text-slate-600 font-bold text-center pb-2">Statistics</p>
+        <p class="text-xl text-slate-600 font-bold text-center pb-2">Progres</p>
         <div>
         <apexchart  height="300" type="area" :options="chartOptions" :series="chartSeries"></apexchart>
         </div>

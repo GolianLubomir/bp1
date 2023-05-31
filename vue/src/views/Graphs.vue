@@ -21,13 +21,13 @@
 
     <div v-if="intro" class="h-96 pt-10 mb-20">
       <div class="py-2 text-center">
-        <h1 class="text-5xl text-white">Graphs</h1>
+        <h1 class="text-5xl text-white">Grafy</h1>
       </div>
       <div class="py-6 text-center">
         <h1 class="text-xl text-white">
-          Find and click on two squares of the same value as fast as you can.
+          Nakresli grafy zadaných matematických funkcií.
         </h1>
-        <h1 class="text-xl text-white">We will measure your solution time.</h1>
+        <h1 class="text-xl text-white">Budeme sledovať, koľko grafov zvládneš správne nakresliť za dva minúty.</h1>
         <button
             @click="startTrain"
             :disabled="!dataLoaded"
@@ -37,7 +37,7 @@
             }"
             class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
           >
-            Click here to start.
+            Kliknite tu a začnite.
           </button>
       </div>
     </div>
@@ -59,7 +59,7 @@
     <div>
         <div v-if="trainingEnded" class="pt-10 w-96 mx-auto text-center">
           <div class="text-2xl text-white text-center"> 
-            <p>Your graph drawing score is</p>
+            <p>Tvoje skóre v kreslení grafov je</p>
           </div>
         </div>
 
@@ -69,7 +69,7 @@
             
           </div>
           <div class="text-xl text-white text-center"> 
-            <p>Your average percentage of all graphs drawn is</p> 
+            <p>Tvoje priemerná zhoda zo všetkých nakreslených grafov je</p> 
             <p>{{ percentAverage }} %</p>
           </div>
 
@@ -79,15 +79,15 @@
               :disabled="!dataLoaded"
               class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
             >
-              Try again!
+              Skúste to znova!
             </button>
             <button
                   @click="saveScore"
                   :disabled="scoreSaved"
                   class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
                   >
-                  <p v-if="!scoreSaved">Save score</p>
-                  <p v-if="scoreSaved">Score saved</p>
+                  <p v-if="!scoreSaved">Uložiť skóre</p>
+                  <p v-if="scoreSaved">Skóre uložené</p>
               </button>
           </div>
         </div>

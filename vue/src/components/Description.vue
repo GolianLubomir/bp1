@@ -3,8 +3,8 @@
     <div class="content">
       <div ref="textContent" :class="{ 'gradient': !expanded }" class="text-container" :style="{ maxHeight: expanded ? 'none' : '170px' }">
         <div class="flex">
-          <p class="text-xl text-slate-600 font-bold text-center pb-2 w-1/2">Description</p>
-          <p class="text-xl text-slate-600 font-bold text-center pb-2 w-1/2">Instructions</p>
+          <p class="text-xl text-slate-600 font-bold text-center pb-2 w-1/2">Popis</p>
+          <p class="text-xl text-slate-600 font-bold text-center pb-2 w-1/2">Inštrukcie</p>
         </div>
         
         <div class="flex text-center pb-8 pt-6">
@@ -14,8 +14,8 @@
       </div>
 
 
-      <button @click="toggleExpanded" class="read-more-button w-full pt-8 text--600 text-lg font-medium text-teal-700 hover:text-teal-600">
-          {{ expanded ? 'Read Less' : 'Read More' }}
+      <button @click="toggleExpanded" class="read-more-button w-full pt-8 text-lg font-medium text-gray-500 hover:text-teal-600">
+          {{ expanded ? 'Zbaliť' : 'Rozbaliť' }}
       </button>
       
     </div>
