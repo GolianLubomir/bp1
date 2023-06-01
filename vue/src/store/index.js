@@ -114,6 +114,7 @@ const store = createStore({
         login({commit}, user) {
         return axiosClient.post('/login', user)
             .then(({data}) => {
+              console.log(data);  
             commit('setUser', data.user);
             commit('setToken', data.token)
             //dispatch("fetchScores");

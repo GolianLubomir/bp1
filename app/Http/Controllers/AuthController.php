@@ -3,94 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Testing\Fluent\Concerns\Has;
 use Illuminate\Validation\Rules\Password;
 
-/**
- * Class AuthController
- *
- * @author  Zura Sekhniashvili <zurasekhniashvili@gmail.com>
- * @package App\Http\Controllers
- */
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    protected AuthService $authService;
+
+    public function __construct(AuthService $authService)
     {
-        $data = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|string|unique:users,email',
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)->mixedCase()->numbers()
-            ]
-        ]);
-
-        /** @var \App\Models\User $user */
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password'])
-        ]);
-        $token = $user->createToken('main')->plainTextToken;
-
-        return response([
-            'user' => $user,
-            'token' => $token
-        ]);
+        $this->authService = $authService;
     }
 
-    public function login(Request $request)
+    public function register(Request $request): JsonResponse
     {
-        $credentials = $request->validate([
-            'email' => 'required|email|string|exists:users,email',
-            'password' => [
-                'required',
-            ],
-            'remember' => 'boolean'
-        ]);
-        $remember = $credentials['remember'] ?? false;
-        unset($credentials['remember']);
-
-        if (!Auth::attempt($credentials, $remember)) {
-            return response([
-                'error' => 'The Provided credentials are not correct'
-            ], 422);
-        }
-        $user = Auth::user();
-        $token = $user->createToken('main')->plainTextToken;
-
-        return response([
-            'user' => $user,
-            'token' => $token
-        ]);
+        $result = $this->authService->register($request);
+        return response()->json($result);
     }
 
-    public function logout()
+    public function login(Request $request): JsonResponse
     {
-        /** @var User $user */
-        $user = Auth::user();
-        // Revoke the token that was used to authenticate the current request...
-        $user->currentAccessToken()->delete();
-
-        return response([
-            'success' => true
-        ]);
+        $result = $this->authService->login($request);
+        return response()->json($result);
     }
 
-    public function reload()
+    public function logout(): JsonResponse
     {
-        /** @var User $user */
-        $user = Auth::user();
-        // Revoke the token that was used to authenticate the current request...
-        //$token = $user->currentAccessToken();
-        //$token = $user->createToken('main')->plainTextToken;
-        return response([
-            'user' => $user,
-            //'token' => $token
-        ]);
+        $result = $this->authService->logout();
+        return response()->json($result);
     }
-
 }

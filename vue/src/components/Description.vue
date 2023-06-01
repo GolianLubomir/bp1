@@ -2,26 +2,24 @@
   <div>
     <div class="content">
       <div ref="textContent" :class="{ 'gradient': !expanded }" class="text-container" :style="{ maxHeight: expanded ? 'none' : '170px' }">
-        <div class="flex">
-          <p class="text-xl text-slate-600 font-bold text-center pb-2 w-1/2">Popis</p>
-          <p class="text-xl text-slate-600 font-bold text-center pb-2 w-1/2">Inštrukcie</p>
-        </div>
-        
-        <div class="flex text-center pb-8 pt-6">
-          <p class="w-1/2 px-16 text-lg border-r-2"> <span v-html="description.about"></span> </p>
-          <p class="w-1/2 px-16 text-lg border-l-2"> <span v-html="description.instructions"></span> </p>
+        <div class="lg:flex">
+          <div class="lg:w-1/2 lg:border-r-2">
+            <p class="text-xl text-slate-600 font-bold text-center pb-2 w-full">Popis</p>
+            <p class="w-full text-center px-16 text-lg"> <span v-html="description.about"></span> </p>
+          </div>
+          
+          <div class="lg:w-1/2 lg:border-l-2 pt-10 lg:pt-0">
+            <p class="text-xl text-slate-600 font-bold text-center pb-2 w-full">Inštrukcie</p>
+            <p class="w-full text-center px-16 text-lg"> <span v-html="description.instructions"></span> </p>
+          </div>        
         </div>
       </div>
-
 
       <button @click="toggleExpanded" class="read-more-button w-full pt-8 text-lg font-medium text-gray-500 hover:text-teal-600">
           {{ expanded ? 'Zbaliť' : 'Rozbaliť' }}
       </button>
       
     </div>
-    
-
-    
   </div>
 </template>
 

@@ -22,7 +22,7 @@
                 alt="Your Company"
               />-->
             </router-link>
-            <div class="hidden md:block">
+            <div class="hidden lg:block">
               <div class="ml-10 flex items-baseline space-x-4">
                 <router-link
                   v-for="item in navigation"
@@ -40,7 +40,7 @@
               </div>
             </div>
           </div>
-          <div class="hidden md:block">
+          <div class="hidden lg:block">
             <div v-if="!userToken" class="">
               <router-link
                   :to="{ name: 'Login' }"
@@ -125,7 +125,7 @@
               </Menu>
             </div>
           </div>
-          <div class="-mr-2 flex md:hidden">
+          <div class="-mr-2 flex lg:hidden">
             <!-- Mobile menu button -->
             <DisclosureButton
               class="inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -142,7 +142,7 @@
         </div>
       </div>
 
-      <DisclosurePanel class="md:hidden">
+      <DisclosurePanel class="lg:hidden">
         <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
           <router-link
             v-for="item in navigation"
@@ -180,7 +180,11 @@
         <div v-if="userToken" class="border-t border-gray-700 pt-4 pb-3">
           <div class="flex items-center px-5">
             <div class="flex-shrink-0">
-              <img class="h-8 w-8 rounded-full" src="../img/profile-photo.jpg" alt="" />
+              <img
+                class="h-10 w-10 rounded-full"
+                src="../icon/user2.png"
+                alt=""
+              />
               <!--<img class="h-10 w-10 rounded-full" :src="user.imageUrl" alt="" />-->
             </div>
             <div class="ml-3">
