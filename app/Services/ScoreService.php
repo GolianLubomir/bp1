@@ -104,6 +104,14 @@ class ScoreService
                     $position = $position == 0 ? 1 : $position;
                     $total = count($generatedScoreValues[$game->id]);
                     $result[$game->name]['percentile'] = $position / $total * 100;
+                    if($game->id == 1 || $game->id == 4){
+                        $result[$game->name]['standing'] = $total-$position;
+                    }else{
+                        $result[$game->name]['standing'] = $position;
+                    }
+                    $result[$game->name]['total'] = $total;
+                    
+
                 }
             }
             return ['scores' => $result];

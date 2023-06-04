@@ -1,15 +1,10 @@
 <template>
   <div class="px-6 py-1 text-center">
     <h1
-      class="text-2xl font-bold text-slate-600 mb-2 whitespace-nowrap border-b-2"
+      class="text-lg sm:text-xl lg:text-2xl font-bold text-slate-600 mb-2 whitespace-nowrap border-b-2"
     >
       {{ title }}
     </h1>
-    <!--<div class="py-6 mx-auto w-36 h-36 my-border border-green-500 rounded-full text-center">
-        <p class="text-3xl text-slate-600 py-4">
-           {{percent}}%
-        </p>
-    </div>-->
     <div id="chart">
       <apexchart
         type="radialBar"
@@ -21,10 +16,7 @@
     </div>
     <p class="text-lg pb-1">
       Skóre:
-       <span class="text-2xl">{{ points }}</span> bodov
-        <!--<span v-if="points == 1"> bod</span> 
-        <span v-if="points > 1 && points <=4"> bodu</span>
-        <span v-if="points == 0 || points > 4"> bodov</span>-->
+      <span class="text-2xl">{{ points }}</span> bodov
     </p>
     <router-link
       :to="{ name: linkTo }"
@@ -37,15 +29,7 @@
 </template>
 
 <script>
-import { useRouter } from "vue-router";
 import VueApexCharts from "vue3-apexcharts";
-/*const props = defineProps({
-    title: "String",
-    percent: "String",
-    points: "String",
-
-
-})*/
 
 export default {
   props: {
@@ -77,7 +61,6 @@ export default {
       chartOptions: {
         chart: {
           height: 50,
-
           type: "radialBar",
           toolbar: {
             show: true,
@@ -106,7 +89,7 @@ export default {
             track: {
               background: "#fff",
               strokeWidth: "67%",
-              margin: 0, // margin is in pixels
+              margin: 0,
               dropShadow: {
                 enabled: true,
                 top: -3,
@@ -136,22 +119,7 @@ export default {
           },
         },
         fill: {
-          //type: 'gradient',
           colors: ["#06d6a0"],
-          //colors: ['#5cd1ad'],
-          //colors: ['#62c9a9'],
-          //colors: ['#33ff99'],
-          /*gradient: {
-                shade: 'dark',
-                type: 'horizontal',
-                shadeIntensity: 1,
-                gradientFromColors: ['#888888'],
-                gradientToColors: ['#64CF51'],
-                inverseColors: false,
-                opacityFrom: 1,
-                opacityTo: 1,
-                stops: [25, 50]
-              }*/
         },
         stroke: {
           lineCap: "round",
@@ -160,18 +128,6 @@ export default {
       },
     };
   },
-
-  /*setup() {
-    const router = useRouter()
-
-    function goToHome() {
-      router.push("/")
-    }
-
-    return {
-      goToHome,
-    }
-  },*/
 };
 </script>
 

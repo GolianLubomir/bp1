@@ -19,18 +19,27 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
+    /**
+     * @throws CustomException
+     */
     public function register(Request $request): JsonResponse
     {
         $result = $this->authService->register($request);
         return response()->json($result);
     }
 
+    /**
+     * @throws CustomException
+     */
     public function login(Request $request): JsonResponse
     {
         $result = $this->authService->login($request);
         return response()->json($result);
     }
 
+    /**
+     * @throws CustomException
+     */
     public function logout(): JsonResponse
     {
         $result = $this->authService->logout();

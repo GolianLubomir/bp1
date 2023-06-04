@@ -108,12 +108,6 @@ export default {
   },
 
   setup() {
-    const startTime = ref(0);
-    const endTime = ref(0);
-    const running = ref(false);
-    let intervalId = null;
-    const time = ref(0);
-
     const state = reactive({
       trainingEnded: false,
       trainRunning: false,
@@ -121,7 +115,6 @@ export default {
       scoreSaved: false,
       startMeasurement: false,
       stopMeasurement: false,
-
     });
 
     const data = reactive({
@@ -154,7 +147,6 @@ export default {
     };
 
     const training = () => {
-      //startStopwatch();
       setTimeout(() => {
             stopTrain()
         }, data.timeToSolve * 1000);
@@ -210,6 +202,3 @@ export default {
   }
 };
 </script>
-
-<style></style>
-

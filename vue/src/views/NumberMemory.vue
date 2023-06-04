@@ -16,25 +16,24 @@
             Zapamätaj si číslo, ktoré sa objaví, a potom ho zapíš do poľa.
           </h1>
           <button
-              @click="startTrain"
-              class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
+            @click="startTrain"
+            class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
           >
-              Kliknite tu a začnite.
+            Kliknite tu a začnite.
           </button>
         </div>
       </div>
 
       <div v-if="trainRunning" class="h-96 flex items-center justify-center">
         <div v-if="remember || repeat" class="w-96">
-          <NumberSequenceComponent 
-            :numbersSequence="numbersSequence" 
-            :remember="remember" :repeat="repeat" 
-            :timeToRemember="timeToRemember" 
+          <NumberSequenceComponent
+            :numbersSequence="numbersSequence"
+            :remember="remember"
+            :repeat="repeat"
+            :timeToRemember="timeToRemember"
             @submit="submit"
           />
         </div>
-
-        
 
         <div>
           <div v-if="trainingEnded" class="pt-10 w-96 mx-auto text-center">
@@ -45,34 +44,37 @@
 
           <div v-if="trainingEnded" class="w-full h-80">
             <div class="text-4xl text-white text-center py-9">
-              <p v-if="sequenceLength - 1 == 1">{{ sequenceLength - 1 }} čísla.</p>
-              <p v-if="sequenceLength - 1 != 1">{{ sequenceLength - 1 }} čísel.</p>
+              <p v-if="sequenceLength - 1 == 1">
+                {{ sequenceLength - 1 }} čísla.
+              </p>
+              <p v-if="sequenceLength - 1 != 1">
+                {{ sequenceLength - 1 }} čísel.
+              </p>
             </div>
             <div class="text-lg text-white text-center py-6">
               <button
-                  @click="startTrain"
-                  
-                  class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
-                  >
-                  Skúste to znova!
+                @click="startTrain"
+                class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+              >
+                Skúste to znova!
               </button>
               <button
-                  @click="saveScore"
-                  :disabled="scoreSaved"
-                  class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
-                  >
-                  <p v-if="!scoreSaved">Uložiť skóre</p>
-                  <p v-if="scoreSaved">Skóre uložené</p>
+                @click="saveScore"
+                :disabled="scoreSaved"
+                class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+              >
+                <p v-if="!scoreSaved">Uložiť skóre</p>
+                <p v-if="scoreSaved">Skóre uložené</p>
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <ActivityTrackerComponent 
+    <ActivityTrackerComponent
       :startMeasurement="startMeasurement"
       :stopMeasurement="stopMeasurement"
-      @time-spent="onTimeSpent" 
+      @time-spent="onTimeSpent"
     />
   </div>
 </template>
@@ -80,20 +82,17 @@
 <script>
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
-import { ref, computed, watch, onMounted } from "vue";
-import TimerBar from "../components/TimerBar.vue"
-import NumberSequenceComponent from "../components/NumberSequenceComponent.vue"
-import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue"
-import store from "../store"
-
-//import MathJax from 'mathjax'
+import TimerBar from "../components/TimerBar.vue";
+import NumberSequenceComponent from "../components/NumberSequenceComponent.vue";
+import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue";
+import store from "../store";
 
 function genNumberSequence(length) {
-    let sequence = "";
-    for(let i = 0; i < length; i++) {
-        sequence += Math.floor(Math.random() * 10);
-    }
-    return sequence;
+  let sequence = "";
+  for (let i = 0; i < length; i++) {
+    sequence += Math.floor(Math.random() * 10);
+  }
+  return sequence;
 }
 
 export default {
@@ -105,7 +104,7 @@ export default {
   },
 
   setup() {
-    let timeoutID
+    let timeoutID;
     const state = reactive({
       trainingEnded: false,
       trainRunning: false,
@@ -146,14 +145,14 @@ export default {
       state.intro = true;
       state.inputText = "";
       state.trainingEnded = false;
-      clearTimeout(timeoutID)
+      clearTimeout(timeoutID);
     };
 
     const training = () => {
       state.numbersSequence = genNumberSequence(state.sequenceLength);
       state.repeat = false;
       state.remember = true;
-      state.timeToRemember = 3 + state.sequenceLength/2
+      state.timeToRemember = 3 + state.sequenceLength / 2;
       timeoutID = setTimeout(() => {
         state.remember = false;
         state.repeat = true;
@@ -177,13 +176,13 @@ export default {
 
     const saveScore = () => {
       const score = {
-          game_id: 2,
-          score: state.sequenceLength - 1
-      }
+        game_id: 2,
+        score: state.sequenceLength - 1,
+      };
 
-      store.dispatch('addScore', score);
+      store.dispatch("addScore", score);
       state.scoreSaved = true;
-    }
+    };
 
     const startGame = () => {
       state.startMeasurement = true;
@@ -194,14 +193,14 @@ export default {
       state.stopMeasurement = true;
       state.startMeasurement = false;
     };
-    
+
     const onTimeSpent = (time) => {
       console.log("Time spent:", time);
       time = time <= 120 ? time : 120;
       const activityData = {
-          game_id: 2,
-          training_time: time
-      }
+        game_id: 2,
+        training_time: time,
+      };
       store.dispatch("addSpentTime", activityData);
     };
 
@@ -218,8 +217,6 @@ export default {
 
   mounted() {
     window.scrollTo(0, 0);
-  }
+  },
 };
 </script>
-
-<style></style>

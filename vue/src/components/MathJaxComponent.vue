@@ -41,37 +41,13 @@ export default {
 
 <style scoped>
 .mathjax-container {
-  /* Add your custom styles here, if needed */
-  font-family: sans-serif; 
-  height: 50px ;
+  font-family: sans-serif;
+  height: 50px;
   margin: 0;
 }
 
-/*.mathjax-container .mjx-chtml {
-  font-family:  sans-serif !important;
-  color : black;
-}
-
-.mjx-container .mjx-math .mjx-chtml{
-  margin: 0 !important; 
-}
-
-.CtxtMenu_Attached_0{
-    height: 50px;
-    margin: 0 !important;
-}
-
-.MathJax{
-    height: 50px; 
-    margin: 0 !important;
-}
-
-.mjx-container .mjx-chtml {
-  margin: 0 !important; 
-  line-height: 1.2 !important; 
-}*/
 .mjx-container[jax="CHTML"][display="true"] {
-  display: none !important; /* Change display to inline */
-  margin: 0 !important; /* Set margin to 0 */
+  display: none !important;
+  margin: 0 !important;
 }
 </style>

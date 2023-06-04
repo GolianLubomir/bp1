@@ -84,11 +84,6 @@
             </button>
           </div>
         </div>
-        <div>
-          <!--<p>{{ stopwatch }}</p>
-                    <button v-if="!running" @click="startStopwatch" class=" bg-blue-500 btn btn-blue">Start</button>
-                    <button v-if="running" @click="stopStopwatch" class=" bg-blue-500 btn btn-red">Stop</button>-->
-        </div>
       </div>
     </div>
 
@@ -107,44 +102,6 @@ import { ref, computed, watch, onMounted } from "vue";
 import store from "../store";
 import MathJaxComponent from "../components/MathJaxComponent.vue";
 import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue";
-//import MathJax from 'mathjax'
-
-/*function genExpression() {
-    
-    let arr;
-    let num1 = Math.floor(Math.random() * 50)+1
-    let num2 = Math.floor(Math.random() * 50)+1
-
-    //let result = num1 + num2;
-
-    if(Math.floor(Math.random() * 2) == 0){
-        arr = [num1, num2, num1+num2, " + ", "true"];
-    }else{
-        if(num1 > num2){
-            arr = [num1, num2, num1-num2, " - ", "true"];
-        }else{
-            arr = [num2, num1, num2-num1, " - ", "true"];
-        }
-               
-    }
-    
-    if(Math.floor(Math.random() * 2) == 0){
-        arr[4] = false
-        let offset = Math.floor(Math.random()*9) + 1;
-        if(Math.floor(Math.random() * 2) == 0){
-            arr[2] = arr[2]+offset;
-        }else{
-            arr[2] = arr[2]-offset;
-        }       
-    }else{
-        arr[4] = true
-    }
-
-
-    return arr;
-
-
-}*/
 
 function genExpression() {
   let arr;
@@ -161,11 +118,6 @@ function genExpression() {
       } else {
         arr = [num2, num1, num2 - num1, " - ", true];
       }
-      break;
-    case 2: // Multiplication
-      num1 = num1 * 2 <= 10 ? num1 * 2 + 10 : num1 * 2;
-      num2 = num2 % 10 >= 3 ? num2 % 10 : (num2 % 10) + 3;
-      arr = [num1, num2, num1 * num2, " * ", true];
       break;
   }
 
@@ -211,22 +163,9 @@ export default {
     let times = [];
     const averageOfTimes = ref(0);
 
-
-
-    /*const stopwatch = computed(() => {
-            if (running.value) {
-                return (Date.now() - startTime.value) / 1000;
-            } else {
-                return (endTime.value - startTime.value) / 1000;
-            }
-        });*/
-
     const startStopwatch = () => {
       running.value = true;
       startTime.value = Date.now();
-      /*intervalId = setInterval(() => {
-                stopwatch.value;
-            }, 10);*/
     };
 
     const stopStopwatch = () => {
@@ -234,10 +173,6 @@ export default {
       endTime.value = Date.now();
       clearInterval(intervalId);
     };
-
-    /*onMounted(() => {
-            watch(stopwatch, () => {});
-        });*/
 
     const state = reactive({
       trainRunning: false,
@@ -278,14 +213,12 @@ export default {
 
     const userAnswered = (answer) => {
       if (data.expectedAnswer == answer) {
-
         stopStopwatch();
         times.push((endTime.value - startTime.value) / 1000);
         console.log(times);
         exampleNum++;
         training();
       } else {
-
         stopStopwatch();
         penalties.value += 2;
         console.log(times);
@@ -309,7 +242,6 @@ export default {
         averageOfTimes.value = avgTime.toFixed(3);
         trainingEnded.value = true;
         endGame();
-        //saveScore()
       }
     };
 
@@ -349,7 +281,6 @@ export default {
       startTrain,
       leaveTrain,
       userAnswered,
-      //stopwatch,
       running,
       trainingEnded,
       startStopwatch,
@@ -357,7 +288,6 @@ export default {
       averageOfTimes,
       saveScore,
       onTimeSpent,
-
     };
   },
 
@@ -366,5 +296,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

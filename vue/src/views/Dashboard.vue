@@ -150,7 +150,7 @@ import StatsTileComponent from "../components/StatsTileComponent.vue";
 import DashboardHeader from "../components/DashboardHeader.vue";
 import Icon from "../components/Icon.vue";
 import TimerBar from "../components/TimerBar.vue";
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 
 import store from "../store";
 
@@ -164,8 +164,6 @@ export default {
   },
 
   created() {
-    //this.$store.dispatch('fetchScores');
-
     store.dispatch("fetchScores");
     store.dispatch("getSpentTime");
   },

@@ -13,14 +13,14 @@
         </div>
         <div class="py-6 text-center">
           <h1 class="text-xl text-white">
-            Zapamätajte si postupnosť matematických výrazov, a potom
-             zapíšte ich výsledky.
+            Zapamätajte si postupnosť matematických výrazov, a potom zapíšte ich
+            výsledky.
           </h1>
           <button
-              @click="startTrain"
-              class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
+            @click="startTrain"
+            class="border rounded-full mt-20 px-2 py-2 bg-white font-bold text-gray-600 myButtonShadow hover:text-amber-600"
           >
-              Kliknite tu a začnite.
+            Kliknite tu a začnite.
           </button>
         </div>
       </div>
@@ -31,7 +31,12 @@
             v-if="remember"
             class="flex flex-wrap items-center justify-center mx-auto max-w-screen-lg"
           >
-            <TimerBar v-if="remember" :time="timeToRemember" :widthprops="'100%'"> </TimerBar>
+            <TimerBar
+              v-if="remember"
+              :time="timeToRemember"
+              :widthprops="'100%'"
+            >
+            </TimerBar>
             <div
               v-for="expression in expressionsSequence"
               :key="expression.id"
@@ -54,16 +59,14 @@
               >
                 <input
                   type="text"
-                  :id="`input-${item.id}`" 
+                  :id="`input-${item.id}`"
                   v-model="item.input"
                   @keypress="numericInputCheck"
                   @keyup.enter="submit"
-                  
                   class="bg-teal-500 default-none border-2 text-5xl text-white text-center h-14 w-40 pb-3 focus:border-slate-600 focus:ring-slate-600"
                 />
               </div>
             </div>
-            
           </div>
           <button
             v-if="repeat"
@@ -83,34 +86,37 @@
 
           <div v-if="trainingEnded" class="w-full h-80">
             <div class="text-4xl text-white text-center py-9">
-              <p v-if="sequenceLength - 1 == 1" >{{ sequenceLength - 1 }} výrazu.</p>
-              <p v-if="sequenceLength - 1 != 1" >{{ sequenceLength - 1 }} výrazov.</p>
+              <p v-if="sequenceLength - 1 == 1">
+                {{ sequenceLength - 1 }} výrazu.
+              </p>
+              <p v-if="sequenceLength - 1 != 1">
+                {{ sequenceLength - 1 }} výrazov.
+              </p>
             </div>
             <div class="text-lg text-white text-center py-6">
               <button
-                  @click="startTrain"
-                  
-                  class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
-                  >
-                  Skúste to znova!
+                @click="startTrain"
+                class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+              >
+                Skúste to znova!
               </button>
               <button
-                  @click="saveScore"
-                  :disabled="scoreSaved"
-                  class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
-                  >
-                  <p v-if="!scoreSaved">Uložiť skóre</p>
-                  <p v-if="scoreSaved">Skóre uložené</p>
+                @click="saveScore"
+                :disabled="scoreSaved"
+                class="inline-block bg-white mx-3 hover:text-amber-600 text-gray-600 myButtonShadow font-bold py-1 px-4 rounded-full"
+              >
+                <p v-if="!scoreSaved">Uložiť skóre</p>
+                <p v-if="scoreSaved">Skóre uložené</p>
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <ActivityTrackerComponent 
+    <ActivityTrackerComponent
       :startMeasurement="startMeasurement"
       :stopMeasurement="stopMeasurement"
-      @time-spent="onTimeSpent" 
+      @time-spent="onTimeSpent"
     />
   </div>
 </template>
@@ -118,22 +124,20 @@
 <script>
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
-import { ref, computed, watch, onMounted, inject, nextTick } from "vue";
-import TimerBar from "../components/TimerBar.vue"
-import store from "../store"
-import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue"
-//import MathJax from 'mathjax'
-
+import { watch, nextTick } from "vue";
+import TimerBar from "../components/TimerBar.vue";
+import store from "../store";
+import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue";
 
 function genExspressionArray(length) {
   let arr = [];
-  
+
   for (let i = 0; i < length; i++) {
     let difficulty = 10;
-    if(i==1 || i==2) {
-        difficulty = 20;
-    } else if(i>=3) {
-        difficulty = 30;
+    if (i == 1 || i == 2) {
+      difficulty = 20;
+    } else if (i >= 3) {
+      difficulty = 30;
     }
 
     let num1 = Math.floor(Math.random() * difficulty) + 1;
@@ -166,7 +170,6 @@ function genExspressionArray(length) {
   return arr;
 }
 
-
 export default {
   components: {
     XMarkIcon,
@@ -176,7 +179,6 @@ export default {
 
   setup() {
     let timeoutID;
-    //let timeToRemember = 2000;
     const state = reactive({
       trainingEnded: false,
       trainRunning: false,
@@ -200,8 +202,6 @@ export default {
       startMeasurement: false,
       stopMeasurement: false,
     });
-
-    
 
     const data = reactive({
       num1: 0,
@@ -255,7 +255,8 @@ export default {
       console.log(state.expressionsSequence);
       state.repeat = false;
       state.remember = true;
-      state.timeToRemember = 3 + state.sequenceLength * (state.sequenceLength/2)
+      state.timeToRemember =
+        3 + state.sequenceLength * (state.sequenceLength / 2);
       timeoutID = setTimeout(() => {
         state.remember = false;
         state.repeat = true;
@@ -283,51 +284,50 @@ export default {
     };
 
     const areInputsFilled = (count) => {
-        for (let i = 0; i < count; i++) {
-          if(data.inputText[i].input == ''){
-            return false;
-          }
+      for (let i = 0; i < count; i++) {
+        if (data.inputText[i].input == "") {
+          return false;
         }
-        return true;
+      }
+      return true;
     };
 
     const clearInputs = (count) => {
-        for (let i = 0; i < count; i++) {
-          data.inputText[i].input = "";
-        }
+      for (let i = 0; i < count; i++) {
+        data.inputText[i].input = "";
+      }
     };
 
     watch(
       () => state.repeat,
       (newValue) => {
-          if (newValue) {
+        if (newValue) {
           setTimeout(() => {
-              focusFirstEmptyInput();
+            focusFirstEmptyInput();
           }, 0);
-          }
+        }
       }
     );
 
     const checkLength = (inputId) => {
-      console.log("check length" + inputId)
-      const expectedSeq = state.expressionsSequence[inputId-1].exp.res
-      const inputSeq = data.inputText[inputId-1].input
+      console.log("check length" + inputId);
+      const expectedSeq = state.expressionsSequence[inputId - 1].exp.res;
+      const inputSeq = data.inputText[inputId - 1].input;
 
-      if( expectedSeq.length == inputSeq.length){
+      if (expectedSeq.length == inputSeq.length) {
         focusFirstEmptyInput();
       }
-    }
+    };
 
     const numericInputCheck = (e) => {
       const ch = String.fromCharCode(e.which);
-      if (!(/[0-9]/.test(ch))) {
+      if (!/[0-9]/.test(ch)) {
         e.preventDefault();
       }
     };
 
     const submit = () => {
-
-      if(areInputsFilled(state.sequenceLength)){
+      if (areInputsFilled(state.sequenceLength)) {
         if (areInputsCorect(state.sequenceLength)) {
           clearInputs(state.sequenceLength);
           state.sequenceLength++;
@@ -340,41 +340,40 @@ export default {
           state.trainingEnded = true;
           endGame();
         }
-      }else{
+      } else {
         focusFirstEmptyInput();
       }
-      
     };
 
     const saveScore = () => {
       const score = {
-          game_id: 3,
-          score: state.sequenceLength - 1
-      }
+        game_id: 3,
+        score: state.sequenceLength - 1,
+      };
 
-      store.dispatch('addScore', score);
+      store.dispatch("addScore", score);
       state.scoreSaved = true;
-    }
+    };
 
-      const startGame = () => {
-        state.startMeasurement = true;
-        state.stopMeasurement = false;
-      };
+    const startGame = () => {
+      state.startMeasurement = true;
+      state.stopMeasurement = false;
+    };
 
-      const endGame = () => {
-        state.stopMeasurement = true;
-        state.startMeasurement = false;
-      };
+    const endGame = () => {
+      state.stopMeasurement = true;
+      state.startMeasurement = false;
+    };
 
-      const onTimeSpent = (time) => {
-        console.log("Time spent:", time);
-        time = time <= 120 ? time : 120;
-        const activityData = {
-            game_id: 3,
-            training_time: time
-        }
-        store.dispatch("addSpentTime", activityData);
+    const onTimeSpent = (time) => {
+      console.log("Time spent:", time);
+      time = time <= 120 ? time : 120;
+      const activityData = {
+        game_id: 3,
+        training_time: time,
       };
+      store.dispatch("addSpentTime", activityData);
+    };
 
     return {
       ...toRefs(state),
@@ -391,9 +390,7 @@ export default {
   },
 
   mounted() {
-      window.scrollTo(0, 0);
-  }
+    window.scrollTo(0, 0);
+  },
 };
 </script>
-
-<style></style>

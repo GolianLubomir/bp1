@@ -20,8 +20,6 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
-
 export default {
   data() {
     return {
@@ -59,7 +57,6 @@ export default {
         this.currentConversion.valueTo,
         false
       );
-
       this.resetState();
     },
 
@@ -77,7 +74,6 @@ export default {
           : this.userAnswer
               .toUpperCase()
               .padStart(this.currentConversion.valueTo == 2 ? 8 : 2, "0");
-
       if (userAnswer === this.numberTo) {
         this.handleCorrectAnswer();
       } else {
@@ -87,7 +83,6 @@ export default {
 
     convertNumber(number, base, isFrom) {
       let numberString = "";
-
       if (base === 2) {
         numberString = number.toString(base).padStart(8, "0");
         return isFrom ? numberString.match(/.{1,4}/g).join(" ") : numberString;

@@ -1,26 +1,15 @@
-
-
 <template>
-  <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-gray-100">
-    <body class="h-full">
-    ```
-  -->
-  <div class="min-h-full">
+  <div class="min-h-screen">
     <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
       <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
           <div class="flex items-center">
             <router-link class="flex-shrink-0" :to="{ name: 'DefaultLayout' }">
-              <h1 class="text-white font-bold text-2xl text-teal-500 underline decoration-2">MathTrainer</h1>
-              <!--<img
-                class="h-8 w-8"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                alt="Your Company"
-              />-->
+              <h1
+                class="text-white font-bold text-2xl text-teal-500 underline decoration-2"
+              >
+                MathTrainer
+              </h1>
             </router-link>
             <div class="hidden lg:block">
               <div class="ml-10 flex items-baseline space-x-4">
@@ -43,30 +32,30 @@
           <div class="hidden lg:block">
             <div v-if="!userToken" class="">
               <router-link
-                  :to="{ name: 'Login' }"
-                  active-class="bg-gray-900 text-white"
-                  :class="[
-                    this.$route.name === 'Login'
-                      ? ''
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'px-3 py-2 rounded-md text-sm font-medium',
-                  ]"
-                  >Prihlásiť sa
+                :to="{ name: 'Login' }"
+                active-class="bg-gray-900 text-white"
+                :class="[
+                  this.$route.name === 'Login'
+                    ? ''
+                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                  'px-3 py-2 rounded-md text-sm font-medium',
+                ]"
+                >Prihlásiť sa
               </router-link>
-              
+
               <router-link
-                  :to="{ name: 'Register' }"
-                  active-class="bg-gray-900 text-white"
-                  :class="[
-                    this.$route.name === 'Register'
-                      ? ''
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'px-3 py-2 rounded-md text-sm font-medium',
-                  ]"
-                  >Registrovať sa
+                :to="{ name: 'Register' }"
+                active-class="bg-gray-900 text-white"
+                :class="[
+                  this.$route.name === 'Register'
+                    ? ''
+                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                  'px-3 py-2 rounded-md text-sm font-medium',
+                ]"
+                >Registrovať sa
               </router-link>
             </div>
-            <div  v-if="userToken"  class="ml-4 flex items-center md:ml-6">
+            <div v-if="userToken" class="ml-4 flex items-center md:ml-6">
               <!-- Profile dropdown -->
               <Menu as="div" class="relative ml-3">
                 <div class="flex text-end">
@@ -103,10 +92,9 @@
                     <MenuItem v-slot="{ active }">
                       <router-link
                         :to="{ name: 'Profile' }"
-                        
                         :class="[
                           'block px-4 py-2 text-md font-bold text-gray-300 bg-gray-800 cursor-pointer hover:text-gray-100',
-                          { 'bg-gray-900 text-white': active }
+                          { 'bg-gray-900 text-white': active },
                         ]"
                         >Tvoj Profil</router-link
                       >
@@ -173,7 +161,7 @@
             >
               Registrovať sa
             </router-link>
-       
+
             >
           </div>
         </div>
@@ -185,7 +173,6 @@
                 src="../icon/user2.png"
                 alt=""
               />
-              <!--<img class="h-10 w-10 rounded-full" :src="user.imageUrl" alt="" />-->
             </div>
             <div class="ml-3">
               <div class="text-base font-medium leading-none text-white">
@@ -204,8 +191,7 @@
               Tvoj Profil
             </router-link>
 
-
-             <DisclosureButton
+            <DisclosureButton
               as="a"
               @click="logout"
               class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer"
@@ -232,7 +218,6 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/vue";
-import PageComponent from "../components/PageComponent.vue";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { useStore } from "vuex";
 import { computed, onMounted } from "vue";
@@ -271,10 +256,8 @@ export default {
     }
 
     onMounted(() => {
-      console.log("onMounted sagnasng")
-      //store.dispatch("silentAuth")
-    })
-
+      console.log("onMounted sagnasng");
+    });
 
     return {
       user: computed(() => store.state.user.data),
@@ -286,19 +269,17 @@ export default {
 };
 </script>
 
-
 <style>
-  :root{
-    --primary-color: rgb(13, 148, 136);
-    /*--primary-color: #6CC4A1;*/
-    --primary-color-hover: #0b8177;
-  }
+:root {
+  --primary-color: rgb(13, 148, 136);
+  --primary-color-hover: #0b8177;
+}
 
-  .primary-bg{
-    background-color: var(--primary-color);
-  }
+.primary-bg {
+  background-color: var(--primary-color);
+}
 
-  
-
-  
+.bla{
+  min-height: 100vh;
+}
 </style>

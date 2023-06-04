@@ -43,7 +43,7 @@ id;mathjax_1;mathjax_2;type
 42;$${\frac{d}{dx}\left( tg(x)\right)}$$;$${\frac{1}{cos^2(x)}}$$;TYPE_1
 43;$${\frac{d}{dx}\left( cotg(x)\right)}$$;$${-\frac{1}{sin^2(x)}}$$;TYPE_1
 44;$${\frac{d}{dx}\left(e^x\right)}$$;$${e^x}$$;TYPE_1
-45;$${\frac{d}{dx}\left(e^-x\right)}$$;$${-e^-x}$$;TYPE_1
+45;$${\frac{d}{dx}\left(e^{-x}\right)}$$;$${-e^{-x}}$$;TYPE_1
 46;$${\frac{d}{dx}\left(e^{x + 1}\right)}$$;$${e^{x + 1}}$$;TYPE_1
 47;$${\frac{d}{dx}\left(e^{x^2}\right)}$$;$${2xe^{x^2}}$$;TYPE_1
 48;$${\frac{d}{dx}\left(e^{2x}\right)}$$;$${2e^{2x}}$$;TYPE_1

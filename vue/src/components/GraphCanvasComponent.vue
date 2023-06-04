@@ -59,14 +59,12 @@
 </template>
 
 <script>
-import { XMarkIcon } from "@heroicons/vue/24/outline";
-import { reactive, toRefs } from "vue";
-import { ref, computed, watch, onMounted } from "vue";
+import { reactive } from "vue";
 import MathJaxComponent from "../components/MathJaxComponent.vue";
 import LivesComponent from "../components/LivesComponent.vue";
 
 import store from "../store";
-import * as math from "mathjs";
+//import * as math from "mathjs";
 
 export default {
   setup() {
@@ -361,8 +359,6 @@ export default {
 
       let correctPoints = [];
       let userInterpolatedPoints = [];
-      let interpolationPoints = [];
-      let interpolationInvPoints = [];
 
       for (let x = -10; x <= 10; x += 0.05) {
         let correctY = this.correctGraph(x);
@@ -377,7 +373,6 @@ export default {
       }
 
       for (let x = -10; x <= 10; x += 0.05) {
-        //console.log("-------x: " + x);
         const userY = this.interpolation(userPoints, x); // Calculate the user's y-value at x using interpolation
 
         userInterpolatedPoints.push({
@@ -404,8 +399,6 @@ export default {
             userY,
             this.data.maxDeviation
           );
-          //console.log("userX: " + userX + " userY: " + userY)
-          //console.log("shortestDistance: " + shortestDistance)
 
           if (
             shortestDistance !== null &&
@@ -446,8 +439,8 @@ export default {
     },
 
     correctGraph(x) {
-      /*const scope = { x: x };
-            return math.evaluate(this.data.currentExpression, scope);*/
+      //const scope = { x: x };
+      //return math.evaluate(this.data.currentExpression, scope);
       return eval(this.data.currentExpression);
     },
   },
@@ -470,12 +463,12 @@ export default {
 
     canvas.addEventListener("mousedown", (event) => {
       if (this.state.drawEnded) {
-        return
+        return;
       }
-      this.state.isDrawing = true
-      points = []
-      lastX = event.offsetX
-      lastY = event.offsetY
+      this.state.isDrawing = true;
+      points = [];
+      lastX = event.offsetX;
+      lastY = event.offsetY;
       //.strokeStyle = "#000"
     });
 

@@ -19,12 +19,18 @@ class ActivityController extends Controller
         $this->activityService = $activityService;
     }
 
+    /**
+     * @throws CustomException
+     */
     public function getActivities()
     {
         $result = $this->activityService->getActivities();
         return response()->json($result);
     }
 
+    /**
+     * @throws CustomException
+     */
     public function addActivity(Request $request)
     {
         $result = $this->activityService->addActivity($request);

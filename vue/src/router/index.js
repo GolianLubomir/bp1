@@ -11,7 +11,6 @@ import FindTheSame from "../views/FindTheSame.vue";
 import Graphs from "../views/Graphs.vue";
 import NumberSystems from "../views/NumberSystems.vue";
 import Profile from "../views/Profile.vue";
-import Surveys from "../views/Surveys.vue";
 import DefaultLayout from "../components/DefaultLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
 import Training from "../components/Training.vue";

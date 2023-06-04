@@ -7,9 +7,6 @@
         <router-view> </router-view>
       </div>
     </div>
-    <!--<div class="w-full flex absolute myzindex h-32 primary-bg">
-            
-        </div>-->
 
     <div class="w-full h-content justify-around mx-auto pb-10">
       <div
@@ -50,20 +47,22 @@
     </div>
 
     <button
-      v-if="gameName == 'Graphs' || gameName == 'FindTheSame' || gameName == 'NumberSystems'"
+      v-if="
+        gameName == 'Graphs' ||
+        gameName == 'FindTheSame' ||
+        gameName == 'NumberSystems'
+      "
       ref="scrollButton"
       @click="scrollToCheatsheet"
       class="scroll-button"
       :style="{ opacity: showScrollButton ? 1 : 0 }"
     >
-      
-      <img src="../icon/cheat-sheet.png" alt="bla" class="w-20 mx-auto">
+      <img src="../icon/cheat-sheet.png" alt="bla" class="w-20 mx-auto" />
     </button>
   </div>
 </template>
 
 <script>
-import PageComponent from "../components/PageComponent.vue";
 import CheatSheetFindTheSame from "../components/CheatSheetFindTheSame.vue";
 import CheatSheetGraphs from "../components/CheatSheetGraphs.vue";
 import CheatSheetNumberSystems from "../components/CheatSheetNumberSystems.vue";
@@ -110,11 +109,6 @@ export default {
 </script>
 
 <style>
-/*.myzindex{
-    z-index: -1;
-}
-*/
-
 .myBoxShadow2 {
   box-shadow: 3px -1px 15px rgba(0, 0, 0, 0.2);
 }

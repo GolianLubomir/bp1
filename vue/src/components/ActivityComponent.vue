@@ -1,11 +1,17 @@
 <template>
   <div>
-    <apexchart height="120" width="350" type="bar" :options="chartOptions" :series="chartSeries" />
+    <apexchart
+      height="120"
+      width="350"
+      type="bar"
+      :options="chartOptions"
+      :series="chartSeries"
+    />
   </div>
 </template>
 
 <script>
-import VueApexCharts from 'vue3-apexcharts';
+import VueApexCharts from "vue3-apexcharts";
 
 export default {
   components: {
@@ -23,8 +29,8 @@ export default {
         },
         yaxis: {
           labels: {
-              show: false
-            }
+            show: false,
+          },
         },
         tooltip: {
           y: {
