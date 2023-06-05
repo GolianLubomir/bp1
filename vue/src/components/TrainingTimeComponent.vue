@@ -16,12 +16,14 @@
         :series="serprops2"
       ></apexchart>
     </div>
-    <span class="absolute cursor-pointer right-0 bottom-5 border border-gray-400 text-gray-500 text-xs rounded-full w-5 h-5 "> i </span>
+    <span class="absolute cursor-pointer right-0 bottom-5 border border-gray-400 text-gray-500 text-xs rounded-full w-5 h-5 " @click="openModal"> i </span>
+    <InfoModal :isOpen="isModalOpen" @close="isModalOpen = false"></InfoModal>
   </div>
 </template>
 
 <script>
 import VueApexCharts from "vue3-apexcharts";
+import InfoModal from './InfoModal.vue'
 
 export default {
   props: {
@@ -54,10 +56,18 @@ export default {
 
   components: {
     apexchart: VueApexCharts,
+    InfoModal,
+  },
+
+  methods: {
+    openModal() {
+      this.isModalOpen = true;
+    },
   },
 
   data() {
     return {
+      isModalOpen: false,
       var: this.seriesprops1,
       series: [25, 55, 67],
       chartOptions: {

@@ -41,7 +41,7 @@
             @click="nextDrawn"
             class="inline-block mt-9 h-7 hover:text-amber-600 text-gray-500 font-bold py-0 px-4 rounded-full bg-white myButtonShadow"
           >
-            Next -
+          Next 
           </button>
 
           <button

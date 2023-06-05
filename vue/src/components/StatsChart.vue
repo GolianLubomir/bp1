@@ -53,6 +53,9 @@ export default {
         chart: {
           id: "line-chart",
           type: "area",
+          toolbar: {
+            show: false,  // Set this to false to disable the toolbar
+          },
         },
         fill: {
           type: "solid",

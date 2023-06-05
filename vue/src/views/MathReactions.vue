@@ -248,7 +248,7 @@ export default {
     const saveScore = () => {
       const score = {
         game_id: 1,
-        score: averageOfTimes.value,
+        score: averageOfTimes.value.toFixed(3),
       };
 
       store.dispatch("addScore", score);

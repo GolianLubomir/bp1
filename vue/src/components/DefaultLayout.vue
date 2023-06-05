@@ -227,7 +227,7 @@ import Footer from "../components/Footer.vue";
 const navigation = [
   { name: "Matematické Hry", to: { name: "DefaultLayout" } },
   { name: "Intuitívna Matematika", to: { name: "About" } },
-  { name: "Nástenka", to: { name: "Dashboard" } },
+  { name: "Prehľad", to: { name: "Dashboard" } },
 ];
 export default {
   components: {

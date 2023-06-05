@@ -63,7 +63,7 @@ export default {
           height: 50,
           type: "radialBar",
           toolbar: {
-            show: true,
+            show: false,
           },
         },
         plotOptions: {

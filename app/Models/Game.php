@@ -19,4 +19,12 @@ class Game extends Model
     public function scores(){
         return $this->hasMany(Score::class);
     }
+    
+    public function userActivities() {
+        return $this->hasMany(UserActivity::class);
+    }
+    
+    public function generatedScores() {
+        return $this->hasMany(GeneratedScore::class);
+    }
 }

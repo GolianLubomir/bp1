@@ -6,8 +6,10 @@
         <h3 class="text-2xl text-slate-600 text-center font-bold mb-4">
           Ťahák
         </h3>
-
+        <p class="pb-6 text-center">V nasledujúcich príkladoch predpokladáme, že <span class="text-slate-600 font-bold"> definičný obor funkcie 'f' zahŕňa všetky reálne čísla</span>, čo značíme ako <span class="text-slate-600 font-bold"> D(f) = R </span>. Je dôležité si však uvedomiť, že niektoré <span class="text-slate-600 font-bold"> funkcie môžu mať iný definičný obor a pravidlá uvedené nižšie nebudú platiť mimo tohto oboru</span>.</p>
+        
         <div class="pb-10 border-b-2">
+          
           <h3 class="text-xl text-slate-600 font-bold mb-4">
             Vertikálny posun
           </h3>
@@ -136,7 +138,7 @@
           <div class="pl-8">
             <p class="text-lg py-5">
               <span class="text-slate-600 font-bold"
-                >Ak zmeníš znamienko x pred aplikáciou funkcie, graf sa otočí
+                >Ak zmeníš znamienko x pred aplikáciou funkcie, graf bude symetricky združený
                 okolo y-osi.</span
               >
               Teda, funkcia
@@ -162,7 +164,7 @@
           <div class="pl-8">
             <p class="text-lg py-5">
               <span class="text-slate-600 font-bold"
-                >Ak zmeníš znamienko celej funkcie, graf sa otočí okolo
+                >Ak zmeníš znamienko celej funkcie, graf bude symetricky združený okolo
                 x-osi.</span
               >
               Teda, <span class="text-slate-600 font-bold">-f(x)</span> je

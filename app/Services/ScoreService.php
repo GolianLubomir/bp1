@@ -107,7 +107,7 @@ class ScoreService
                     if($game->id == 1 || $game->id == 4){
                         $result[$game->name]['standing'] = $total-$position;
                     }else{
-                        $result[$game->name]['standing'] = $position;
+                        $result[$game->name]['standing'] = $total-$position;
                     }
                     $result[$game->name]['total'] = $total;
                     
