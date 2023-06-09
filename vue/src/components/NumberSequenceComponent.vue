@@ -70,9 +70,7 @@ export default {
     },
 
     submit() {
-      console.log(this.numbersSequence + " " + this.inputText);
       const result = this.numbersSequence == this.inputText ? true : false;
-      console.log(result);
       this.$emit("submit", result);
       this.inputText = "";
     },

@@ -20,6 +20,7 @@
             <a
               class="hover:opacity-50"
               href="https://www.flaticon.com/authors/freepik"
+              target="_blank"
               title="mathematics icons"
               >Mathematics icons created by Freepik - Flaticon</a
             >
@@ -28,6 +29,7 @@
             <a
               class="hover:opacity-50"
               href="https://www.flaticon.com/authors/rabit-jes"
+              target="_blank"
               title="mathematics icons"
               >Mathematics icons created by Rabit Jes - Flaticon</a
             >
@@ -36,6 +38,7 @@
             <a
               class="hover:opacity-50"
               href="https://www.flaticon.com/authors/good-ware"
+              target="_blank"
               title="calculus icons"
               >Calculus icons created by Good Ware - Flaticon</a
             >

@@ -50,9 +50,7 @@ export default {
     const router = useRouter();
 
     const gameName = router.currentRoute.value.name;
-    console.log(gameName);
     const description = store.state.game.data.description[gameName];
-    console.log("mounted: " + description);
     this.description = description;
   },
   data() {

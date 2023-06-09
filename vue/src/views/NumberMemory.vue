@@ -195,7 +195,6 @@ export default {
     };
 
     const onTimeSpent = (time) => {
-      console.log("Time spent:", time);
       time = time <= 120 ? time : 120;
       const activityData = {
         game_id: 2,

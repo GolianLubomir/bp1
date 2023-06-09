@@ -4,15 +4,15 @@
       <h2
         class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
       >
-        Register for free
+        Zaregistrujte sa zadarmo
       </h2>
       <p class="mt-2 text-center text-sm text-gray-600">
-        Or
+        Už máte vytvorený účet? 
         {{ " " }}
         <router-link
           :to="{ name: 'Login' }"
           class="font-medium text-teal-700 hover:text-teal-500"
-          >Login to your account</router-link
+          >Prihláste sa do svojho účtu.</router-link
         >
       </p>
     </div>
@@ -51,7 +51,7 @@
             required=""
             v-model="user.name"
             class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            placeholder="Full name"
+            placeholder="Meno a priezvisko"
           />
         </div>
         <div>
@@ -64,7 +64,7 @@
             required=""
             v-model="user.email"
             class="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            placeholder="Email address"
+            placeholder="Email"
           />
         </div>
 
@@ -78,7 +78,7 @@
             required=""
             v-model="user.password"
             class="relative block w-full appearance-none rounded-none border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            placeholder="Password"
+            placeholder="Heslo"
           />
         </div>
 
@@ -94,7 +94,7 @@
             required=""
             v-model="user.password_confirmation"
             class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            placeholder="Password Confirmation"
+            placeholder="Zopakujte heslo"
           />
         </div>
       </div>
@@ -110,7 +110,7 @@
               aria-hidden="true"
             />
           </span>
-          Sign up
+          Registrovať
         </button>
       </div>
     </form>

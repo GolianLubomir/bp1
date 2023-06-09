@@ -27,7 +27,6 @@ export default {
       const store = useStore();
       const router = useRouter();
       const gameName = router.currentRoute.value.name;
-      console.log("game name: " + gameName);
       const allScoreData = store.state.user.scores[gameName]?.all || [];
       if (allScoreData.length === 0) {
         return [];
@@ -36,7 +35,6 @@ export default {
       allScoreData.forEach((item) => {
         chartData.push(item.score);
       });
-      console.log("game dataqq " + chartData);
       const chartSeries = [
         {
           name: gameName,

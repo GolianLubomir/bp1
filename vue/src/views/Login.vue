@@ -4,15 +4,15 @@
       <h2
         class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
       >
-        Sign in to your account
+        Prihláste sa do svojho účtu
       </h2>
       <p class="mt-2 text-center text-sm text-gray-600">
-        Or
+        Nový používateľ? 
         {{ " " }}
         <router-link
           :to="{ name: 'Register' }"
           class="font-medium text-teal-700 hover:text-teal-500"
-          >Register for free</router-link
+          >Zaregistrujte sa</router-link
         >
       </p>
     </div>
@@ -42,7 +42,7 @@
       <input type="hidden" name="remember" value="true" />
       <div class="-space-y-px rounded-md shadow-sm">
         <div>
-          <label for="email-address" class="sr-only">Email address</label>
+          <label for="email-address" class="sr-only">Email</label>
           <input
             id="email-address"
             name="email"
@@ -51,11 +51,11 @@
             required=""
             v-model="user.email"
             class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            placeholder="Email address"
+            placeholder="Email"
           />
         </div>
         <div>
-          <label for="password" class="sr-only">Password</label>
+          <label for="password" class="sr-only">Heslo</label>
           <input
             id="password"
             name="password"
@@ -64,13 +64,13 @@
             required=""
             v-model="user.password"
             class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-            placeholder="Password"
+            placeholder="Heslo"
           />
         </div>
       </div>
 
       <div class="flex items-center justify-between">
-        <div class="flex items-center">
+        <!--<div class="flex items-center">
           <input
             id="remember-me"
             name="remember-me"
@@ -81,7 +81,7 @@
           <label for="remember-me" class="ml-2 block text-sm text-gray-900">
             Remember me
           </label>
-        </div>
+        </div>-->
       </div>
 
       <div>
@@ -95,7 +95,7 @@
               aria-hidden="true"
             />
           </span>
-          Sign in
+          Prihlásiť
         </button>
       </div>
     </form>

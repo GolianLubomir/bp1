@@ -12,11 +12,13 @@
 
           <div class="pl-8">
             <img
-              src="../img/cheatsheet-imgs/derivation-rules.PNG"
+              src="../img/cheatsheet-imgs/derivation-rules.png"
               alt="graph-vertical-movement"
               class="w-content m-auto"
             />
           </div>
+
+          <p src="http://" class="text-center text-sm pt-2 w-full opacity-30"> Zdroj: <a href="https://peter.szabo.website.tuke.sk/bach-math/pages/diferencial.html" target="_blank"> Bach-Math</a> </p>
         </div>
 
         <div class="pb-10 border-b-2">
@@ -24,11 +26,12 @@
 
           <div class="pl-8">
             <img
-              src="../img/cheatsheet-imgs/integral-rules.PNG"
+              src="../img/cheatsheet-imgs/integral-rules.png"
               alt="graph-vertical-movement"
               class="w-content m-auto"
             />
           </div>
+          <p src="http://" class="text-center text-sm pt-2 w-full opacity-30"> Zdroj: <a href="https://peter.szabo.website.tuke.sk/bach-math/pages/integral.html" target="_blank"> Bach-Math</a> </p>
         </div>
       </div>
     </div>

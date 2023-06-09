@@ -8,7 +8,7 @@ class GeneratedScoresTableSeeder extends Seeder
     public function run()
     {
         GeneratedScore::truncate();
-        $csvFile = fopen(base_path("database/data/generated-scores-i.csv"), "r"); 
+        $csvFile = fopen(base_path("database/data/generated-scores-final.csv"), "r"); 
         $firstline = true;
         while (($data = fgetcsv($csvFile, 2000, ";")) !== FALSE) {
             if (!$firstline) {

@@ -135,25 +135,42 @@ function genExspressionArray(length) {
   for (let i = 0; i < length; i++) {
     let difficulty = 10;
     if (i == 1 || i == 2) {
-      difficulty = 20;
+      difficulty = 15;
     } else if (i >= 3) {
-      difficulty = 30;
+      difficulty = 25;
     }
 
-    let num1 = Math.floor(Math.random() * difficulty) + 1;
-    let num2 = Math.floor(Math.random() * difficulty) + 1;
+    let result, sign, num1, num2;
 
-    let result, sign;
-
-    if (Math.floor(Math.random() * 2) == 0) {
-      result = num1 + num2;
-      sign = " + ";
-    } else {
-      if (num1 < num2) [num1, num2] = [num2, num1];
-      result = num1 - num2;
-      sign = " - ";
+    switch(Math.floor(Math.random() * 4)) {
+      case 0: // Addition
+        num1 = Math.floor(Math.random() * difficulty) + 5;
+        num2 = Math.floor(Math.random() * difficulty) + 5;
+        result = num1 + num2;
+        sign = " + ";
+        break;
+      case 1: // Subtraction
+        num1 = Math.floor(Math.random() * difficulty) + 5;
+        num2 = Math.floor(Math.random() * difficulty) + 5;
+        if (num1 < num2) [num1, num2] = [num2, num1];
+        result = num1 - num2;
+        sign = " - ";
+        break;
+      case 2: // Multiplication
+        num1 = Math.floor(Math.random() * 8) + 2;
+        num2 = Math.floor(Math.random() * 8) + 2;
+        result = num1 * num2;
+        sign = " × ";
+        break;
+      case 3: // Division
+        num1 = Math.floor(Math.random() * 8) + 2;
+        num2 = Math.floor(Math.random() * 8) + 2;
+        let newNum1 = num1 * num2;
+        result = num1;
+        num1 = newNum1;
+        sign = " ÷ ";
+        break;
     }
-
     arr.push({
       id: i + 1,
       exp: {
@@ -164,9 +181,6 @@ function genExspressionArray(length) {
       },
     });
   }
-
-  console.log(arr);
-
   return arr;
 }
 
@@ -251,8 +265,6 @@ export default {
         id: state.sequenceLength,
         input: data.inputs[state.sequenceLength - 1],
       });
-
-      console.log(state.expressionsSequence);
       state.repeat = false;
       state.remember = true;
       state.timeToRemember =
@@ -310,10 +322,8 @@ export default {
     );
 
     const checkLength = (inputId) => {
-      console.log("check length" + inputId);
       const expectedSeq = state.expressionsSequence[inputId - 1].exp.res;
       const inputSeq = data.inputText[inputId - 1].input;
-
       if (expectedSeq.length == inputSeq.length) {
         focusFirstEmptyInput();
       }
@@ -366,7 +376,6 @@ export default {
     };
 
     const onTimeSpent = (time) => {
-      console.log("Time spent:", time);
       time = time <= 120 ? time : 120;
       const activityData = {
         game_id: 3,

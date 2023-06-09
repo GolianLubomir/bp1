@@ -72,15 +72,13 @@
             <div
               class="mx-4 my-4 w-content h-80 rounded-lg tile-shadow bg-white"
             >
-              <router-link :to="'/training/numbermemory'">
-                <StatsTileComponent
-                  title="Matematické Reakcie"
-                  linkTo="MathReactions"
-                  :points="score['MathReactions'].best"
-                  :percentil="[score['MathReactions'].percentile]"
-                >
-                </StatsTileComponent>
-              </router-link>
+              <StatsTileComponent
+                title="Matematické Reakcie"
+                linkTo="MathReactions"
+                :points="score['MathReactions'].best"
+                :percentil="[score['MathReactions'].percentile]"
+              >
+              </StatsTileComponent> 
             </div>
             <div
               class="mx-4 my-4 w-content h-80 rounded-lg tile-shadow bg-white"

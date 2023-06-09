@@ -38,7 +38,7 @@
       </div>
 
       <div v-if="trainRunning" class="flex items-center justify-center">
-        <div class="grid grid-cols-4 gap-2">
+        <div class="grid grid-cols-4 gap-2 min-w-max">
           <div
             v-for="expression in expressions"
             :key="expression.id"
@@ -214,7 +214,6 @@ export default {
     };
 
     const training = () => {
-      console.log(data.databaseExpressions);
       state.expressions = getExpressions();
       state.dataLoaded = false;
       store.dispatch("fetchFindTheSameExpressions");
@@ -237,18 +236,13 @@ export default {
         state.flippedCard = id;
       } else {
       }
-      console.log(state.flippedCard);
-      console.log(id, expId);
       if (state.selectedId.length > 0) {
-        console.log("tusom");
         if (state.selectedExpId == expId && state.selectedId != id) {
           state.foundExpId.push(expId);
           if (state.foundExpId.length == 8) {
             stopStopwatch();
             state.trainRunning = false;
             state.trainingEnded = true;
-            //state.dataLoaded = false;
-            //store.dispatch('fetchFindTheSameExpressions');
             state.selectedId = [];
             state.selectedExpId = [];
             state.foundExpId = [];
@@ -258,12 +252,10 @@ export default {
               state.mistakesCounter * 4
             ).toFixed(2);
             endGame();
-            //saveScore()
           }
           resetSelection()
         } else if (state.selectedId == id) {
           resetSelection()
-          console.log("to iste");
         } else {
           state.mistakesCounter++;
           state.mistakeId.push(state.selectedId[0]);
@@ -272,23 +264,18 @@ export default {
             state.mistakeId = [];
             state.flippedCard = null;
           }, 800);
-
           resetSelection()
-          console.log("chyba");
         }
       } else {
-        console.log("hier");
         state.selectedId.push(id);
         state.selectedExpId.push(expId);
       }
-      console.log(state.selectedId);
-      console.log(state.foundExpId);
     };
 
     const saveScore = () => {
       const score = {
         game_id: 4,
-        score: time.value.toFixed(2),
+        score: time.value,
       };
 
       store.dispatch("addScore", score);
@@ -306,7 +293,6 @@ export default {
     };
 
     const onTimeSpent = (time) => {
-      console.log("Time spent:", time);
       time = time <= 120 ? time : 120;
       const activityData = {
         game_id: 4,
@@ -332,10 +318,7 @@ export default {
           exp: trainingData.mathjax_2,
         });
       }
-
-      //console.log(arr);
       shuffle(arr);
-      //console.log(arr);
       return arr;
     };
 

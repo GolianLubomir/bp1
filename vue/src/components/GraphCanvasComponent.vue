@@ -128,8 +128,6 @@ export default {
 
   methods: {
     checkScore(score) {
-      //console.log(score.length)
-      //console.log(this.data.score.length)
       let lastScore = score.slice(-1)[0].percent;
 
       this.data.lastScore = lastScore;
@@ -141,9 +139,6 @@ export default {
         this.data.lives--;
       }
 
-      console.log(score.slice(-1)[0].percent);
-
-      //console.log("update score")
       if (this.data.lives == 0) {
         this.state.training = false;
         this.state.drawEnded = true;
@@ -152,8 +147,6 @@ export default {
       }
 
       this.updateScore();
-      //this.data.mathjax = this.data.exps[this.data.counter];
-      //this.data.counter += 2;
     },
 
     updateScore() {
@@ -175,7 +168,6 @@ export default {
       this.clearCanvas(this.data.context, this.data.canvas);
       this.data.mathjax = this.data.expressions[this.data.mathjaxCounter];
       this.data.mathjaxCounter += 2;
-      console.log("next drawn ");
     },
 
     clearCanvas(context, canvas) {
@@ -185,7 +177,6 @@ export default {
         this.data.canvasWidth,
         this.data.canvasHeight
       );
-      console.log("clearujem");
     },
 
     drawAxis(context, width, height) {
@@ -277,7 +268,6 @@ export default {
       for (let i = 0; i < canvasPoints.length - 1; i++) {
         const point = canvasPoints[i];
         const point2 = canvasPoints[i + 1];
-        //console.log(point, point2)
         context.beginPath();
         context.moveTo(point.x, point.y);
         context.lineTo(point2.x, point2.y);
@@ -341,8 +331,6 @@ export default {
       let numRelevantCorrectPoints2 = 0;
       let userPoints = [];
 
-      console.log("points length: " + points.length);
-
       if (points.length < 50 || points.length > 700) {
         this.clearCanvas(context, this.data.canvas);
         this.state.correctDrawn = false;
@@ -361,7 +349,7 @@ export default {
       let userInterpolatedPoints = [];
 
       for (let x = -10; x <= 10; x += 0.05) {
-        let correctY = this.correctGraph(x);
+        let correctY = this.getCorrectGraphY(x);
         if (correctY <= 10 && correctY >= -10 && !isNaN(correctY)) {
           numRelevantCorrectPoints1++;
         }
@@ -409,9 +397,6 @@ export default {
         }
       }
 
-      console.log("Relevant correct points1: " + numRelevantCorrectPoints1);
-      console.log("Relevant correct points2: " + numRelevantCorrectPoints2);
-      console.log("Num user correct points: " + numUserCorrectPoints);
       this.drawPoints(context, width, height, correctPoints);
 
       //drawPoints(interpolationPoints);
@@ -425,7 +410,6 @@ export default {
 
       const percentCorrect =
         (numUserCorrectPoints / numRelevantCorrectPoints) * 100;
-      console.log(`Percentage of correct points: ${percentCorrect}%`);
 
       this.data.scores.push({
         percent: percentCorrect.toFixed(2),
@@ -438,11 +422,11 @@ export default {
       return;
     },
 
-    correctGraph(x) {
-      //const scope = { x: x };
-      //return math.evaluate(this.data.currentExpression, scope);
-      return eval(this.data.currentExpression);
-    },
+    getCorrectGraphY(x) {
+      const expression = this.data.currentExpression.replace(/x/g,'(' + x + ')');
+      return eval(expression);
+    }
+
   },
 
   mounted() {

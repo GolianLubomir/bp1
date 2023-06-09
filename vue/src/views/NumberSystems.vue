@@ -153,7 +153,6 @@ export default {
     };
 
     const updateScore = () => {
-        console.log("parent updateScore")
         data.score += 1
     };
 
@@ -178,7 +177,6 @@ export default {
     };
 
     const onTimeSpent = (time) => {
-        console.log("Time spent:", time);
         const activityData = {
             game_id: 6,
             training_time: time

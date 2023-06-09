@@ -23,17 +23,22 @@ class TrainingService
 
             $expressions = [];
 
-            foreach ($expresionsEasy as $expression) {
-                $expressions[] = $expression->expression;
-                $expressions[] = $expression->mathjax;     
-            }
-            foreach ($expresionsMedium as $expression) {
-                $expressions[] = $expression->expression;
-                $expressions[] = $expression->mathjax;     
-            }
-            foreach ($expresionsHard as $expression) {
-                $expressions[] = $expression->expression;
-                $expressions[] = $expression->mathjax;     
+
+            for ($i = 0; $i < 4; $i++) {
+                if (isset($expresionsEasy[$i])) {
+                    $expressions[] = $expresionsEasy[$i]->expression;
+                    $expressions[] = $expresionsEasy[$i]->mathjax;
+                }
+
+                if (isset($expresionsMedium[$i])) {
+                    $expressions[] = $expresionsMedium[$i]->expression;
+                    $expressions[] = $expresionsMedium[$i]->mathjax;
+                }
+
+                if (isset($expresionsHard[$i])) {
+                    $expressions[] = $expresionsHard[$i]->expression;
+                    $expressions[] = $expresionsHard[$i]->mathjax;
+                }
             }
 
             return [

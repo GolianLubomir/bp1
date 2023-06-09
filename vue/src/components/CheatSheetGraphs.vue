@@ -38,7 +38,7 @@
             </p>
 
             <img
-              src="../img/cheatsheet-imgs/vertical-movement.PNG"
+              src="../img/cheatsheet-imgs/vertical-movement.png"
               width="300"
               alt="graph-vertical-movement"
               class="w-content m-auto"
@@ -73,7 +73,7 @@
             </p>
 
             <img
-              src="../img/cheatsheet-imgs/horizontal-movement.PNG"
+              src="../img/cheatsheet-imgs/horizontal-movement.png"
               width="300"
               alt="graph-vertical-movement"
               class="w-content m-auto"
@@ -98,7 +98,7 @@
             </p>
 
             <img
-              src="../img/cheatsheet-imgs/vertical-scaling.PNG"
+              src="../img/cheatsheet-imgs/vertical-scaling.png"
               width="300"
               alt="graph-vertical-movement"
               class="w-content m-auto"
@@ -122,7 +122,7 @@
             </p>
 
             <img
-              src="../img/cheatsheet-imgs/horizontal-scaling.PNG"
+              src="../img/cheatsheet-imgs/horizontal-scaling.png"
               width="300"
               alt="graph-vertical-movement"
               class="w-content m-auto"
@@ -148,7 +148,7 @@
             </p>
 
             <img
-              src="../img/cheatsheet-imgs/vertical-reflection.PNG"
+              src="../img/cheatsheet-imgs/vertical-reflection.png"
               width="300"
               alt="graph-vertical-movement"
               class="w-content m-auto"
@@ -173,7 +173,7 @@
             </p>
 
             <img
-              src="../img/cheatsheet-imgs/horizontal-reflection.PNG"
+              src="../img/cheatsheet-imgs/horizontal-reflection.png"
               width="300"
               alt="graph-vertical-movement"
               class="w-content m-auto"

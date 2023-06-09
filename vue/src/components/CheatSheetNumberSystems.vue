@@ -25,7 +25,7 @@
               desiatkovej sústave.
             </p>
 
-            <img src="../img/cheatsheet-imgs/B-to-D-base.PNG" alt="btod base" />
+            <img src="../img/cheatsheet-imgs/B-to-D-base.png" alt="btod base" />
 
             <p class="text-lg py-5">
               Ak chceme rýchlo previesť binárne číslo na desiatkové bez použitia
@@ -37,7 +37,7 @@
             </p>
 
             <img
-              src="../img/cheatsheet-imgs/B-to-D-example.PNG"
+              src="../img/cheatsheet-imgs/B-to-D-example.png"
               alt="btod base"
             />
           </div>
@@ -65,7 +65,7 @@
               ktoré si získal, aby si vytvoril výsledné šestnástkové číslo.
             </p>
 
-            <img src="../img/cheatsheet-imgs/B-to-H-base.PNG" alt="btod base" />
+            <img src="../img/cheatsheet-imgs/B-to-H-base.png" alt="btod base" />
 
             <p class="text-lg py-5">
               Prevod je pomerne jednoduchý a možno ho rýchlo vypočítať bez
@@ -76,7 +76,7 @@
             </p>
 
             <img
-              src="../img/cheatsheet-imgs/B-to-H-example.PNG"
+              src="../img/cheatsheet-imgs/B-to-H-example.png"
               alt="btod base"
             />
           </div>
@@ -97,7 +97,7 @@
             </p>
 
             <img
-              src="../img/cheatsheet-imgs/H-to-B-example.PNG"
+              src="../img/cheatsheet-imgs/H-to-B-example.png"
               alt="btod base"
             />
           </div>

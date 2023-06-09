@@ -123,7 +123,6 @@ export default {
     },
 
     updateScore() {
-      console.log("update score");
       this.$emit("update-score");
     },
   },

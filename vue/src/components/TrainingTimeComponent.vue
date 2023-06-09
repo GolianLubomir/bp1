@@ -167,7 +167,7 @@ export default {
           lineCap: "round",
           color: "#111",
         },
-        labels: ["Math Reactions", "Number Memory", "Math Memory"],
+        labels: ["Matematické reakcie", "Číselná pamäť", "Matematická pamäť"],
       },
 
       series1: [17, 55, 97],
@@ -265,12 +265,9 @@ export default {
         stroke: {
           lineCap: "round",
         },
-        labels: ["Find The Same", "Graphs", "Number Systems"],
+        labels: ["Nájdi rovnaké", "Grafy", "Číselné sústavy"],
       },
     };
-  },
-  mounted() {
-    console.log(this.seriesprops1);
   },
 };
 </script>

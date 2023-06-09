@@ -89,7 +89,7 @@
                   <MenuItems
                     class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white bg-gray-700 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                   >
-                    <MenuItem v-slot="{ active }">
+                    <!--<MenuItem v-slot="{ active }">
                       <router-link
                         :to="{ name: 'Profile' }"
                         :class="[
@@ -98,7 +98,7 @@
                         ]"
                         >Tvoj Profil</router-link
                       >
-                    </MenuItem>
+                    </MenuItem>-->
                     <MenuItem v-slot="{ active }">
                       <a
                         @click="logout"
@@ -184,12 +184,12 @@
             </div>
           </div>
           <div class="mt-3 space-y-1 px-2">
-            <router-link
+            <!--<router-link
               :to="{ name: 'Profile' }"
               class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer"
             >
               Tvoj Profil
-            </router-link>
+            </router-link>-->
 
             <DisclosureButton
               as="a"
@@ -254,10 +254,6 @@ export default {
         });
       });
     }
-
-    onMounted(() => {
-      console.log("onMounted sagnasng");
-    });
 
     return {
       user: computed(() => store.state.user.data),

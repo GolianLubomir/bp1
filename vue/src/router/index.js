@@ -10,7 +10,6 @@ import MathMemory from "../views/MathMemory.vue";
 import FindTheSame from "../views/FindTheSame.vue";
 import Graphs from "../views/Graphs.vue";
 import NumberSystems from "../views/NumberSystems.vue";
-import Profile from "../views/Profile.vue";
 import DefaultLayout from "../components/DefaultLayout.vue";
 import AuthLayout from "../components/AuthLayout.vue";
 import Training from "../components/Training.vue";
@@ -97,7 +96,6 @@ const routes = [
         ],
       },
       { path: "/about", name: "About", component: About },
-      { path: "/profile", name: "Profile", component: Profile },
       {
         path: "/auth",
         redirect: "/login",
@@ -121,7 +119,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('/bp/'),
   routes,
 });
 

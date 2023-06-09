@@ -179,7 +179,6 @@ export default {
     };
 
     const updateScore = (score) => {
-      console.log("updateScore: " + score.trainingEnded);
       data.score = score.numCorrectGraphs;
       data.percentArr = score.percentArr;
       if (score.trainingEnded) {
@@ -189,15 +188,11 @@ export default {
     };
 
     const calcResult = (array) => {
-      console.log(array);
       let percentAvg = 0;
       array.forEach((el) => {
         percentAvg += parseFloat(el.percent);
       });
-      console.log("length: " + array.length);
-      console.log("sum percent: " + percentAvg);
       data.percentAverage = (percentAvg / array.length).toFixed(2);
-      console.log("priemer: " + data.percentAverage);
     };
 
     const saveScore = () => {
@@ -221,7 +216,6 @@ export default {
     };
 
     const onTimeSpent = (time) => {
-      console.log("Time spent:", time);
       const activityData = {
         game_id: 5,
         training_time: time,

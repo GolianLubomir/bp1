@@ -73,42 +73,31 @@ class ScoreService
 
             foreach ($games as $game) {
                 if($result[$game->name]['all'] != []){
-                    sort($generatedScoreValues[$game->id]);
+                    if($game->id == 1 || $game->id == 4){
+                        rsort($generatedScoreValues[$game->id]);
+                    }else{
+                        sort($generatedScoreValues[$game->id]);
+                    }
                     $bestScoreValue = $result[$game->name]['best'];
                     $position = 0;
-                    $bestValues = 0;
                     foreach ($generatedScoreValues[$game->id] as $scoreValue){
                         if($game->id == 1 || $game->id == 4){
-                            if ($scoreValue > $bestScoreValue) {
+                            if ($scoreValue >= $bestScoreValue) {
                                 $position++;
-                            }else if (($scoreValue == $bestScoreValue)){
-
-                                $bestValues++;
+                            }else{
+                                break;
                             }
                         }else{
-                            if ($scoreValue < $bestScoreValue) {
+                            if ($scoreValue <= $bestScoreValue) {
                                 $position++;
-                            }else if (($scoreValue == $bestScoreValue)){
-
-                                $bestValues++;
                             }else {
                                 break;
                             }
                         }
                     }
-
-                    if($bestValues == 1){
-                        $position++;
-                    }
-
-                    $position = $position == 0 ? 1 : $position;
                     $total = count($generatedScoreValues[$game->id]);
                     $result[$game->name]['percentile'] = $position / $total * 100;
-                    if($game->id == 1 || $game->id == 4){
-                        $result[$game->name]['standing'] = $total-$position;
-                    }else{
-                        $result[$game->name]['standing'] = $total-$position;
-                    }
+                    $result[$game->name]['standing'] = $total - $position + 1;
                     $result[$game->name]['total'] = $total;
                     
 

@@ -25,7 +25,10 @@
       </div>
 
       <div v-if="trainRunning" class="">
-        <div v-if="!trainingEnded" class="pb-10 w-min mx-auto text-center flex">
+        <div
+          v-if="!trainingEnded"
+          class="py-5 px-10 w-min mx-auto text-center flex"
+        >
           <div class="w-full text-end">
             <h1 class="text-4xl whitespace-nowrap text-white px-1 py-2">
               {{ num1 }} {{ sign }} {{ num2 }}
@@ -51,13 +54,21 @@
         <div v-if="!trainingEnded" class="w-full h-80 flex">
           <div
             @click="userAnswered(false)"
-            class="h-full w-1/2 border-r-2 border-zinc-300 flex items-center justify-center text-4xl text-white transition-all duration-300 ease-in-out hover:bg-teal-700"
+            class="h-full w-1/2 border-r-2 border-zinc-300 flex items-center justify-center text-4xl text-white transition-all duration-50"
+            :class="{
+              'wrong-answer': isAnswerWrong && userAnswer == false,
+              'correct-answer': isAnswerCorrect && userAnswer == false,
+            }"
           >
             Nepravda
           </div>
           <div
             @click="userAnswered(true)"
-            class="h-full w-1/2 border-l-2 border-zinc-300 flex items-center justify-center text-4xl text-white transition-all duration-300 ease-in-out hover:bg-teal-700"
+            class="h-full w-1/2 border-l-2 border-zinc-300 flex items-center justify-center text-4xl text-white transition-all duration-50 ease-in-out"
+            :class="{
+              'wrong-answer': isAnswerWrong && userAnswer == true,
+              'correct-answer': isAnswerCorrect && userAnswer == true,
+            }"
           >
             Pravda
           </div>
@@ -98,32 +109,58 @@
 <script>
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { reactive, toRefs } from "vue";
-import { ref, computed, watch, onMounted } from "vue";
+import { ref } from "vue";
 import store from "../store";
 import MathJaxComponent from "../components/MathJaxComponent.vue";
 import ActivityTrackerComponent from "../components/ActivityTrackerComponent.vue";
 
 function genExpression() {
   let arr;
-  let num1 = Math.floor(Math.random() * 90) + 11;
-  let num2 = Math.floor(Math.random() * 90) + 11;
+  let num1, num2;
 
-  switch (Math.floor(Math.random() * 2)) {
+  switch (Math.floor(Math.random() * 4)) {
     case 0: // Addition
+      num1 = Math.floor(Math.random() * 89) + 11;
+      num2 = Math.floor(Math.random() * 89) + 11;
       arr = [num1, num2, num1 + num2, " + ", true];
       break;
     case 1: // Subtraction
+      num1 = Math.floor(Math.random() * 89) + 11;
+      num2 = Math.floor(Math.random() * 89) + 11;
       if (num1 > num2) {
         arr = [num1, num2, num1 - num2, " - ", true];
       } else {
         arr = [num2, num1, num2 - num1, " - ", true];
       }
       break;
+    case 2: // Multiplication
+      num1 = Math.floor(Math.random() * 89) + 11;
+      num2 = Math.floor(Math.random() * 7) + 3;
+      arr = [num1, num2, num1 * num2, " × ", true];
+      break;
+    case 3: // Division
+      num1 = Math.floor(Math.random() * 89) + 11;
+      num2 = Math.floor(Math.random() * 7) + 3;
+      arr = [num1 * num2, num2, num1, " ÷ ", true];
+      break;
   }
 
   if (Math.floor(Math.random() * 2) == 0) {
     arr[4] = false;
-    let offset = Math.floor(Math.random() * 9) + 1;
+    let offset;
+
+    // Choose offset based on some rules
+    switch (Math.floor(Math.random() * 2)) {
+      case 0:
+        // Offset is random number between 1 and 9 inclusive
+        offset = Math.floor(Math.random() * 9) + 1;
+        break;
+      case 1:
+        // Offset is 10 or 20
+        offset = (Math.floor(Math.random() * 2) + 1) * 10;
+        break;
+    }
+
     if (Math.floor(Math.random() * 2) == 0) {
       arr[2] = arr[2] + offset;
     } else {
@@ -141,8 +178,7 @@ function getAverage(array) {
   for (let i = 0; i < array.length; i++) {
     sum += array[i];
   }
-  console.log(sum / array.length);
-  return parseFloat((sum / array.length).toFixed(3));
+  return parseFloat((sum / array.length).toFixed(2));
 }
 
 export default {
@@ -178,6 +214,9 @@ export default {
       trainRunning: false,
       intro: true,
       scoreSaved: false,
+      userAnswer: null,
+      isAnswerWrong: false,
+      isAnswerCorrect: false,
       startMeasurement: false,
       stopMeasurement: false,
     });
@@ -212,24 +251,32 @@ export default {
     };
 
     const userAnswered = (answer) => {
+      state.userAnswer = answer;
       if (data.expectedAnswer == answer) {
         stopStopwatch();
         times.push((endTime.value - startTime.value) / 1000);
-        console.log(times);
-        exampleNum++;
-        training();
+        state.isAnswerCorrect = true;
+        setTimeout(() => {
+          state.isAnswerCorrect = false;
+          state.userAnswer = null;
+          exampleNum++;
+          training();
+        }, 300);
       } else {
         stopStopwatch();
         penalties.value += 2;
-        console.log(times);
-        training();
+        state.isAnswerWrong = true;
+        setTimeout(() => {
+          state.isAnswerWrong = false;
+          state.userAnswer = null;
+          training();
+        }, 300);
       }
     };
 
     const training = () => {
       if (exampleNum <= 10) {
         let arr = genExpression();
-        console.log(arr);
         data.num1 = arr[0];
         data.num2 = arr[1];
         data.sign = arr[3];
@@ -239,7 +286,7 @@ export default {
       } else {
         let avgTime = getAverage(times);
         avgTime += penalties.value;
-        averageOfTimes.value = avgTime.toFixed(3);
+        averageOfTimes.value = avgTime.toFixed(2);
         trainingEnded.value = true;
         endGame();
       }
@@ -248,7 +295,7 @@ export default {
     const saveScore = () => {
       const score = {
         game_id: 1,
-        score: averageOfTimes.value.toFixed(3),
+        score: averageOfTimes.value,
       };
 
       store.dispatch("addScore", score);
@@ -266,7 +313,6 @@ export default {
     };
 
     const onTimeSpent = (time) => {
-      console.log("Time spent:", time);
       time = time <= 30 ? time : 30;
       const activityData = {
         game_id: 1,
@@ -296,3 +342,13 @@ export default {
   },
 };
 </script>
+
+<style>
+.wrong-answer {
+  background-color: #fe5e76;
+}
+
+.correct-answer {
+  background-color: #25cc94;
+}
+</style>
