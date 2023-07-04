@@ -16,6 +16,7 @@
         v-model="inputText"
         @keypress="numericInputCheck"
         @keyup.enter="submit"
+        @paste.prevent
         class="bg-teal-500 border-2 text-center text-5xl text-white h-16 w-96 pb-3 focus:border-slate-600 focus:ring-slate-600"
       />
       <button

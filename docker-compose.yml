@@ -1,0 +1,26 @@
+version: '3'
+services:
+  vue:
+    container_name: vue_app
+    build: ./vue
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+  laravel:
+    container_name: laravel_app
+    build: ./
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+    command: ["sh", "-c", "dockerize -wait tcp://db:3306 -timeout 1m && php artisan migrate --seed && apache2-foreground"]
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: math_trainer
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  db_data: {}

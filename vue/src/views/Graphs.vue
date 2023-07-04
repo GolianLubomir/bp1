@@ -24,7 +24,7 @@
           Nakresli grafy zadaných matematických funkcií.
         </h1>
         <h1 class="text-xl text-white">
-          Budeme sledovať, koľko grafov zvládneš správne nakresliť za dva
+          Budeme sledovať, koľko grafov zvládneš správne nakresliť za 2
           minúty.
         </h1>
         <button

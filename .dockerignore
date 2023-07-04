@@ -1,0 +1,14 @@
+/vue
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env.backup
+.env.example
+.git
+.gitignore
+Dockerfile
+.dockerignore
+README.md
+LICENSE
